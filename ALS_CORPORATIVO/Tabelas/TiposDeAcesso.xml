@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TIPOSACESSO>
+  <TIPOACESSO>
+    <ID>0</ID>
+    <TIPO>Gestor Geral</TIPO>
+  </TIPOACESSO>
+  <TIPOACESSO>
+    <ID>1</ID>
+    <TIPO>Gestor de Unidade</TIPO>
+  </TIPOACESSO>
+  <TIPOACESSO>
+    <ID>2</ID>
+    <TIPO>Usuário de Produção</TIPO>
+  </TIPOACESSO>
+</TIPOSACESSO>
