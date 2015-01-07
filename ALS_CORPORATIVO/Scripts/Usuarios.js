@@ -65,7 +65,32 @@
 
     $(document).on('click', '#btExcluir', function () {
 
-       
+        if (confirm("Deseja excluir o usuário?")) {
+
+            var idUsuario = $(this).prop("name");           
+
+            $.ajax({
+                type: "POST",
+                url: "Usuarios.aspx/DeletaUsuario",
+                data: JSON.stringify({
+                    sIdUsuario: idUsuario}),
+
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    alert("Usuário excluído com sucesso!");
+                    location.reload();
+                },
+                error: function (x, e) {
+                    $("#hddErro").val(e.responseText);
+                    $('#btErro').trigger('click');
+                }
+            });
+
+        }
+        else {
+            ExibeMsgRetorno("Ação cancelada...");
+        }
 
     });
 
