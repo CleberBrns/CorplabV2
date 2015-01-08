@@ -16,6 +16,89 @@ public class SelecionaDados
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
 
+    public List<ListItem> ConsultaTipoAmostra()
+    {
+        List<ListItem> ListTipoAmostra = new List<ListItem>();
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_tipoAmostra_select";                
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                if (sqlDataReader.HasRows)
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        ListTipoAmostra.Add(new ListItem(sqlDataReader["TipoAmostra"].ToString(), sqlDataReader["IdTipoAmostra"].ToString()));
+                    }
+                }
+
+                sqlDataReader.Close();
+                sqlDataReader.Dispose();
+                sqlDataReader = null;
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return ListTipoAmostra;
+    }
+
+    public List<ListItem> ConsultaPrateleiras(int idCamara)
+    {
+        List<ListItem> ListPrateleiras = new List<ListItem>();
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_prateleira_select";
+                sqlCommand.Parameters.AddWithValue("@IdCamara", idCamara);
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                if (sqlDataReader.HasRows)
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        ListPrateleiras.Add(new ListItem(sqlDataReader["Prateleira"].ToString(), sqlDataReader["IdPrateleira"].ToString()));
+                    }
+                }
+
+                sqlDataReader.Close();
+                sqlDataReader.Dispose();
+                sqlDataReader = null;
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return ListPrateleiras;
+    }
+
     public DataTable ConsultaTodosUsuarios()
     {
         DataTable dtUsuarios = new DataTable();

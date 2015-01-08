@@ -120,16 +120,20 @@ public partial class Unidades_Unidades : System.Web.UI.Page
                 string idCamaraAntes = string.Empty;
                 string[] aPrateleiras = aCamarasPrateleiras[camaraP].ToString().Split('_');
 
+                //Inclui mais prateleira para poder começar a contagem a partir do numero 1 
+                int qtdPrateleiras = Convert.ToInt32(aPrateleiras[2].ToString().Trim()) + 1;
+                for (int prateleira = 1; prateleira < qtdPrateleiras; prateleira++)
+                {
+                    int idCamara = Convert.ToInt32(aPrateleiras[0].ToString().Trim());
+                    string nomeXnumeroPrateleira = aPrateleiras[1].ToString().Trim();
 
-                int idCamara = Convert.ToInt32(aPrateleiras[0].ToString().Trim());
-                string prateleira = aPrateleiras[1].ToString().Trim();
+                    if (prateleira > 9)
+                        nomeXnumeroPrateleira += prateleira;
+                    else
+                        nomeXnumeroPrateleira += "0" + prateleira;
 
-                if (Convert.ToInt32(aPrateleiras[2].ToString().Trim()) > 9)
-                    prateleira += aPrateleiras[2].ToString().Trim();
-                else
-                    prateleira += "0" + aPrateleiras[2].ToString().Trim();
-
-                insereDados.InserePrateleira(idCamara, prateleira);
+                    insereDados.InserePrateleira(idCamara, nomeXnumeroPrateleira);
+                }
             }
         }
 

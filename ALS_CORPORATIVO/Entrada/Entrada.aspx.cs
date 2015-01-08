@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Web.Services;
 
 public partial class Entrada_Entrada : System.Web.UI.Page
 {
@@ -18,45 +19,74 @@ public partial class Entrada_Entrada : System.Web.UI.Page
     {
         hddInclusoes.Value = string.Empty;
         lblDataAtual.Text = DateTime.Now.ToShortDateString();
-
-        ddlTipoAmostra.Items.Insert(0, new ListItem("-- Selecione --", "0"));
-        ddlTipoAmostra.Items.Insert(1, new ListItem("Vaio", "1"));
-        ddlTipoAmostra.Items.Insert(2, new ListItem("Solo", "2"));
-        ddlTipoAmostra.Items.Insert(3, new ListItem("Outros", "3"));
-
-
-        ddlPrateleira.DataSource = CarregaPrateleiras();
-        ddlPrateleira.DataTextField = "Prateleira";
-        ddlPrateleira.DataValueField = "IdPrateleira";
-        ddlPrateleira.DataBind();
-
-        ddlPrateleira.Items.Insert(0, new ListItem("-- Selecione --", "0"));
-
     }
 
-    private DataTable CarregaPrateleiras()
+    [WebMethod]
+    public static List<ListItem> Unidades()
     {
-        DataTable dtPrateleiras = new DataTable();
-        dtPrateleiras.Columns.Add("IdPrateleira");
-        dtPrateleiras.Columns.Add("Prateleira");
+        List<ListItem> ListUnidades = new List<ListItem>();
 
-        string[] aAlfabeto = { "*", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" };
+        SelecionaDados selecionaDados = new SelecionaDados();
+        DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
 
-        for (int alfabeto = 1; alfabeto < aAlfabeto.Length; alfabeto++)
+        if (dtUnidades.Rows.Count > 0)
         {
-            string sAlfabeto = aAlfabeto[alfabeto].ToString().ToUpper();
-            for (int insercao = 1; insercao < 10; insercao++)
+            foreach (DataRow item in dtUnidades.Rows)
+                ListUnidades.Add(new ListItem(item["Unidade"].ToString(), item["IdUnidade"].ToString()));
+        }
+
+        return ListUnidades;
+    }
+
+    [WebMethod]
+    public static List<ListItem> Camaras(int idUnidade)
+    {
+        List<ListItem> ListCamaras = new List<ListItem>();
+
+        SelecionaDados selecionaDados = new SelecionaDados();
+        ListCamaras = selecionaDados.ConsultaCamaras(idUnidade);
+
+        return ListCamaras;
+    }
+
+    [WebMethod]
+    public static List<ListItem> Prateleiras(int idCamara)
+    {
+        List<ListItem> ListPrateleiras = new List<ListItem>();
+
+        SelecionaDados selecionaDados = new SelecionaDados();
+        ListPrateleiras = selecionaDados.ConsultaPrateleiras(idCamara);
+
+        return ListPrateleiras;
+    }
+
+    [WebMethod]
+    public static List<ListItem> TipoAmostra()
+    {
+        List<ListItem> ListTipoAmostra = new List<ListItem>();
+
+        SelecionaDados selecionaDados = new SelecionaDados();
+        ListTipoAmostra = selecionaDados.ConsultaTipoAmostra();
+
+        return ListTipoAmostra;
+    }
+
+    [WebMethod]
+    public static bool InsereAmostras(string amostrasInclusao)
+    {
+        bool sucesso = false;
+
+        string[] aInsercoes = amostrasInclusao.Split('|');
+
+        for (int item = 0; item < aInsercoes.Length; item++)
+        {
+            if (!string.IsNullOrEmpty(aInsercoes[item]))
             {
-                DataRow dRow = dtPrateleiras.NewRow();
-
-                dRow["IdPrateleira"] = insercao;
-                dRow["Prateleira"] = sAlfabeto + insercao;
-
-                dtPrateleiras.Rows.Add(dRow);
+                string[] aItens = aInsercoes[item].Split('_');
             }
         }
 
-        return dtPrateleiras;
+        return sucesso;
     }
 
     protected void btFinalizar_Click(object sender, EventArgs e)
@@ -109,6 +139,12 @@ public partial class Entrada_Entrada : System.Web.UI.Page
             Response.Redirect("../Erro/Erro.aspx");
         }
         
+    }
+
+    protected void btErro_Click(object sender, EventArgs e)
+    {
+        Session["ExcessaoDeErro"] = hddErro.Value;
+        Response.Redirect("../Erro/Erro.aspx");
     }
 
 }
