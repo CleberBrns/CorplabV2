@@ -31,4 +31,14 @@ public partial class Home_Home : System.Web.UI.Page
     {
         Response.Redirect("../Unidades/Unidades.aspx");
     }
+
+    protected void btAnalise_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Analise/Analise.aspx");
+    }
+
+    protected void btDescarte_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Descarte/Descarte.aspx");
+    }
 }
