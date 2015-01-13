@@ -7,11 +7,15 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Analise_Reentrada : System.Web.UI.Page
+public partial class Analise_Impressao : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            lblDataControle.Text = DateTime.Now.ToShortDateString();
+            lblIdGrupo.Text = "8489484";
+        }
     }
 
     [WebMethod]

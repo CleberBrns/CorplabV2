@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Entrada.aspx.cs" Inherits="Entrada_Entrada" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Entrada.aspx.cs" Inherits="Entrada_Entrada" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -82,7 +82,6 @@
         </div>
         <div style="display: none;">
             <asp:Button runat="server" ID="btGuardar" CssClass="bt" />
-            <asp:Button runat="server" ID="btFinalizar" CssClass="bt" OnClick="btFinalizar_Click" />
         </div>
         <%--BOTÃO PARA ACIONAR A PÁGINA DE ERRO--%>
         <div runat="server" id="divBotoesAux" class="none">

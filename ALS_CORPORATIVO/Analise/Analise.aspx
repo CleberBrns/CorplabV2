@@ -13,7 +13,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <input type="hidden" id="hddGrupo" runat="server" />
+        <input type="hidden" id="hddIdGrupo" runat="server" />
         <input type="hidden" id="hddErro" runat="server" />
         <div runat="server" id="divConteudo">
             <div class="pagina">
@@ -30,14 +30,17 @@
                     <div class="contBt">
                         <input type="button" style="width: 20%; height: 45px;" class="bt" value="Pesquisar" runat="server" id="btPesquisar" />
                     </div>
+                    <div class="none" id="divRetornoPesquisa">
+                        <asp:Label runat="server" ID="lblRetornoPesquisa"></asp:Label>
+                    </div>                    
                 </div>
-                <div id="divAcoes" class="none">
-                    <div class="contBt">
+                <div id="divAcoes" class="none">                   
+                    <div class="contBt">                     
                         <div>
-                            <input type="button" style="width: 20%; height: 50px;" class="bt" value="Saída" runat="server" id="btSaida" />
+                            <asp:Button style="width: 20%; height: 50px;" OnClick="btSaida_Click" CssClass="bt" Text="Saída" runat="server" id="btSaida" />
                         </div>
                         <div style="padding-top: 10px;">
-                            <input type="button" style="width: 20%; height: 50px;" class="bt" value="Reentrada" runat="server" id="btReentrada" />
+                            <asp:Button style="width: 20%; height: 50px;" OnClick="btReetrada_Click" CssClass="bt" Text="Reentrada" runat="server" id="btReentrada" />
                         </div>
                     </div>
                 </div>

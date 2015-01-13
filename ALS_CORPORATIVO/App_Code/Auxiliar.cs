@@ -33,4 +33,69 @@ public class Auxiliar
 
         return dtAlfabeto;
     }
+
+    public DataTable RetornaAmostraTeste()
+    {
+        DataTable dtAmostraTeste = new DataTable();
+        dtAmostraTeste.Columns.Add("IdAmostra");
+        dtAmostraTeste.Columns.Add("Descricao");
+        dtAmostraTeste.Columns.Add("TipoAmostra");
+        dtAmostraTeste.Columns.Add("DataEntrada");
+        dtAmostraTeste.Columns.Add("Status");
+        dtAmostraTeste.Columns.Add("IdStatus");
+
+        for (int entrou = 0; entrou < 5; entrou++)
+        {
+            DataRow dRow = dtAmostraTeste.NewRow();
+            dRow["IdAmostra"] = entrou;
+            dRow["Descricao"] = "Amostra Teste " + entrou;
+            dRow["TipoAmostra"] = "Tipo " + entrou;
+            dRow["DataEntrada"] = DateTime.Now.ToShortDateString();
+            dRow["Status"] = "Entrou";
+            dRow["IdStatus"] = 1;
+
+            dtAmostraTeste.Rows.Add(dRow);
+
+        }
+
+        for (int saiu = 5; saiu < 10; saiu++)
+        {
+            DataRow dRow = dtAmostraTeste.NewRow();
+            dRow["IdAmostra"] = saiu;
+            dRow["Descricao"] = "Amostra Teste " + saiu;
+            dRow["TipoAmostra"] = "Tipo " + saiu;
+            dRow["DataEntrada"] = DateTime.Now.ToShortDateString();
+            dRow["Status"] = "Saiu";
+            dRow["IdStatus"] = 2;
+
+            dtAmostraTeste.Rows.Add(dRow);
+        }
+
+        for (int reentrou = 10; reentrou < 15; reentrou++)
+        {
+            DataRow dRow = dtAmostraTeste.NewRow();
+            dRow["IdAmostra"] = reentrou;
+            dRow["Descricao"] = "Amostra Teste " + reentrou;
+            dRow["TipoAmostra"] = "Tipo " + reentrou;
+            dRow["DataEntrada"] = DateTime.Now.ToShortDateString();
+            dRow["Status"] = "Reentrou";
+            dRow["IdStatus"] = 3;
+
+            dtAmostraTeste.Rows.Add(dRow);
+        }
+
+
+        return dtAmostraTeste;
+    }
+
+
+    public class AmostraXGrupo
+    {
+        public int IdAmostra { get; set; }
+        public string Descricao { get; set; }
+        public string TipoAmostra { get; set; }
+        public string DataEntrada { get; set; }
+        public string Status { get; set; }
+        public int IdStatus { get; set; }  
+    }
 }

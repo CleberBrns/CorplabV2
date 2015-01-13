@@ -74,6 +74,17 @@ public partial class Entrada_Entrada : System.Web.UI.Page
     [WebMethod]
     public static bool InsereAmostras(string amostrasInclusao)
     {
+        #region Descrição dos valores contigos em aItens
+
+        //aItens[0] = IdPrateleira
+        //aItens[1] = Caixa
+        //aItens[2] = IdGrupo
+        //aItens[3] = IdTipoAmostra
+        //aItens[4] = CodAmostra/IdAmostra
+
+        #endregion
+
+        InsereDados insereDados = new InsereDados();
         bool sucesso = false;
 
         string[] aInsercoes = amostrasInclusao.Split('|');
@@ -83,62 +94,18 @@ public partial class Entrada_Entrada : System.Web.UI.Page
             if (!string.IsNullOrEmpty(aInsercoes[item]))
             {
                 string[] aItens = aInsercoes[item].Split('_');
+
+                int idPrateleira = Convert.ToInt32(aItens[0].ToString().Trim());
+                string caixa = aItens[1].ToString().Trim();
+                int idGrupo = Convert.ToInt32(aItens[2].ToString().Trim());
+                int idTipoAmostra = Convert.ToInt32(aItens[3].ToString().Trim());
+                int idAmostra = Convert.ToInt32(aItens[4].ToString().Trim());
+
+                //insereDados.InsereAmostra(idGrupo, idAmostra, )
             }
         }
 
         return sucesso;
-    }
-
-    protected void btFinalizar_Click(object sender, EventArgs e)
-    {
-        if (hddInclusoes.Value != string.Empty)
-        {
-            InsereDadosSalvos(hddInclusoes.Value);
-            LimparCampos();
-        }
-
-    }
-
-    private void LimparCampos()
-    {
-        hddInclusoes.Value = string.Empty;
-        ddlPrateleira.SelectedValue = "0";
-        txtCaixa.Text = string.Empty;
-        txtGrupo.Text = string.Empty;
-        ddlTipoAmostra.SelectedValue = "0";
-        txtAmostra.Value = string.Empty;
-    }
-
-    private void InsereDadosSalvos(string insercoes)
-    {
-        try
-        {
-            divPagina.Visible = false;
-            divProcessando.Visible = true;
-
-            string[] aInsercoes = insercoes.Split('|');
-
-            for (int item = 0; item < aInsercoes.Length; item++)
-            {
-                if (!string.IsNullOrEmpty(aInsercoes[item]))
-                {
-                    string[] aItens = aInsercoes[item].Split('_');
-                }
-            }
-
-            divPagina.Visible = true;
-            divProcessando.Visible = false;
-
-            string jscript = "$(function() {$('#dialog-sucesso').dialog('open')});";
-            ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "Concluí", jscript, true);          
-                        
-        }
-        catch (Exception ex)
-        {
-            Session["ExcessaoDeErro"] = ex.ToString();
-            Response.Redirect("../Erro/Erro.aspx");
-        }
-        
     }
 
     protected void btErro_Click(object sender, EventArgs e)

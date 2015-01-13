@@ -15,7 +15,7 @@
     border: 2px solid #EEE;
 }
 
-.rodape {  
+.rodape {
     width: 100%;
     font-family: Arial;
     border: 1px solid #EEE;
@@ -34,22 +34,22 @@
     width: 50%;
 }
 
-.pagina .cripto td input {
+    .pagina .cripto td input {
         margin: 5px;
-}
+    }
 
 .pagina .contBt {
     text-align: center;
     margin: 10px;
 }
 
-.pagina .contBt .bt {
+    .pagina .contBt .bt {
         font-size: 18px;
         border: 1px solid #DDD;
         width: 25%;
         height: 44px;
         padding: 10px;
-}
+    }
 
 .btAcoes .contBtAcoes {
     border: 1px solid #DDD;
@@ -90,13 +90,26 @@ UL.amostrasGrupo {
     border: 1px solid #EEE;
 }
 
-    UL.amostrasGrupo LI {       
-        display: inline; 
-        float: left; 
-        width: 25%; 
-        font-size: 15px; 
+    UL.amostrasGrupo LI {
+        display: inline;
+        float: left;
+        width: 25%;
+        font-size: 15px;
     }
-.clear
-{
-    clear: both; 
+
+.clear {
+    clear: both;
+}
+
+.divAssinaturas {
+    text-align: center;
+}
+
+.assinaturas {
+    border-style: solid;
+    border-bottom-width: 3px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    width: 150px;
 }

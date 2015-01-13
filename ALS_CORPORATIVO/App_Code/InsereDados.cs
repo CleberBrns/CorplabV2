@@ -15,6 +15,40 @@ public class InsereDados
     SelecionaDados selecionaDados = new SelecionaDados();
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
+    public void InsereAmostra(int idGrupo, int idAmostra, string codAmostra, string descricao, int idTipoAmostra)
+    {
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_grupo_x_amostras_insert";
+                sqlCommand.Parameters.AddWithValue("@idGrupo", idGrupo);
+                sqlCommand.Parameters.AddWithValue("@idAmostra", idAmostra);
+                sqlCommand.Parameters.AddWithValue("@CodAmostra", codAmostra);
+                sqlCommand.Parameters.AddWithValue("@Descricao", descricao);
+                sqlCommand.Parameters.AddWithValue("@idtipoAmostra", idTipoAmostra);
+                
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+    }
+
 
     public void InsereUsuario(string nome, string login, string senha, int idUnidade, int idTipoAcesso, int idStatus)
     {

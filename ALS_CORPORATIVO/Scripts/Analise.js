@@ -24,8 +24,8 @@
             alert("Favor preencher o campo Grupo");
             return false;
         }
-        else {
-            $("#hddGrupo").val($("#txtGrupo").val());
+        else {           
+            $("#hddIdGrupo").val($("#txtGrupo").val());
             $("#divPesquisa").hide();
             $("#divAcoes").show();
             $("#btVoltar").show();
@@ -35,7 +35,7 @@
     $("#btVoltar").click(function () {
 
         $("#txtGrupo").val('');
-        $("#hddGrupo").val('');
+        $("#hddIdGrupo").val('');
         $("#divPesquisa").show();
         $("#divAcoes").hide();
         $("#btVoltar").hide();

@@ -45,8 +45,8 @@
 
             if ($('#txtAmostra').val() != "") {
 
-                var valores = $('#ddlPrateleira').val() + '_' + $('#txtCaixa').val() + '_' + $('#txtGrupo').val() + '_' +
-                          $('#ddlTipoAmostra').val() + '_' + $('#txtAmostra').val() + '|';
+                var valores = $('#ddlPrateleira').find('option:selected').val() + '_' + $('#txtCaixa').val() + '_' + $('#txtGrupo').val() + '_' +
+                          $('#ddlTipoAmostra').find('option:selected').val() + '_' + $('#txtAmostra').val() + '|';
 
                 if ($("#hddInclusoes").val() != "") {
                     valores += $("#hddInclusoes").val();
@@ -212,7 +212,7 @@
                 $("#divProcessando").hide();
 
 
-                //ExibeMsgRetorno("Amostra incluída com sucesso!");
+                ExibeMsgRetorno("Amostra incluída com sucesso!");
                
             },
             error: function (x, e) {
