@@ -1,10 +1,9 @@
-﻿*
-{
+﻿* {
     padding: 0;
     margin: 0;
 }
-.pagina
-{    
+
+.pagina {
     width: 60%;
     height: 30%;
     font-family: Arial;
@@ -12,73 +11,68 @@
     background: #f8f8f8;
     padding: 20px 20px 20px;
     border: 1px solid #EEE;
-    font-size: 16px;   
-    border: 2px solid #EEE;
+    font-size: 16px;
 }
-.rodape
-{
+
+.rodape {
     margin-top: 30px;
     width: 100%;
     font-family: Arial;
     border: 1px solid #EEE;
 }
-.pagina > div
-{
+
+.pagina > div {
     margin-bottom: 10px;
 }
-.pagina div input
-{
+
+.pagina div input {
     border: 1px solid #DDD;
     padding: 5px 0;
 }
-.pagina .cripto td
-{
+
+.pagina .cripto td {
     width: 50%;
 }
-.pagina .cripto td input
-{
-    margin: 5px;
-}
 
-.pagina .contBt
-{
+    .pagina .cripto td input {
+        margin: 5px;
+    }
+
+.pagina .contBt {
     text-align: center;
     margin: 10px;
 }
 
-.pagina .contBt .bt
-{
-    font-size: 18px;
-    border: 1px solid #DDD;
-    width: 32%;
-    height: 55px;
-    padding: 10px;
-}
-.btAcoes .contBtAcoes
-{
+    .pagina .contBt .bt {
+        font-size: 18px;
+        border: 1px solid #DDD;
+        width: 32%;
+        height: 55px;
+        padding: 10px;
+    }
+
+.btAcoes .contBtAcoes {
     border: 1px solid #DDD;
     width: 60%;
     padding: 10px;
 }
-.pagina .contBt .bt:hover
-{
+
+.pagina .contBt .bt:hover {
     background: #555;
     color: #FFF;
     cursor: pointer;
 }
-.none
-{
+
+.none {
     display: none;
 }
-.confirmaInclusao
-{
+
+.confirmaInclusao {
     font-size: 14px;
 }
-.insercoes
-{
+
+.insercoes {
     text-align: center;
     font-weight: bold;
-    font-size: 16px;    
+    font-size: 16px;
 }
-
-
