@@ -19,7 +19,7 @@
 
     CarregaAmostrasGrupo();
 
-    $('#txtAmostra').keydown(function (event) {        
+    $('#txtAmostra').keydown(function (event) {
 
         var keyCode = (event.keyCode ? event.keyCode : event.which);
         if (keyCode == 13) {
@@ -46,10 +46,10 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                var select = '<div>' + '<ul class="amostrasGrupo" style="background-color: #DDD;"><li style="float: left">IdAmostra</li><li style="float: left">Tipo Amostra</li><li style="float: left">Data Entrada</li><li>Status</li></ul>';
+                var select = '<div>' + '<ul class="amostrasGrupo" style="background-color: #DDD;"><li style="float: left">CodAmostra</li><li style="float: left">Tipo Amostra</li><li style="float: left">Data Entrada</li><li>Status</li></ul>';
                 var option = '';
                 $.each(data.d, function (index, value) {
-                    option += '<ul class="amostrasGrupo"><li style="float: left">' + value.IdAmostra + '</li><li style="float: left">' + value.TipoAmostra + '</li><li style="float: left">' + value.DataEntrada + '</li><li style=' + corStatus(value.IdStatus) + '>' + value.Status + '</li></ul>';
+                    option += '<ul class="amostrasGrupo"><li style="float: left">' + value.IdAmostra + '</li><li style="float: left">' + value.TipoAmostra + '</li><li style="float: left">' + value.DataEntrada + '</li><li style=' + corStatus(value.IdStatusAmostra) + '>' + value.StatusAmostra + '</li></ul>';
                 });
                 select = select + option + '</div>';
                 $('#divRetornos').html(select);
@@ -78,6 +78,6 @@ function Redireciona(destino) {
     else {
         urlDestino = "../Analise/Analise.aspx";
     }
-    
+
     window.location.href = urlDestino;
 }

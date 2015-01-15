@@ -41,45 +41,58 @@ public class Auxiliar
         dtAmostraTeste.Columns.Add("Descricao");
         dtAmostraTeste.Columns.Add("TipoAmostra");
         dtAmostraTeste.Columns.Add("DataEntrada");
-        dtAmostraTeste.Columns.Add("Status");
-        dtAmostraTeste.Columns.Add("IdStatus");
+        dtAmostraTeste.Columns.Add("StatusAmostra");
+        dtAmostraTeste.Columns.Add("IdStatusAmostra");
 
-        for (int entrou = 0; entrou < 5; entrou++)
+        for (int entrada = 0; entrada < 5; entrada++)
         {
             DataRow dRow = dtAmostraTeste.NewRow();
-            dRow["IdAmostra"] = entrou;
-            dRow["Descricao"] = "Amostra Teste " + entrou;
-            dRow["TipoAmostra"] = "Tipo " + entrou;
+            dRow["IdAmostra"] = entrada;
+            dRow["Descricao"] = "Amostra Teste " + entrada;
+            dRow["TipoAmostra"] = "Tipo " + entrada;
             dRow["DataEntrada"] = DateTime.Now.ToShortDateString();
-            dRow["Status"] = "Entrou";
-            dRow["IdStatus"] = 1;
+            dRow["StatusAmostra"] = "Entrada";
+            dRow["IdStatusAmostra"] = 0;
 
             dtAmostraTeste.Rows.Add(dRow);
 
         }
 
-        for (int saiu = 5; saiu < 10; saiu++)
+        for (int saida = 5; saida < 10; saida++)
         {
             DataRow dRow = dtAmostraTeste.NewRow();
-            dRow["IdAmostra"] = saiu;
-            dRow["Descricao"] = "Amostra Teste " + saiu;
-            dRow["TipoAmostra"] = "Tipo " + saiu;
+            dRow["IdAmostra"] = saida;
+            dRow["Descricao"] = "Amostra Teste " + saida;
+            dRow["TipoAmostra"] = "Tipo " + saida;
             dRow["DataEntrada"] = DateTime.Now.ToShortDateString();
-            dRow["Status"] = "Saiu";
-            dRow["IdStatus"] = 2;
+            dRow["StatusAmostra"] = "Saída";
+            dRow["IdStatusAmostra"] = 1;
 
             dtAmostraTeste.Rows.Add(dRow);
         }
 
-        for (int reentrou = 10; reentrou < 15; reentrou++)
+        for (int reentrada = 10; reentrada < 15; reentrada++)
         {
             DataRow dRow = dtAmostraTeste.NewRow();
-            dRow["IdAmostra"] = reentrou;
-            dRow["Descricao"] = "Amostra Teste " + reentrou;
-            dRow["TipoAmostra"] = "Tipo " + reentrou;
+            dRow["IdAmostra"] = reentrada;
+            dRow["Descricao"] = "Amostra Teste " + reentrada;
+            dRow["TipoAmostra"] = "Tipo " + reentrada;
             dRow["DataEntrada"] = DateTime.Now.ToShortDateString();
-            dRow["Status"] = "Reentrou";
-            dRow["IdStatus"] = 3;
+            dRow["StatusAmostra"] = "Reentrada";
+            dRow["IdStatusAmostra"] = 2;
+
+            dtAmostraTeste.Rows.Add(dRow);
+        }
+
+        for (int descarte = 15; descarte < 20; descarte++)
+        {
+            DataRow dRow = dtAmostraTeste.NewRow();
+            dRow["IdAmostra"] = descarte;
+            dRow["Descricao"] = "Amostra Teste " + descarte;
+            dRow["TipoAmostra"] = "Tipo " + descarte;
+            dRow["DataEntrada"] = DateTime.Now.ToShortDateString();
+            dRow["StatusAmostra"] = "Descarte";
+            dRow["IdStatusAmostra"] = 3;
 
             dtAmostraTeste.Rows.Add(dRow);
         }
@@ -95,7 +108,7 @@ public class Auxiliar
         public string Descricao { get; set; }
         public string TipoAmostra { get; set; }
         public string DataEntrada { get; set; }
-        public string Status { get; set; }
-        public int IdStatus { get; set; }  
+        public string StatusAmostra { get; set; }
+        public int IdStatusAmostra { get; set; }  
     }
 }

@@ -19,16 +19,25 @@
 
     $("#btPesquisar").click(function () {
 
-        if ($("#txtGrupo").val() == "") {
+        if ($("#txtGrupo").val() != "") {
 
-            alert("Favor preencher o campo Grupo");
-            return false;
-        }
-        else {           
+
+
             $("#hddIdGrupo").val($("#txtGrupo").val());
             $("#divPesquisa").hide();
             $("#divAcoes").show();
             $("#btVoltar").show();
+        }
+        else {
+            alert("Favor preencher o campo Grupo");
+            return false;
+        }
+    });
+
+    $('#txtGrupo').keydown(function (event) {
+        var keyCode = (event.keyCode ? event.keyCode : event.which);
+        if (keyCode == 13) {
+            return false;
         }
     });
 

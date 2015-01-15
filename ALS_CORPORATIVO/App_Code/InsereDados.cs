@@ -26,6 +26,7 @@ public class InsereDados
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.CommandText = "usp_grupo_x_amostras_insert";
+
                 sqlCommand.Parameters.AddWithValue("@idGrupo", idGrupo);
                 sqlCommand.Parameters.AddWithValue("@idAmostra", idAmostra);
                 sqlCommand.Parameters.AddWithValue("@CodAmostra", codAmostra);

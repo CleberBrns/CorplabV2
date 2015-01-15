@@ -15,6 +15,78 @@ public class SelecionaDados
 {
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
+    public DataTable ConsultaGrupoXAmostra(string codGrupo)
+    {
+        DataTable dtAmostrasGrupo = new DataTable();
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@idGrupo", Convert.ToInt32(codGrupo));
+                sqlCommand.CommandText = "usp_grupo_x_amostras_select";
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                dtAmostrasGrupo.Load(sqlDataReader);
+
+                sqlDataReader.Close();
+                sqlDataReader.Dispose();
+                sqlDataReader = null;
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return dtAmostrasGrupo;
+    }
+
+    public DataTable ConsultaAcessoUsuario(string login, string senha)
+    {
+        DataTable dtUsuario = new DataTable();
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@Login", login);
+                sqlCommand.Parameters.AddWithValue("@Senha", senha);
+                sqlCommand.CommandText = "usp_usuarioAcesso_select";
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                dtUsuario.Load(sqlDataReader);
+
+                sqlDataReader.Close();
+                sqlDataReader.Dispose();
+                sqlDataReader = null;
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return dtUsuario;
+    }
 
     public List<ListItem> ConsultaTipoAmostra()
     {

@@ -11,18 +11,44 @@ public partial class Analise_Analise : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        try
+        {
+            if (Session["SessionUser"].ToString() == string.Empty)
+            {
+                Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+                Response.Redirect("../Login/Login.aspx");
+            }
+        }
+        catch (Exception)
+        {
+            Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+            Response.Redirect("../Login/Login.aspx");
+        }
+    }
 
+    [WebMethod]
+    public static bool ConstultaGrupo(string codGrupo)
+    {
+        bool sucesso = false;
+
+        SelecionaDados selecionaDados = new SelecionaDados();
+        DataTable dtGrupo = selecionaDados.ConsultaGrupoXAmostra(codGrupo);
+
+        if (dtGrupo.Rows.Count > 0)        
+            sucesso = true;        
+
+        return sucesso;
     }
 
     protected void btSaida_Click(object sender, EventArgs e)
     {
-        Session["IdGrupo"] = hddIdGrupo.Value.Trim();
+        Session["CodGrupo"] = hddIdGrupo.Value.Trim();
         Response.Redirect("../Analise/Saida.aspx");
     }
 
     protected void btReetrada_Click(object sender, EventArgs e)
     {
-        Session["IdGrupo"] = hddIdGrupo.Value.Trim();
+        Session["CodGrupo"] = hddIdGrupo.Value.Trim();
         Response.Redirect("../Analise/Reentrada.aspx");
     }
 

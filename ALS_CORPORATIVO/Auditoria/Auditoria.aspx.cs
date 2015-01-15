@@ -7,7 +7,7 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Analise_Reentrada : System.Web.UI.Page
+public partial class Auditoria_Auditoria : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {

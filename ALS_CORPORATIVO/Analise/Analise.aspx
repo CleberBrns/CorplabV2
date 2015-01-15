@@ -24,15 +24,15 @@
                         <div>
                             <asp:TextBox runat="server" autocomplete="off" Width="180px"
                                 Height="25px" ID="txtGrupo"></asp:TextBox>
+                            <div id="divRetornoPesquisa" style="margin-top:10px;">
+                                <asp:Label runat="server" ID="lblRetornoPesquisa" />
+                            </div>
                         </div>
                         </div>
                     </div>
                     <div class="contBt">
                         <input type="button" style="width: 20%; height: 45px;" class="bt" value="Pesquisar" runat="server" id="btPesquisar" />
-                    </div>
-                    <div class="none" id="divRetornoPesquisa">
-                        <asp:Label runat="server" ID="lblRetornoPesquisa"></asp:Label>
-                    </div>                    
+                    </div>                                    
                 </div>
                 <div id="divAcoes" class="none">                   
                     <div class="contBt">                     

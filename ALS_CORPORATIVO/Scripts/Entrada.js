@@ -21,7 +21,7 @@
 
     $('#ddlPrateleira').prop('disabled', true);
 
-    CarregaUnidade();
+    CarregaUnidade($('#hddIdUnidade').val());
     CarregaTipoAmostra();
     
     $('#txtAmostra').keydown(function (event) {
@@ -83,12 +83,12 @@
 
     });
 
-    function CarregaUnidade() {
+    function CarregaUnidade(idUnidade) {
 
         $.ajax({
             type: "POST",
             url: "Entrada.aspx/Unidades",
-            data: JSON.stringify(),
+            data: JSON.stringify({ sIdUnidade: idUnidade }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

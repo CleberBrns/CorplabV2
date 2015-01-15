@@ -11,7 +11,19 @@ public partial class Saida_Saida : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        try
+        {
+            if (Session["SessionUser"].ToString() == string.Empty)
+            {
+                Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+                Response.Redirect("../Login/Login.aspx");
+            }
+        }
+        catch (Exception)
+        {
+            Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+            Response.Redirect("../Login/Login.aspx");
+        }
     }
 
     [WebMethod]
@@ -30,8 +42,8 @@ public partial class Saida_Saida : System.Web.UI.Page
             obj.Descricao = item["Descricao"].ToString();
             obj.TipoAmostra = item["TipoAmostra"].ToString();
             obj.DataEntrada = item["DataEntrada"].ToString();
-            obj.Status = item["Status"].ToString();
-            obj.IdStatus = Convert.ToInt32(item["IdStatus"]);
+            obj.StatusAmostra = item["StatusAmostra"].ToString();
+            obj.IdStatusAmostra = Convert.ToInt32(item["IdStatusAmostra"]);
             list.Add(obj);
         }
 

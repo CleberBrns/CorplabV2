@@ -9,6 +9,22 @@ public partial class Home_Home : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        try
+        {
+            if (Session["SessionUser"].ToString() != string.Empty)
+            {
+                if (Session["SessionUser"].ToString() != "Gestor")
+                {
+                    btUsuarios.Visible = false;
+                    btUnidades.Visible = false;
+                }
+            }
+        }
+        catch (Exception)
+        {
+            Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+            Response.Redirect("../Login/Login.aspx");
+        }
 
     }
 
@@ -19,6 +35,8 @@ public partial class Home_Home : System.Web.UI.Page
 
     protected void btSair_Click(object sender, EventArgs e)
     {
+        Session["SessionUser"] = null;
+        Session["SessionIdUnidade"] = null;
         Response.Redirect("../Login/Login.aspx");
     }
 

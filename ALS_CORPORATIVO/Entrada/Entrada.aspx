@@ -12,6 +12,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <input type="hidden" runat="server" id="hddIdUnidade" value="0" />
         <input type="hidden" runat="server" id="hddInclusoes" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">

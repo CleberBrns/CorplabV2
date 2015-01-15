@@ -11,23 +11,49 @@ public partial class Entrada_Entrada : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-            CarregaPagina();
+        try
+        {
+            if (Session["SessionUser"].ToString() != string.Empty)
+            {
+                if (!IsPostBack)
+                    CarregaPagina();
+            }
+            else
+            {
+                Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+                Response.Redirect("../Login/Login.aspx");
+            }
+
+        }
+        catch (Exception)
+        {
+            Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+            Response.Redirect("../Login/Login.aspx");
+        }
+
     }
 
     private void CarregaPagina()
     {
+        if (Session["SessionUser"].ToString() != "Gestor")
+            hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
+
         hddInclusoes.Value = string.Empty;
         lblDataAtual.Text = DateTime.Now.ToShortDateString();
     }
 
     [WebMethod]
-    public static List<ListItem> Unidades()
+    public static List<ListItem> Unidades(string sIdUnidade)
     {
         List<ListItem> ListUnidades = new List<ListItem>();
 
         SelecionaDados selecionaDados = new SelecionaDados();
         DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
+
+        if (sIdUnidade.Trim() != "0")        
+            dtUnidades.DefaultView.RowFilter = "IdUnidade = " + sIdUnidade.Trim() + "";
+
+        dtUnidades = dtUnidades.DefaultView.ToTable();
 
         if (dtUnidades.Rows.Count > 0)
         {

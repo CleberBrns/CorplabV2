@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Saida.aspx.cs" Inherits="Saida_Saida" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Auditoria.aspx.cs" Inherits="Auditoria_Auditoria" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,8 +8,8 @@
     <link href="../Styles/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="../Scripts/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
-    <script src="../Scripts/Saida.js" type="text/javascript"></script>
-    <link href="../Styles/Saida.css" rel="stylesheet" type="text/css" />
+    <script src="../Scripts/Auditoria.js" type="text/javascript"></script>
+    <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -25,9 +25,6 @@
                 <div style="margin-top: 10px; text-align: center;">
                     <span style="font-weight:bold;">Amostra a ser retirada da prateleira</span> 
                 <input type="text" runat="server" id="txtAmostra" autocomplete="off" style="width: 180px; height: 25px" />
-                    <div>
-                        <asp:Label runat="server" ID="lblRetorno" Text="" />
-                    </div>
                 </div>                
                 <div class="rodape">
                 </div>
