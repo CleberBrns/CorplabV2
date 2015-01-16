@@ -31,6 +31,7 @@
                 <div style="margin-top: 5px;" class="divCamara">
                     Câmara
                 <asp:DropDownList runat="server" ID="ddlCamaras" Width="180px" Height="25px">
+                    <asp:ListItem Value="0">-- Selecione --</asp:ListItem>
                 </asp:DropDownList>
                 </div>
                 <div style="margin-top: 5px;">

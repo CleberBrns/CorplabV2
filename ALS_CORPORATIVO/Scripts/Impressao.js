@@ -41,7 +41,7 @@
 
         $.ajax({
             type: "POST",
-            url: "Saida.aspx/ConsultaAmostrasGrupo",
+            url: "Impressao.aspx/ConsultaAmostrasGrupo",
             data: JSON.stringify(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -58,12 +58,15 @@
     }
 
     function corStatus(status) {
-        if (status == 1) {
+        if (status == 0) {
             return 'color:green';
+        } else if (status == 1) {
+            return 'color:orange';
+        } else if (status == 2) {
+            return 'color:blue';
         } else {
             return 'color:red';
         }
-
     }
 
 });

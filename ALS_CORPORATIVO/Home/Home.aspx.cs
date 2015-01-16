@@ -59,4 +59,10 @@ public partial class Home_Home : System.Web.UI.Page
     {
         Response.Redirect("../Descarte/Descarte.aspx");
     }
+
+    protected void btAuditoria_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Auditoria/Auditoria.aspx");
+    }
+    
 }

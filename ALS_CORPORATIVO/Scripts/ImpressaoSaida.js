@@ -19,21 +19,17 @@
 
     CarregaAmostrasGrupo();
 
-    $('#txtAmostra').keydown(function (event) {        
+    $('#txtAmostra').keydown(function (event) {
 
         var keyCode = (event.keyCode ? event.keyCode : event.which);
         if (keyCode == 13) {
 
             if ($('#txtAmostra').val() == "") {
-                $("#btImprimirSaida").hide();                
-                return false;
-            }
-            else {
-                $("#btImprimirSaida").show();
+                alert("Por favor, preencha o campo Amostra");
                 return false;
             }
         }
-    });    
+    });
 
     function CarregaAmostrasGrupo() {
         //obj.IdAmostra = Convert.ToInt32(item["IdAmostra"]);
@@ -45,7 +41,7 @@
 
         $.ajax({
             type: "POST",
-            url: "Saida.aspx/ConsultaAmostrasGrupo",
+            url: "ImpressaoSaida.aspx/ConsultaAmostrasGrupo",
             data: JSON.stringify(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -85,13 +81,6 @@ function Redireciona(destino) {
     else {
         urlDestino = "../Analise/Analise.aspx";
     }
-    
+
     window.location.href = urlDestino;
 }
-
-function Impressao()
-{
-    var urlDestino = "../Analise/ImpressaoSaida.aspx";
-    window.open(urlDestino);
-}
-//////////////////////////////////////////////////////////////////////////////////////////////

@@ -24,7 +24,11 @@
                         OnClick="btUnidades_Click" />
                     <asp:Button runat="server" ID="btUsuarios" CssClass="bt"
                         Text="Gerenciar Usuários" OnClick="btUsuarios_Click" />
-                    <asp:Button runat="server" ID="btSair" CssClass="bt"
+                    <asp:Button runat="server" ID="btAuditoria" CssClass="bt"
+                        Text="Auditoria" OnClick="btAuditoria_Click" />
+                </div>
+                <div class="contBt">
+                     <asp:Button runat="server" ID="btSair" CssClass="bt"
                         Text="Sair" OnClick="btSair_Click" />
                 </div>
             </div>

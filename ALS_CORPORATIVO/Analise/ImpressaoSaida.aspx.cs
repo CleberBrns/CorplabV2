@@ -7,7 +7,7 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Analise_Impressao : System.Web.UI.Page
+public partial class Analise_ImpressaoSaida : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -40,6 +40,9 @@ public partial class Analise_Impressao : System.Web.UI.Page
         Auxiliar auxiliar = new Auxiliar();
 
         DataTable dtAmostras = auxiliar.RetornaAmostraTeste();
+
+        dtAmostras.DefaultView.RowFilter = "IdStatusAmostra = 1";
+        dtAmostras = dtAmostras.DefaultView.ToTable();
 
         List<Auxiliar.AmostraXGrupo> list = new List<Auxiliar.AmostraXGrupo>();
         Auxiliar.AmostraXGrupo obj = new Auxiliar.AmostraXGrupo();

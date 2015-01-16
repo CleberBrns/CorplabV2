@@ -98,7 +98,7 @@ public partial class Entrada_Entrada : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static bool InsereAmostras(string amostrasInclusao)
+    public static string InsereAmostras(string amostrasInclusao)
     {
         #region Descrição dos valores contigos em aItens
 
@@ -131,7 +131,7 @@ public partial class Entrada_Entrada : System.Web.UI.Page
             }
         }
 
-        return sucesso;
+        return sucesso.ToString();
     }
 
     protected void btErro_Click(object sender, EventArgs e)

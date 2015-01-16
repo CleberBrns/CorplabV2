@@ -27,7 +27,7 @@ public partial class Analise_Analise : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static bool ConstultaGrupo(string codGrupo)
+    public static string ConstultaGrupo(string codGrupo)
     {
         bool sucesso = false;
 
@@ -37,8 +37,9 @@ public partial class Analise_Analise : System.Web.UI.Page
         if (dtGrupo.Rows.Count > 0)        
             sucesso = true;        
 
-        return sucesso;
+        return sucesso.ToString();
     }
+
 
     protected void btSaida_Click(object sender, EventArgs e)
     {

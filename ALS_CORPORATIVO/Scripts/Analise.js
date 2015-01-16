@@ -21,12 +21,29 @@
 
         if ($("#txtGrupo").val() != "") {
 
+            $.ajax({
+                type: "POST",
+                url: "Analise.aspx/ConstultaGrupo",
+                data: JSON.stringify({ codGrupo: $("#txtGrupo").val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var retorno = data.d;
 
+                    if (retorno == "True") {
 
-            $("#hddIdGrupo").val($("#txtGrupo").val());
-            $("#divPesquisa").hide();
-            $("#divAcoes").show();
-            $("#btVoltar").show();
+                        $("#divRetornoPesquisa").hide();
+                        $("#hddIdGrupo").val($("#txtGrupo").val());
+                        $("#divPesquisa").hide();
+                        $("#divAcoes").show();
+                        $("#btVoltar").show();
+                    }
+                    else {                       
+                        $("#divRetornoPesquisa").show();
+                    }
+                },             
+            });
+          
         }
         else {
             alert("Favor preencher o campo Grupo");

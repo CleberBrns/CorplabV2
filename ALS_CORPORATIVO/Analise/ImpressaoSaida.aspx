@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Impressao.aspx.cs" Inherits="Analise_Impressao" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ImpressaoSaida.aspx.cs" Inherits="Analise_ImpressaoSaida" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,16 +8,21 @@
     <link href="../Styles/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="../Scripts/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
-    <script src="../Scripts/Impressao.js" type="text/javascript"></script>
+    <script src="../Scripts/ImpressaoSaida.js" type="text/javascript"></script>
     <link href="../Styles/Impressao.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            //window.print();
+        });
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
         <input type="hidden" id="hddErro" runat="server" />
         <div runat="server" id="divConteudo">
             <div class="pagina">
-                <div style="text-align:center">
-                    <h2>Controle -
+                <div style="text-align: center">
+                    <h2>Controle de Saída -
                     <asp:Label runat="server" ID="lblDataControle" />
                         - Grupo:
                     <asp:Label runat="server" ID="lblIdGrupo" /></h2>

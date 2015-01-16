@@ -58,12 +58,15 @@
     }
 
     function corStatus(status) {
-        if (status == 1) {
+        if (status == 0) {
             return 'color:green';
+        } else if (status == 1) {
+            return 'color:orange';
+        } else if (status == 2) {
+            return 'color:blue';
         } else {
             return 'color:red';
         }
-
     }
 
 });

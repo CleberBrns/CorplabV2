@@ -7,13 +7,10 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Auditoria_Auditoria : System.Web.UI.Page
+public partial class Analise_Impressao : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Auxiliar auxiliar = new Auxiliar();
-        DataTable dtAmostras = auxiliar.RetornaAmostraTeste();
-
         try
         {
             if (Session["SessionUser"].ToString() == string.Empty)
@@ -23,15 +20,18 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
             }
             else
             {
-                if (Session["SessionUser"].ToString() != "Gestor")
-                    hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
+                if (!IsPostBack)
+                {
+                    lblDataControle.Text = DateTime.Now.ToShortDateString();
+                    lblIdGrupo.Text = "8489484";
+                }
             }
         }
         catch (Exception)
         {
             Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
             Response.Redirect("../Login/Login.aspx");
-        }
+        }       
     }
 
     [WebMethod]
@@ -58,50 +58,6 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         }
 
         return list;
-    }
-
-    [WebMethod]
-    public static List<ListItem> Unidades(string sIdUnidade)
-    {
-        List<ListItem> ListUnidades = new List<ListItem>();
-
-        SelecionaDados selecionaDados = new SelecionaDados();
-        DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
-
-        if (sIdUnidade.Trim() != "0")
-            dtUnidades.DefaultView.RowFilter = "IdUnidade = " + sIdUnidade.Trim() + "";
-
-        dtUnidades = dtUnidades.DefaultView.ToTable();
-
-        if (dtUnidades.Rows.Count > 0)
-        {
-            foreach (DataRow item in dtUnidades.Rows)
-                ListUnidades.Add(new ListItem(item["Unidade"].ToString(), item["IdUnidade"].ToString()));
-        }
-
-        return ListUnidades;
-    }
-
-    [WebMethod]
-    public static List<ListItem> Camaras(int idUnidade)
-    {
-        List<ListItem> ListCamaras = new List<ListItem>();
-
-        SelecionaDados selecionaDados = new SelecionaDados();
-        ListCamaras = selecionaDados.ConsultaCamaras(idUnidade);
-
-        return ListCamaras;
-    }
-
-    [WebMethod]
-    public static List<ListItem> Prateleiras(int idCamara)
-    {
-        List<ListItem> ListPrateleiras = new List<ListItem>();
-
-        SelecionaDados selecionaDados = new SelecionaDados();
-        ListPrateleiras = selecionaDados.ConsultaPrateleiras(idCamara);
-
-        return ListPrateleiras;
     }
 
 }

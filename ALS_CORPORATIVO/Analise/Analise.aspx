@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Analise.aspx.cs" Inherits="Analise_Analise" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Analise.aspx.cs" Inherits="Analise_Analise" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -24,8 +24,8 @@
                         <div>
                             <asp:TextBox runat="server" autocomplete="off" Width="180px"
                                 Height="25px" ID="txtGrupo"></asp:TextBox>
-                            <div id="divRetornoPesquisa" style="margin-top:10px;">
-                                <asp:Label runat="server" ID="lblRetornoPesquisa" />
+                            <div id="divRetornoPesquisa" class="none" style="margin-top:10px; color: red;">                                
+                                <asp:Label runat="server" ID="lblRetornoPesquisa" Text="O Grupo pesquisado não foi encontrado." />
                             </div>
                         </div>
                         </div>

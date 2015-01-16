@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Saida.aspx.cs" Inherits="Saida_Saida" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Saida.aspx.cs" Inherits="Saida_Saida" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,21 +14,21 @@
 <body>
     <form id="form1" runat="server">
         <input type="hidden" id="hddErro" runat="server" />
-        <div runat="server" id="divConteudo">            
+        <div runat="server" id="divConteudo">
             <div class="pagina">
                 <h2>Saída</h2>
-                <div class="insercoes">
-                    <div style="margin-top: 10px; text-align: center;" runat="server" id="divRetornos">
-                    </div>
-                </div>
-                <div class="clear"></div>                          
                 <div style="margin-top: 10px; text-align: center;">
-                    <span style="font-weight:bold;">Amostra a ser retirada da prateleira</span> 
-                <input type="text" runat="server" id="txtAmostra" autocomplete="off" style="width: 180px; height: 25px" />
+                    <span style="font-weight: bold;">Amostra a ser retirada da prateleira</span>
+                    <input type="text" runat="server" id="txtAmostra" autocomplete="off" style="width: 180px; height: 25px" />
                     <div>
                         <asp:Label runat="server" ID="lblRetorno" Text="" />
                     </div>
-                </div>                
+                </div>
+                <div class="contBt" style="margin-bottom: 10px;">
+                    <a href="javascript:Impressao();">
+                        <input type="button" class="bt none" style="width: 220px;" value="Imprimir Lista de Saídas" runat="server" id="btImprimirSaida" /></a>
+                </div>
+                <div class="clear"></div>
                 <div class="rodape">
                 </div>
                 <div class="contBt">
@@ -43,7 +43,7 @@
         <div id="dialog-MsgRetorno" title="Atenção!" class="confirmaInclusao">
             <p>
                 <strong>
-                    <asp:Label runat="server" ID="lblMsgRetorno" /></strong>
+                    <asp:Label runat="server" ID="lblMsgRetorno" Visible="false" /></strong>
             </p>
         </div>
     </form>

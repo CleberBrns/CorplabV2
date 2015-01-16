@@ -17,13 +17,32 @@
         }
     });
 
+    $("#btInfoGrupo").click(function () {
+
+        if ($("#divInfoGrupo").hide()) {
+            $("#btInfoGrupo").hide();
+            $("#divInfoGrupo").show();
+            $("#btEscondeInfoGrupo").show();
+        }
+
+    });
+
+    $("#btEscondeInfoGrupo").click(function () {
+
+        $("#divInfoGrupo").hide();
+        $("#btInfoGrupo").show();
+        $("#btEscondeInfoGrupo").hide();
+
+    });
+
     $('#btConcluir').hide();
 
     $('#ddlPrateleira').prop('disabled', true);
+    $('#ddlCamaras').prop('disabled', true);
 
     CarregaUnidade($('#hddIdUnidade').val());
     CarregaTipoAmostra();
-    
+
     $('#txtAmostra').keydown(function (event) {
         var keyCode = (event.keyCode ? event.keyCode : event.which);
         if (keyCode == 13) {
@@ -77,10 +96,12 @@
         InsereAmostras($("#hddInclusoes").val());
     });
 
-    $("#ddlCamaras").change(function () {               
-        
+    $("#ddlCamaras").change(function () {
         CarregaPrateleiras($(this).find('option:selected').val());
+    });
 
+    $("#ddlUnidade").change(function () {
+        CarregaCamaras($(this).find('option:selected').val());
     });
 
     function CarregaUnidade(idUnidade) {
@@ -103,9 +124,10 @@
                 var qtdUnidades = $("#ddlUnidade option").length;
 
                 if (qtdUnidades == 1) {
-                    $(".divUnidade").hide();
-                    CarregaCamaras($('#ddlUnidade option:selected').val());
+                    $(".divUnidade").hide();                   
                 }
+
+                CarregaCamaras($('#ddlUnidade option:selected').val());
             }
         });
     }
@@ -130,9 +152,13 @@
                 var qtdCamaras = $("#ddlCamaras option").length;
 
                 if (qtdCamaras == 1) {
-                    $(".divCamara").hide();                    
+                    $(".divCamara").hide();
+                }
+                else {
+                    $(".divCamara").show();
                 }
 
+                $('#ddlCamaras').prop('disabled', false);
                 CarregaPrateleiras($('#ddlCamaras option:selected').val());
             },
             error: function (x, e) {
@@ -206,30 +232,33 @@
             data: JSON.stringify({ amostrasInclusao: amostrasInclusao }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {     
+            success: function (data) {
 
-                $("#divPagina").show();
-                $("#divProcessando").hide();
+                var retorno = data.d;
+                if (retorno == "True") {
 
+                    $("#divPagina").show();
+                    $("#divProcessando").hide();
 
-                ExibeMsgRetorno("Amostra incluída com sucesso!");
-               
+                    ExibeMsgRetorno("Amostra incluída com sucesso!");
+                }
+                else {
+                    $('#btErro').trigger('click');
+                }
+
             },
             error: function (x, e) {
                 $("#hddErro").val(e.responseText);
                 $('#btErro').trigger('click');
             }
         });
-
     }
 
     function ExibeMsgRetorno(msgRetorno) {
 
         $('#lblMsgRetorno').text(msgRetorno);
         $('#dialog-MsgRetorno').dialog('open');
-
     }
-
 });
 /////////////////////////////////////////////////////////////////////////////////////////////
 function Redireciona(tipo) {
