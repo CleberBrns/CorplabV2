@@ -37,27 +37,22 @@
                     <asp:ListItem Value="0">-- Selecione --</asp:ListItem>
                 </asp:DropDownList>
                     </div>
-                    <div style="margin-top: 10px;">
-                        <span style="font-weight: bold;">Amostra a ser pesquisada</span>
-                        <div>
-                            <input type="text" runat="server" id="txtAmostra" autocomplete="off" style="width: 150px; height: 25px; text-align: center" />
-                        </div>
+                    <div style="margin-top: 10px;" class="contBt">
+                        <input type="button" id="btPesquisar" class="bt" value="Pesquisar" />
                     </div>
-                    <div id="divAmostraAusente" class="none" style="margin-top: 10px; color: red;">
-                        <asp:Label runat="server" ID="lblRetornoPesquisa" Text="Essa amostra não consta na prateleira indicada." />
+                    <div id="divRetornoPesquisa" class="none" style="margin-top: 10px; color: red;">
+                        <asp:Label runat="server" ID="lblRetornoPesquisa" Text="Não existem amostras cadastradas nessa prateleira"/>
                     </div>
                     <div class="rodape" style="margin-top: 10px;">
                     </div>
                     <div id="divExibicaoInfos" class="none">
-                        <div class="contBt">
-                            <input type="button" class="bt" style="width: 150px;" value="Exibir Amostras" id="btInfoGrupo" />
-                            <input type="button" class="bt none" style="width: 180px;" value="Esconder Amostras" id="btEscondeInfoGrupo" />
-                        </div>
-                        <div class="insercoes none" id="divInfoGrupo">
+                        <div class="insercoes" id="divInfoGrupo">
                             <div style="margin-top: 10px; text-align: center;" runat="server" id="divRetornos">
                             </div>
                         </div>
-                    </div>
+                        <div class="clear"></div>
+                        <div class="rodape"></div>
+                        </div>
                     <div class="clear"></div>
                     <div class="rodape">
                     </div>
@@ -69,13 +64,6 @@
                         <input type="button" class="bt" value="Voltar" runat="server" id="btVoltar" /></a>
                 </div>
             </div>
-        </div>
-        <%--MODAL MENSAGEM RETORNO!--%>
-        <div id="dialog-MsgRetorno" title="Atenção!" class="confirmaInclusao">
-            <p>
-                <strong>
-                    <asp:Label runat="server" ID="lblMsgRetorno" /></strong>
-            </p>
         </div>
     </form>
 </body>

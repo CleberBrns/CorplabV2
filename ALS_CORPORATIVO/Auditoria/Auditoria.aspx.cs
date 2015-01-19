@@ -11,9 +11,6 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Auxiliar auxiliar = new Auxiliar();
-        DataTable dtAmostras = auxiliar.RetornaAmostraTeste();
-
         try
         {
             if (Session["SessionUser"].ToString() == string.Empty)
@@ -35,28 +32,26 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static List<Auxiliar.AmostraXGrupo> ConsultaAmostrasGrupo(string idPrateleira)
+    public static List<Auxiliar.AmostrasAuditoria> ConsultaPrateleira(string sIdPrateleira)
     {
         Auxiliar auxiliar = new Auxiliar();
+        SelecionaDados selecionaDados = new SelecionaDados();
 
-        DataTable dtAmostras = auxiliar.RetornaAmostraTeste();
+        DataTable dtAmostrasAuditoria = selecionaDados.ConsultaPrateleiraAuditoria(Convert.ToInt32(sIdPrateleira.Trim()));
 
-        dtAmostras.DefaultView.RowFilter = "Prateleira = " + idPrateleira + "";
-        dtAmostras = dtAmostras.DefaultView.ToTable();
-
-        List<Auxiliar.AmostraXGrupo> list = new List<Auxiliar.AmostraXGrupo>();
-        Auxiliar.AmostraXGrupo obj = new Auxiliar.AmostraXGrupo();
-        foreach (DataRow item in dtAmostras.Rows)
+        List<Auxiliar.AmostrasAuditoria> list = new List<Auxiliar.AmostrasAuditoria>();
+        Auxiliar.AmostrasAuditoria obj = new Auxiliar.AmostrasAuditoria();
+        foreach (DataRow item in dtAmostrasAuditoria.Rows)
         {
-            obj = new Auxiliar.AmostraXGrupo();
-            obj.IdPrateleira = item["IdPrateleira"].ToString();
-            obj.Prateleira = item["Prateleira"].ToString();
-            obj.IdAmostra = Convert.ToInt32(item["IdAmostra"]);
-            obj.Descricao = item["Descricao"].ToString();
-            obj.TipoAmostra = item["TipoAmostra"].ToString();
-            obj.DataEntrada = item["DataEntrada"].ToString();
-            obj.StatusAmostra = item["StatusAmostra"].ToString();
-            obj.IdStatusAmostra = Convert.ToInt32(item["IdStatusAmostra"]);
+            obj = new Auxiliar.AmostrasAuditoria();
+            obj.Camara = item["Camara"].ToString();
+            obj.Caixa = item["NomeCaixa"].ToString();
+            obj.CodGrupo = item["IdGrupo"].ToString();
+            obj.IdAmostra = item["IdAmostra"].ToString();
+            obj.DataEntrada = item["DataCadastro"].ToString();
+            obj.IdStatusAmostra = item["IdStatusAmostra"].ToString();
+            obj.StatusAmostra = item["StatusAmostra"].ToString();            
+
             list.Add(obj);
         }
 

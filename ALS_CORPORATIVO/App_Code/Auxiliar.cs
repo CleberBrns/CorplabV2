@@ -42,4 +42,15 @@ public class Auxiliar
         public string StatusAmostra { get; set; }
         public string DataEntrada { get; set; }        
     }
+
+    public class AmostrasAuditoria
+    {
+        public string Camara { get; set; }
+        public string Caixa { get; set; }
+        public string CodGrupo { get; set; }
+        public string IdAmostra { get; set; }
+        public string DataEntrada { get; set; }
+        public string IdStatusAmostra { get; set; }
+        public string StatusAmostra { get; set; }
+    }
 }

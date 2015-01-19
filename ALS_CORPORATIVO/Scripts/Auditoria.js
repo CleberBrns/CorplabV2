@@ -1,62 +1,9 @@
 ﻿$(document).ready(function () {
 
-    $("#dialog-MsgRetorno").dialog({
-        resizable: false,
-        autoOpen: false,
-        height: 200,
-        width: 320,
-        modal: true,
-        buttons: {
-            "Ok": function () {
-                $(this).dialog("close");
-
-            }
-        },
-        close: function () {
-            window.close();
-        }
-    });
-
     $('#ddlPrateleira').prop('disabled', true);
     $('#ddlCamaras').prop('disabled', true);
     CarregaUnidade($('#hddIdUnidade').val());
-    
 
-    $('#txtAmostra').keydown(function (event) {
-
-        var keyCode = (event.keyCode ? event.keyCode : event.which);
-        if (keyCode == 13) {
-
-            if ($('#txtAmostra').val() == "") {               
-                return false;
-            }
-            else {
-                return false;
-                CarregaAmostrasGrupo($('#ddlPrateleira').find('option:selected').Text());
-                $("#divExibicaoInfos").show();
-                //$("#divAmostraAusente").show();
-               
-            }
-        }
-    });
-
-    $("#btInfoGrupo").click(function () {
-
-        if ($("#divInfoGrupo").hide()) {
-            $("#btInfoGrupo").hide();
-            $("#divInfoGrupo").show();
-            $("#btEscondeInfoGrupo").show();
-        }
-
-    });
-
-    $("#btEscondeInfoGrupo").click(function () {
-
-        $("#divInfoGrupo").hide();
-        $("#btInfoGrupo").show();
-        $("#btEscondeInfoGrupo").hide();
-
-    });
 
     $("#ddlCamaras").change(function () {
         CarregaPrateleiras($(this).find('option:selected').val());
@@ -64,6 +11,11 @@
 
     $("#ddlUnidade").change(function () {
         CarregaCamaras($(this).find('option:selected').val());
+    });
+
+    $("#ddlPrateleira").change(function () {
+        $("#divExibicaoInfos").hide();
+        $("#divRetornoPesquisa").hide();
     });
 
     function CarregaUnidade(idUnidade) {
@@ -86,7 +38,7 @@
                 var qtdUnidades = $("#ddlUnidade option").length;
 
                 if (qtdUnidades == 1) {
-                    $(".divUnidade").hide();                    
+                    $(".divUnidade").hide();
                 }
 
                 CarregaCamaras($('#ddlUnidade option:selected').val());
@@ -115,6 +67,9 @@
 
                 if (qtdCamaras == 1) {
                     $(".divCamara").hide();
+                }
+                else {
+                    $('#ddlCamaras').prop('disabled', false);
                 }
 
                 $('#ddlPrateleira').prop('disabled', false);
@@ -145,28 +100,47 @@
         });
     }
 
-    function CarregaAmostrasGrupo() {
-        //obj.IdAmostra = Convert.ToInt32(item["IdAmostra"]);
-        //obj.Descricao = item["Descricao"].ToString();
-        //obj.TipoAmostra = item["TipoAmostra"].ToString();
-        //obj.DataEntrada = item["DataEntrada"].ToString();
-        //obj.Status = item["Status"].ToString();
-        //obj.IdStatus = Convert.ToInt32(item["IdStatus"]);
+    $('#btPesquisar').click(function () {
+
+        CarregaAmostrasPrateleira($('#ddlPrateleira option:selected').val());
+
+    });
+
+    function CarregaAmostrasPrateleira(idPrateleira) {
 
         $.ajax({
             type: "POST",
-            url: "Auditoria.aspx/ConsultaAmostrasGrupo",
-            data: JSON.stringify(),
+            url: "Auditoria.aspx/ConsultaPrateleira",
+            data: JSON.stringify({ sIdPrateleira: idPrateleira }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                var select = '<div>' + '<ul class="amostrasGrupo" style="background-color: #DDD;"><li style="float: left">CodAmostra</li><li style="float: left">Tipo Amostra</li><li style="float: left">Data Entrada</li><li>Status</li></ul>';
-                var option = '';
-                $.each(data.d, function (index, value) {
-                    option += '<ul class="amostrasGrupo"><li style="float: left">' + value.IdAmostra + '</li><li style="float: left">' + value.TipoAmostra + '</li><li style="float: left">' + value.DataEntrada + '</li><li style=' + corStatus(value.IdStatusAmostra) + '>' + value.StatusAmostra + '</li></ul>';
-                });
-                select = select + option + '</div>';
-                $('#divRetornos').html(select);
+
+                var retorno = data.d          
+
+                if (retorno != "") {
+
+                    var select = '<div>' + '<ul class="amostrasPrateleira" style="background-color: #DDD;">' +
+                        '<li style="float: left">Camara</li><li style="float: left">Caixa</li><li style="float: left">Cod Grupo</li>' +
+                        '<li style="float: left">IdAmostra</li><li>Data Entrada</li><li>Status</li></ul>';
+                    var option = '';
+                    $.each(data.d, function (index, value) {
+                        option += '<ul class="amostrasGrupo"><li style="float: left">' + value.Camara + '</li><li style="float: left">' + value.Caixa +
+                            '</li><li style="float: left">' + value.CodGrupo + '</li><li style="float: left">' + value.IdAmostra + '</li>' +
+                            '<li>' + value.DataEntrada + '</li><li style=' + corStatus(value.IdStatusAmostra) + '>' + value.StatusAmostra + '</li></ul>';
+                    });
+                    select = select + option + '</div>';
+                    $('#divRetornos').html(select);
+
+                    $("#divExibicaoInfos").show();
+                    $("#divRetornoPesquisa").hide();
+                }
+                else {
+
+                    $("#divExibicaoInfos").hide();
+                    $("#divRetornoPesquisa").show();                  
+
+                }
             }
         });
     }

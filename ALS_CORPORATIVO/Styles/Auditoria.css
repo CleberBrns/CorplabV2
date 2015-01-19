@@ -76,7 +76,7 @@
     font-size: 16px;
 }
 
-UL.amostrasGrupo {
+UL.amostrasPrateleira {
     text-align: center;
     padding-right: 0px;
     padding-left: 0px;
@@ -89,11 +89,11 @@ UL.amostrasGrupo {
     border: 1px solid #EEE;
 }
 
-    UL.amostrasGrupo LI {       
+    UL.amostrasPrateleira LI {       
         display: inline; 
         float: left; 
-        width: 25%; 
-        font-size: 15px; 
+        width: 15%; 
+        font-size: 16px; 
     }
 .clear
 {
