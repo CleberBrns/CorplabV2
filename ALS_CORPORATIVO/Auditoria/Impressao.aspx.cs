@@ -13,7 +13,7 @@ public partial class Analise_Impressao : System.Web.UI.Page
     {
         try
         {
-            if (Session["SessionUser"].ToString() == string.Empty)
+            if (Session["SessionUser"].ToString() == string.Empty || Session["CodGrupo"].ToString() == string.Empty)
             {
                 Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
                 Response.Redirect("../Login/Login.aspx");
@@ -23,7 +23,8 @@ public partial class Analise_Impressao : System.Web.UI.Page
                 if (!IsPostBack)
                 {
                     lblDataControle.Text = DateTime.Now.ToShortDateString();
-                    lblIdGrupo.Text = "8489484";
+                    lblIdGrupo.Text = Session["CodGrupo"].ToString();
+                    hddIdGrupo.Value = Session["CodGrupo"].ToString();
                 }
             }
         }
@@ -35,23 +36,24 @@ public partial class Analise_Impressao : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static List<Auxiliar.AmostraXGrupo> ConsultaAmostrasGrupo()
+    public static List<Auxiliar.AmostraXGrupo> ConsultaAmostrasGrupo(string sIdGrupo)
     {
         Auxiliar auxiliar = new Auxiliar();
+        SelecionaDados selecionaDados = new SelecionaDados();
 
-        DataTable dtAmostras = auxiliar.RetornaAmostraTeste();
+        DataTable dtAmostrasGrupo = selecionaDados.ConsultaGrupoXAmostra(sIdGrupo);
+        dtAmostrasGrupo.DefaultView.RowFilter = "IdStatusAmostra = 1";
+
+        dtAmostrasGrupo = dtAmostrasGrupo.DefaultView.ToTable();
 
         List<Auxiliar.AmostraXGrupo> list = new List<Auxiliar.AmostraXGrupo>();
         Auxiliar.AmostraXGrupo obj = new Auxiliar.AmostraXGrupo();
-        foreach (DataRow item in dtAmostras.Rows)
+        foreach (DataRow item in dtAmostrasGrupo.Rows)
         {
             obj = new Auxiliar.AmostraXGrupo();
-            obj.IdPrateleira = item["IdPrateleira"].ToString();
-            obj.Prateleira = item["Prateleira"].ToString();
             obj.IdAmostra = Convert.ToInt32(item["IdAmostra"]);
-            obj.Descricao = item["Descricao"].ToString();
             obj.TipoAmostra = item["TipoAmostra"].ToString();
-            obj.DataEntrada = item["DataEntrada"].ToString();
+            obj.DataEntrada = item["DataCadastro"].ToString();
             obj.StatusAmostra = item["StatusAmostra"].ToString();
             obj.IdStatusAmostra = Convert.ToInt32(item["IdStatusAmostra"]);
             list.Add(obj);

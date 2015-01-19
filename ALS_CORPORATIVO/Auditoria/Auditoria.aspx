@@ -48,16 +48,19 @@
                     </div>
                     <div class="rodape" style="margin-top: 10px;">
                     </div>
-                    <div class="contBt">
-                        <input type="button" class="bt" value="Exibir Info do Grupo" id="btInfoGrupo" />
-                        <input type="button" class="bt none" style="width: 220px;" value="Esconder Info do Grupo" id="btEscondeInfoGrupo" />
-                    </div>
-                    <div class="insercoes none" id="divInfoGrupo">
-                        <div style="margin-top: 10px; text-align: center;" runat="server" id="divRetornos">
+                    <div id="divExibicaoInfos" class="none">
+                        <div class="contBt">
+                            <input type="button" class="bt" style="width: 150px;" value="Exibir Amostras" id="btInfoGrupo" />
+                            <input type="button" class="bt none" style="width: 180px;" value="Esconder Amostras" id="btEscondeInfoGrupo" />
                         </div>
-                </div>
-                </div>
-                <div class="rodape">
+                        <div class="insercoes none" id="divInfoGrupo">
+                            <div style="margin-top: 10px; text-align: center;" runat="server" id="divRetornos">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="rodape">
+                    </div>
                 </div>
                 <div class="contBt">
                     <a href="javascript:Redireciona(0);">

@@ -16,7 +16,7 @@
 }
 .rodape
 {
-    margin-top: 30px;
+    margin-top: 5px;
     width: 100%;
     font-family: Arial;
     border: 1px solid #EEE;
@@ -64,15 +64,12 @@
     font-size: 18px;
     padding: 10px 38% 10px;
 }
-.btConcluir
+.btIncluir
 {
     font-size: 18px;
-    border: 1px solid #DDD;
-    width: 25%;
     height: 44px;
-    padding: 10px;
     cursor: pointer;
-    width: 100px;
+    width: 140px;
 }
 .btConcluir:hover
 {

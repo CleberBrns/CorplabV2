@@ -15,10 +15,6 @@
     border: 1px solid #EEE;
 }
 
-.pagina > div {
-    margin-bottom: 10px;
-}
-
 .pagina div input {
     border: 1px solid #DDD;
     padding: 5px 0;

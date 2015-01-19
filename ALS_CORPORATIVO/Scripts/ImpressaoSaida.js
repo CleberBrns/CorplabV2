@@ -17,7 +17,7 @@
         }
     });
 
-    CarregaAmostrasGrupo();
+    CarregaAmostrasGrupo($("#hddIdGrupo").val());
 
     $('#txtAmostra').keydown(function (event) {
 
@@ -31,18 +31,12 @@
         }
     });
 
-    function CarregaAmostrasGrupo() {
-        //obj.IdAmostra = Convert.ToInt32(item["IdAmostra"]);
-        //obj.Descricao = item["Descricao"].ToString();
-        //obj.TipoAmostra = item["TipoAmostra"].ToString();
-        //obj.DataEntrada = item["DataEntrada"].ToString();
-        //obj.Status = item["Status"].ToString();
-        //obj.IdStatus = Convert.ToInt32(item["IdStatus"]);
+    function CarregaAmostrasGrupo(idGrupo) {
 
         $.ajax({
             type: "POST",
             url: "ImpressaoSaida.aspx/ConsultaAmostrasGrupo",
-            data: JSON.stringify(),
+            data: JSON.stringify({ sIdGrupo: idGrupo }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

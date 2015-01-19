@@ -35,11 +35,14 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static List<Auxiliar.AmostraXGrupo> ConsultaAmostrasGrupo()
+    public static List<Auxiliar.AmostraXGrupo> ConsultaAmostrasGrupo(string idPrateleira)
     {
         Auxiliar auxiliar = new Auxiliar();
 
         DataTable dtAmostras = auxiliar.RetornaAmostraTeste();
+
+        dtAmostras.DefaultView.RowFilter = "Prateleira = " + idPrateleira + "";
+        dtAmostras = dtAmostras.DefaultView.ToTable();
 
         List<Auxiliar.AmostraXGrupo> list = new List<Auxiliar.AmostraXGrupo>();
         Auxiliar.AmostraXGrupo obj = new Auxiliar.AmostraXGrupo();
@@ -88,7 +91,13 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         List<ListItem> ListCamaras = new List<ListItem>();
 
         SelecionaDados selecionaDados = new SelecionaDados();
-        ListCamaras = selecionaDados.ConsultaCamaras(idUnidade);
+        DataTable dtCamaras = selecionaDados.ConsultaCamaras(idUnidade);
+
+        if (dtCamaras.Rows.Count > 0)
+        {
+            foreach (DataRow item in dtCamaras.Rows)
+                ListCamaras.Add(new ListItem(item["NomeCamara"].ToString(), item["IdCamara"].ToString()));
+        }
 
         return ListCamaras;
     }
@@ -99,7 +108,13 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         List<ListItem> ListPrateleiras = new List<ListItem>();
 
         SelecionaDados selecionaDados = new SelecionaDados();
-        ListPrateleiras = selecionaDados.ConsultaPrateleiras(idCamara);
+        DataTable dtPrateleiras = selecionaDados.ConsultaPrateleiras(idCamara);
+
+        if (dtPrateleiras.Rows.Count > 0)
+        {
+            foreach (DataRow item in dtPrateleiras.Rows)
+                ListPrateleiras.Add(new ListItem(item["Prateleira"].ToString(), item["IdPrateleira"].ToString()));
+        }
 
         return ListPrateleiras;
     }

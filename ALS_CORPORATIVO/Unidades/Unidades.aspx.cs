@@ -15,16 +15,13 @@ public partial class Unidades_Unidades : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)        
+        if (!IsPostBack)
             CarregaDados();
-        
-
     }
 
     private void CarregaDados()
-    {    
+    {
         DropDownNumeracao();
-
         ddlCidade.Items.Insert(0, new ListItem("-- Selecione --", "0"));
     }
 
@@ -81,7 +78,13 @@ public partial class Unidades_Unidades : System.Web.UI.Page
         List<ListItem> ListCamaras = new List<ListItem>();
 
         SelecionaDados selecionaDados = new SelecionaDados();
-        ListCamaras = selecionaDados.ConsultaCamaras(idUnidade);
+        DataTable dtCamaras = selecionaDados.ConsultaCamaras(idUnidade);
+
+        if (dtCamaras.Rows.Count > 0)
+        {
+            foreach (DataRow item in dtCamaras.Rows)
+                ListCamaras.Add(new ListItem(item["NomeCamara"].ToString(), item["IdCamara"].ToString()));
+        }
 
         return ListCamaras;
     }
@@ -95,9 +98,9 @@ public partial class Unidades_Unidades : System.Web.UI.Page
         int idCidade = Convert.ToInt32(sIdCidade.Trim());
         int idEstado = Convert.ToInt32(sIdEstado.Trim());
         int idPais = Convert.ToInt32(sIdPais.Trim());
-        int qtdCamras = Convert.ToInt32(sQtdCamaras.Trim());
+        int qtdCamaras = Convert.ToInt32(sQtdCamaras.Trim());
 
-        int idUnidade = insereDados.InsereUnidade(nomeUnidade, idCidade, idEstado, idPais, qtdCamras);
+        int idUnidade = insereDados.InsereUnidade(nomeUnidade, idCidade, idEstado, idPais, qtdCamaras);
 
         ListCamaras.Add(new ListItem("Unidade Inserida", idUnidade.ToString()));
 

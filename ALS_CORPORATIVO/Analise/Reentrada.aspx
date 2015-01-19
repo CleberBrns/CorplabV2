@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Reentrada</title>
     <link href="../Styles/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="../Scripts/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
@@ -13,22 +13,41 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <input type="hidden" id="hddIdGrupo" runat="server" />
         <input type="hidden" id="hddErro" runat="server" />
-        <div runat="server" id="divConteudo">            
+        <div runat="server" id="divConteudo">
             <div class="pagina">
                 <h2>Reentrada</h2>
-                <div class="insercoes">
-                    <div style="margin-top: 10px; text-align: center;" runat="server" id="divRetornos">
+                <div style="margin-top: 10px; text-align: center;">
+                    <span style="font-weight: bold;">Amostra a reentrar na prateleira</span>
+                    <input type="text" runat="server" id="txtAmostra" autocomplete="off" style="width: 180px; height: 25px" />
+                    <div class="contBt">
+                        <asp:Button runat="server" ID="btReinserirAmostra" CssClass="bt" OnClick="btReinserirAmostra_Click" Text="Reinserir Amostra" />
+                    </div>
+
+                </div>
+                <div class="none" id="divRetornoSaida" runat="server">
+                    <div class="clear"></div>
+                    <div class="rodape">
+                    </div>
+                    <div style="padding-top: 10px; text-align: center;">
+                        <span style="color: green;" runat="server" id="spanLabelRetorno">
+                            <asp:Label runat="server" ID="lblRetornoSaida" /></span>
                     </div>
                 </div>
-                <div class="clear"></div>                          
-                <div style="margin-top: 10px; text-align: center;">
-                    <span style="font-weight:bold;">Amostra a reentrar na prateleira</span> 
-                <input type="text" runat="server" id="txtAmostra" autocomplete="off" style="width: 180px; height: 25px" />
-                </div>                
+                <div runat="server" id="divInsercoes" class="none">
+                    <div class="clear"></div>
+                    <div class="rodape">
+                    </div>
+                    <div class="insercoes">
+                        <div style="margin-top: 10px; text-align: center;" runat="server" id="divRetornos">
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
                 <div class="rodape">
                 </div>
-                <div class="contBt">
+                <div class="contBt" style="padding-top: 20px;">
                     <a href="javascript:Redireciona(0);">
                         <input type="button" class="bt" value="Menu Principal" runat="server" id="btMenuPrincipal" /></a>
                     <a href="javascript:Redireciona(1);">
@@ -40,7 +59,7 @@
         <div id="dialog-MsgRetorno" title="Atenção!" class="confirmaInclusao">
             <p>
                 <strong>
-                    <asp:Label runat="server" ID="lblMsgRetorno" /></strong>
+                    <asp:Label runat="server" ID="lblMsgRetorno" Visible="false" /></strong>
             </p>
         </div>
     </form>

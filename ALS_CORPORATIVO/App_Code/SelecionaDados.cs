@@ -25,7 +25,7 @@ public class SelecionaDados
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@idGrupo", Convert.ToInt32(codGrupo));
+                sqlCommand.Parameters.AddWithValue("@idGrupo", codGrupo);
                 sqlCommand.CommandText = "usp_grupo_x_amostras_select";
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
@@ -88,9 +88,9 @@ public class SelecionaDados
         return dtUsuario;
     }
 
-    public List<ListItem> ConsultaTipoAmostra()
+    public DataTable ConsultaTipoAmostra()
     {
-        List<ListItem> ListTipoAmostra = new List<ListItem>();
+        DataTable dtTipoAmostra = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -102,13 +102,7 @@ public class SelecionaDados
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                if (sqlDataReader.HasRows)
-                {
-                    while (sqlDataReader.Read())
-                    {
-                        ListTipoAmostra.Add(new ListItem(sqlDataReader["TipoAmostra"].ToString(), sqlDataReader["IdTipoAmostra"].ToString()));
-                    }
-                }
+                dtTipoAmostra.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -126,12 +120,12 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return ListTipoAmostra;
+        return dtTipoAmostra;
     }
 
-    public List<ListItem> ConsultaPrateleiras(int idCamara)
+    public DataTable ConsultaPrateleiras(int idCamara)
     {
-        List<ListItem> ListPrateleiras = new List<ListItem>();
+        DataTable dtPrateleiras = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -144,13 +138,7 @@ public class SelecionaDados
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                if (sqlDataReader.HasRows)
-                {
-                    while (sqlDataReader.Read())
-                    {
-                        ListPrateleiras.Add(new ListItem(sqlDataReader["Prateleira"].ToString(), sqlDataReader["IdPrateleira"].ToString()));
-                    }
-                }
+                dtPrateleiras.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -168,7 +156,7 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return ListPrateleiras;
+        return dtPrateleiras;
     }
 
     public DataTable ConsultaTodosUsuarios()
@@ -276,9 +264,9 @@ public class SelecionaDados
         return dtUnidades;
     }
 
-    public List<ListItem> ConsultaCamaras(int idUnidade)
+    public DataTable ConsultaCamaras(int idUnidade)
     {
-        List<ListItem> ListCamaras = new List<ListItem>();
+        DataTable dtCamaras = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -291,13 +279,7 @@ public class SelecionaDados
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                if (sqlDataReader.HasRows)
-                {
-                    while (sqlDataReader.Read())
-                    {
-                        ListCamaras.Add(new ListItem(sqlDataReader["NomeCamara"].ToString(), sqlDataReader["IdCamara"].ToString()));
-                    }
-                }            
+                dtCamaras.Load(sqlDataReader);           
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -315,7 +297,7 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return ListCamaras;
+        return dtCamaras;
     }
 
     public List<ListItem> ConsultaPais()

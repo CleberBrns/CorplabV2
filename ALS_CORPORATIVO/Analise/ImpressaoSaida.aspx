@@ -12,12 +12,13 @@
     <link href="../Styles/Impressao.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
-            //window.print();
+            window.print();
         });
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
+        <input type="hidden" id="hddIdGrupo" runat="server" />
         <input type="hidden" id="hddErro" runat="server" />
         <div runat="server" id="divConteudo">
             <div class="pagina">

@@ -9,6 +9,10 @@ using System.Web.Services;
 
 public partial class Entrada_Entrada : System.Web.UI.Page
 {
+    SelecionaDados selecionaDados = new SelecionaDados();
+    InsereDados insereDados = new InsereDados();
+
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -25,10 +29,9 @@ public partial class Entrada_Entrada : System.Web.UI.Page
             }
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
-            Response.Redirect("../Login/Login.aspx");
+            RetornaPaginaErro(ex.ToString());
         }
 
     }
@@ -40,103 +43,114 @@ public partial class Entrada_Entrada : System.Web.UI.Page
 
         hddInclusoes.Value = string.Empty;
         lblDataAtual.Text = DateTime.Now.ToShortDateString();
+
+        CarregaDrodDowns();
     }
 
-    [WebMethod]
-    public static List<ListItem> Unidades(string sIdUnidade)
+    private void CarregaDrodDowns()
     {
-        List<ListItem> ListUnidades = new List<ListItem>();
+        DataTable tipoAmostra = selecionaDados.ConsultaTipoAmostra();
 
-        SelecionaDados selecionaDados = new SelecionaDados();
+        ddlTipoAmostra.DataSource = tipoAmostra;
+        ddlTipoAmostra.DataTextField = "TipoAmostra";
+        ddlTipoAmostra.DataValueField = "IdTipoAmostra";
+        ddlTipoAmostra.DataBind();
+
         DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
-
-        if (sIdUnidade.Trim() != "0")        
-            dtUnidades.DefaultView.RowFilter = "IdUnidade = " + sIdUnidade.Trim() + "";
-
-        dtUnidades = dtUnidades.DefaultView.ToTable();
 
         if (dtUnidades.Rows.Count > 0)
         {
-            foreach (DataRow item in dtUnidades.Rows)
-                ListUnidades.Add(new ListItem(item["Unidade"].ToString(), item["IdUnidade"].ToString()));
+            if (hddIdUnidade.Value.Trim() != "0")
+                dtUnidades.DefaultView.RowFilter = "IdUnidade = " + hddIdUnidade.Value.Trim() + "";
+
+            dtUnidades = dtUnidades.DefaultView.ToTable();
+
+            ddlUnidade.DataSource = dtUnidades;
+            ddlUnidade.DataTextField = "Unidade";
+            ddlUnidade.DataValueField = "IdUnidade";
+            ddlUnidade.DataBind();
+
+            if (dtUnidades.Rows.Count == 1)
+                divUnidade.Visible = false;
+
+            CarregaDropCamaras(Convert.ToInt32(dtUnidades.DefaultView[0]["IdUnidade"].ToString()));
         }
-
-        return ListUnidades;
-    }
-
-    [WebMethod]
-    public static List<ListItem> Camaras(int idUnidade)
-    {
-        List<ListItem> ListCamaras = new List<ListItem>();
-
-        SelecionaDados selecionaDados = new SelecionaDados();
-        ListCamaras = selecionaDados.ConsultaCamaras(idUnidade);
-
-        return ListCamaras;
-    }
-
-    [WebMethod]
-    public static List<ListItem> Prateleiras(int idCamara)
-    {
-        List<ListItem> ListPrateleiras = new List<ListItem>();
-
-        SelecionaDados selecionaDados = new SelecionaDados();
-        ListPrateleiras = selecionaDados.ConsultaPrateleiras(idCamara);
-
-        return ListPrateleiras;
-    }
-
-    [WebMethod]
-    public static List<ListItem> TipoAmostra()
-    {
-        List<ListItem> ListTipoAmostra = new List<ListItem>();
-
-        SelecionaDados selecionaDados = new SelecionaDados();
-        ListTipoAmostra = selecionaDados.ConsultaTipoAmostra();
-
-        return ListTipoAmostra;
-    }
-
-    [WebMethod]
-    public static string InsereAmostras(string amostrasInclusao)
-    {
-        #region Descrição dos valores contigos em aItens
-
-        //aItens[0] = IdPrateleira
-        //aItens[1] = Caixa
-        //aItens[2] = IdGrupo
-        //aItens[3] = IdTipoAmostra
-        //aItens[4] = CodAmostra/IdAmostra
-
-        #endregion
-
-        InsereDados insereDados = new InsereDados();
-        bool sucesso = false;
-
-        string[] aInsercoes = amostrasInclusao.Split('|');
-
-        for (int item = 0; item < aInsercoes.Length; item++)
+        else
         {
-            if (!string.IsNullOrEmpty(aInsercoes[item]))
-            {
-                string[] aItens = aInsercoes[item].Split('_');
-
-                int idPrateleira = Convert.ToInt32(aItens[0].ToString().Trim());
-                string caixa = aItens[1].ToString().Trim();
-                int idGrupo = Convert.ToInt32(aItens[2].ToString().Trim());
-                int idTipoAmostra = Convert.ToInt32(aItens[3].ToString().Trim());
-                int idAmostra = Convert.ToInt32(aItens[4].ToString().Trim());
-
-                //insereDados.InsereAmostra(idGrupo, idAmostra, )
-            }
+            RetornaPaginaErro("Não existem unidades cadastradas.");
         }
 
-        return sucesso.ToString();
     }
+
+    protected void ddlUnidade_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int idUnidadeSel = Convert.ToInt32(ddlUnidade.SelectedItem.Value);
+        CarregaDropCamaras(idUnidadeSel);
+    }
+
+    private void CarregaDropCamaras(int idUnidade)
+    {
+        DataTable tdCamaras = selecionaDados.ConsultaCamaras(idUnidade);
+        ddlCamaras.Enabled = true;
+
+        ddlCamaras.DataSource = tdCamaras;
+        ddlCamaras.DataTextField = "NomeCamara";
+        ddlCamaras.DataValueField = "IdCamara";
+        ddlCamaras.DataBind();
+
+        if (tdCamaras.Rows.Count == 1)
+            divCamara.Visible = false;
+
+        int idCamaraSel = Convert.ToInt32(ddlCamaras.SelectedItem.Value);
+        CarregaDropPrateleiras(idCamaraSel);
+    }
+
+    protected void ddlCamaras_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int idCamaraSel = Convert.ToInt32(ddlCamaras.SelectedItem.Value);
+        CarregaDropPrateleiras(idCamaraSel);
+    }
+
+    private void CarregaDropPrateleiras(int idCamara)
+    {
+        DataTable dtPrateleiras = selecionaDados.ConsultaPrateleiras(idCamara);
+
+        ddlPrateleira.Enabled = true;
+        ddlPrateleira.DataSource = dtPrateleiras;
+        ddlPrateleira.DataTextField = "Prateleira";
+        ddlPrateleira.DataValueField = "IdPrateleira";
+        ddlPrateleira.DataBind();
+    }
+
+    protected void btIncluir_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            divProcessando.Visible = true;
+            divPagina.Visible = false;
+
+            insereDados.InsereAmostra(txtGrupo.Text.Trim(), Convert.ToInt32(txtAmostra.Value), string.Empty, Convert.ToInt32(ddlTipoAmostra.SelectedValue),
+                Convert.ToInt32(ddlPrateleira.SelectedValue), txtCaixa.Text.Trim());
+
+            txtAmostra.Value = string.Empty;
+            divRetornoSaida.Attributes.Remove("class");
+
+            divProcessando.Visible = false;
+            divPagina.Visible = true;
+        }
+        catch (Exception ex) { RetornaPaginaErro(ex.ToString()); }
+
+    }
+
 
     protected void btErro_Click(object sender, EventArgs e)
     {
-        Session["ExcessaoDeErro"] = hddErro.Value;
+        RetornaPaginaErro(hddErro.Value);
+    }
+
+    public void RetornaPaginaErro(string erro)
+    {
+        Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
     }
 

@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Entrada</title>
     <link href="../Styles/Entrada.css" rel="stylesheet" type="text/css" />
     <link href="../Styles/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
@@ -12,6 +12,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <input type="hidden" runat="server" id="hddTestPost" />
         <input type="hidden" runat="server" id="hddIdUnidade" value="0" />
         <input type="hidden" runat="server" id="hddInclusoes" />
         <input type="hidden" id="hddErro" runat="server" />
@@ -23,21 +24,19 @@
                 </h4>
             </div>
             <div class="insercoes">
-                <div style="margin-top: 5px;" class="divUnidade">
+                <div style="margin-top: 5px;" class="divUnidade" runat="server" id="divUnidade">
                     Unidade
-                <asp:DropDownList runat="server" ID="ddlUnidade" Width="180px" Height="25px">
+                <asp:DropDownList runat="server" ID="ddlUnidade" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidade_SelectedIndexChanged" Width="180px" Height="25px">
                 </asp:DropDownList>
                 </div>
-                <div style="margin-top: 5px;" class="divCamara">
+                <div style="margin-top: 5px;" class="divCamara" runat="server" id="divCamara">
                     Câmara
-                <asp:DropDownList runat="server" ID="ddlCamaras" Width="180px" Height="25px">
-                    <asp:ListItem Value="0">-- Selecione --</asp:ListItem>
+                <asp:DropDownList runat="server" ID="ddlCamaras" Width="180px" Height="25px" Enabled="false" AutoPostBack="true" OnSelectedIndexChanged="ddlCamaras_SelectedIndexChanged">
                 </asp:DropDownList>
                 </div>
                 <div style="margin-top: 5px;">
                     Prateleira
-                <asp:DropDownList runat="server" ID="ddlPrateleira" Width="180px" Height="25px">
-                    <asp:ListItem Value="0">-- Selecione --</asp:ListItem>
+                <asp:DropDownList runat="server" ID="ddlPrateleira" Width="180px" Height="25px" Enabled="false">
                 </asp:DropDownList>
                 </div>
                 <div style="margin-top: 5px;">
@@ -46,7 +45,7 @@
                     Height="25px" ID="txtCaixa"></asp:TextBox>
                 </div>
                 <div style="margin-top: 5px;">
-                    Grupo
+                    Cod. Grupo
                 <asp:TextBox runat="server" placeholder="Campo obrigatório" autocomplete="off" Width="180px"
                     Height="25px" ID="txtGrupo"></asp:TextBox>
                 </div>
@@ -59,11 +58,16 @@
                     Amostra
                 <input type="text" runat="server" id="txtAmostra" autocomplete="off" style="width: 180px; height: 25px" />
                 </div>
-                <div style="margin-top: 10px;" class="contadorItens">
-                    Itens inclusos;&nbsp;<asp:Label runat="server" ID="lblContadorItens" Text="0" />
-                </div>
                 <div style="margin-top: 10px;" class="contBt">
-                    <input type="button" runat="server" id="btConcluir" class="btConcluir" value="Concluir" />
+                    <asp:Button runat="server" ID="btIncluir" OnClick="btIncluir_Click" CssClass="btIncluir" Text="Incluir Amostra" />
+                </div>
+            </div>
+            <div id="divRetornoSaida" runat="server" class="none">
+                <div class="clear"></div>
+                <div class="rodape">
+                </div>
+                <div style="padding-top: 10px; text-align: center;">
+                    <span style="color: green;">Amostra inserida com sucesso.</span>
                 </div>
             </div>
             <div class="rodape">
