@@ -4,7 +4,7 @@
 }
 
 .pagina {
-    width: 60%;
+    width: 90%;
     height: 30%;
     font-family: Arial;
     margin: 40px auto;
@@ -14,7 +14,7 @@
     font-size: 16px;
 }
 
-.rodape {  
+.rodape {
     width: 100%;
     font-family: Arial;
     border: 1px solid #EEE;
@@ -33,22 +33,22 @@
     width: 50%;
 }
 
-.pagina .cripto td input {
+    .pagina .cripto td input {
         margin: 5px;
-}
+    }
 
 .pagina .contBt {
     text-align: center;
     margin: 10px;
 }
 
-.pagina .contBt .bt {
+    .pagina .contBt .bt {
         font-size: 18px;
         border: 1px solid #DDD;
         width: 25%;
         height: 44px;
         padding: 10px;
-}
+    }
 
 .btAcoes .contBtAcoes {
     border: 1px solid #DDD;
@@ -76,26 +76,28 @@
     font-size: 16px;
 }
 
-UL.amostrasPrateleira {
-    text-align: center;
-    padding-right: 0px;
-    padding-left: 0px;
-    float: left;
-    padding-bottom: 0px;
-    margin: 2px 0px;
+.amostrasPrateleira {
     width: 100%;
-    padding-top: 0px;
-    list-style-type: none;
     border: 1px solid #EEE;
 }
 
-    UL.amostrasPrateleira LI {       
-        display: inline; 
-        float: left; 
-        width: 15%; 
-        font-size: 16px; 
+    .amostrasPrateleira td {
+        font-size: 16px;
+        padding:5px;
     }
-.clear
-{
-    clear: both; 
+
+.amostrasGrupo:hover {
+    background: #EEE;
+}
+
+.amostrasGrupo td {
+    font-size: 14px;
+    font-weight: normal;
+    padding: 5px;
+    border-collapse: collapse;
+    border: 1px solid #DDD;
+}
+
+.clear {
+    clear: both;
 }

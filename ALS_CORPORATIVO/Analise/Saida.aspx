@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Saída - ALS CorpLab</title>
     <link href="../Styles/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="../Scripts/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>

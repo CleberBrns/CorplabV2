@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Home</title>
+    <title>Home - ALS CorpLab</title>
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="../Scripts/Home.js" type="text/javascript"></script>
     <link href="../Styles/Home.css" rel="stylesheet" type="text/css" />

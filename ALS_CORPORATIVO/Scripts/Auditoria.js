@@ -7,10 +7,14 @@
 
     $("#ddlCamaras").change(function () {
         CarregaPrateleiras($(this).find('option:selected').val());
+        $("#divExibicaoInfos").hide();
+        $("#divRetornoPesquisa").hide();
     });
 
     $("#ddlUnidade").change(function () {
         CarregaCamaras($(this).find('option:selected').val());
+        $("#divExibicaoInfos").hide();
+        $("#divRetornoPesquisa").hide();
     });
 
     $("#ddlPrateleira").change(function () {
@@ -120,16 +124,25 @@
 
                 if (retorno != "") {
 
-                    var select = '<div>' + '<ul class="amostrasPrateleira" style="background-color: #DDD;">' +
-                        '<li style="float: left">Camara</li><li style="float: left">Caixa</li><li style="float: left">Cod Grupo</li>' +
-                        '<li style="float: left">IdAmostra</li><li>Data Entrada</li><li>Status</li></ul>';
+                    var select = '<table cellspacing=0 cellpadding=0 width=100%>' +
+                                    '<tr class="amostrasPrateleira" style="background-color: #DDD;">' +                                        
+                                        '<td>Caixa</td>' +
+                                        '<td>Cod Grupo</td>' +
+                                        '<td>IdAmostra</td>' +
+                                        '<td>Data Entrada</td>' +
+                                        '<td>Status</td>' +
+                                    '</tr>';
                     var option = '';
                     $.each(data.d, function (index, value) {
-                        option += '<ul class="amostrasGrupo"><li style="float: left">' + value.Camara + '</li><li style="float: left">' + value.Caixa +
-                            '</li><li style="float: left">' + value.CodGrupo + '</li><li style="float: left">' + value.IdAmostra + '</li>' +
-                            '<li>' + value.DataEntrada + '</li><li style=' + corStatus(value.IdStatusAmostra) + '>' + value.StatusAmostra + '</li></ul>';
+                        option += '<tr class="amostrasGrupo">' +                                 
+                                    '<td>' + value.Caixa + '</td>' +
+                                    '<td>' + value.CodGrupo + '</td>' +
+                                    '<td>' + value.IdAmostra + '</td>' +
+                                    '<td>' + value.DataEntrada + '</td>' +
+                                    '<td style=' + corStatus(value.IdStatusAmostra) + '>' + value.StatusAmostra + '</td>' +
+                                  '</tr>';
                     });
-                    select = select + option + '</div>';
+                    select = select + option + '</table>';
                     $('#divRetornos').html(select);
 
                     $("#divExibicaoInfos").show();

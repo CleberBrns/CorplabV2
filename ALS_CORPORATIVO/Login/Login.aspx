@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title></title>
+    <title>Login - ALS CorpLab</title>
     <link href="../Styles/Login.css" rel="stylesheet" type="text/css" />    
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="../Scripts/Login.js" type="text/javascript"></script>
