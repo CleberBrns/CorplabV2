@@ -68,7 +68,7 @@
         <div id="dialog-MsgRetorno" title="Atenção!" class="confirmaInclusao">
             <p>
                 <strong>
-                    <asp:Label runat="server" ID="lblMsgRetorno" Visible="false" /></strong>
+                    <asp:Label runat="server" ID="lblMsgRetorno" /></strong>
             </p>
         </div>
     </form>

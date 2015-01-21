@@ -36,35 +36,42 @@ public partial class Saida_Saida : System.Web.UI.Page
 
     protected void btRetiraAmostra_Click(object sender, EventArgs e)
     {
-        try
+        if (txtAmostra.Value != string.Empty)
         {
-            DataTable dtDadosGrupo = selecionaDados.ConsultaGrupoXAmostra(Session["CodGrupo"].ToString());
-
-            dtDadosGrupo.DefaultView.RowFilter = "IdAmostra = " + txtAmostra.Value.Trim() + "";
-
-            if (dtDadosGrupo.DefaultView.Count > 0)
+            try
             {
-                atualizaDados.AtualizarAnaliseAmostra(1, Convert.ToInt32(txtAmostra.Value.Trim()));
+                DataTable dtDadosGrupo = selecionaDados.ConsultaGrupoXAmostra(Session["CodGrupo"].ToString());
 
-                divImpressao.Attributes.Remove("class");
-                divRetornoSaida.Attributes.Remove("class");
-                spanLabelRetorno.Style.Add("color", "green");
-                lblRetornoSaida.Text = "Amostra retirada com sucesso.";
-                txtAmostra.Value = string.Empty;
+                dtDadosGrupo.DefaultView.RowFilter = "IdAmostra = " + txtAmostra.Value.Trim() + "";
+
+                if (dtDadosGrupo.DefaultView.Count > 0)
+                {
+                    atualizaDados.AtualizarAnaliseAmostra(1, Convert.ToInt32(txtAmostra.Value.Trim()));
+
+                    divImpressao.Attributes.Remove("class");
+                    divRetornoSaida.Attributes.Remove("class");
+                    spanLabelRetorno.Style.Add("color", "green");
+                    lblRetornoSaida.Text = "Amostra retirada com sucesso.";
+                    txtAmostra.Value = string.Empty;
+                }
+                else
+                {
+                    lblRetornoSaida.Text = "Essa amostra não pertence ao grupo pesquisado. <br/> Por favor, verifique abaixo as amostras cadastras para o mesmo.";
+                    spanLabelRetorno.Style.Add("color", "red");
+                    divRetornoSaida.Attributes.Remove("class");
+                    divInsercoes.Attributes.Remove("class");
+                }
+
             }
-            else
-            {
-                lblRetornoSaida.Text = "Essa amostra não pertence ao grupo pesquisado. <br/> Por favor, verifique abaixo as amostras cadastras para o mesmo.";
-                spanLabelRetorno.Style.Add("color", "red");
-                divRetornoSaida.Attributes.Remove("class");
-                divInsercoes.Attributes.Remove("class");
-            }
-
-
-
+            catch (Exception ex) { RetornaPaginaErro(ex.ToString()); }
         }
-        catch (Exception ex) { RetornaPaginaErro(ex.ToString()); }
-
+        else
+        {
+            lblMsgRetorno.Text = "Favor preencher o campo Amostra";
+            string jscript = string.Empty;
+            jscript += "$(function() {$('#dialog-MsgRetorno').dialog('open')});";
+            ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "Finaliza", jscript, true);
+        }
     }
 
 
