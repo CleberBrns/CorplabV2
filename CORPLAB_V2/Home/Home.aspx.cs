@@ -40,29 +40,14 @@ public partial class Home_Home : System.Web.UI.Page
         Response.Redirect("../Login/Login.aspx");
     }
 
-    protected void btEntrada_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("../Entrada/Entrada.aspx");
-    }
-
     protected void btUnidades_Click(object sender, EventArgs e)
     {
         Response.Redirect("../Unidades/Unidades.aspx");
     }
 
-    protected void btAnalise_Click(object sender, EventArgs e)
+    protected void btAcoes_Click(object sender, EventArgs e)
     {
-        Response.Redirect("../Analise/Analise.aspx");
-    }
-
-    protected void btDescarte_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("../Descarte/Descarte.aspx");
-    }
-
-    protected void btAuditoria_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("../Auditoria/Auditoria.aspx");
+        Response.Redirect("../Acoes/Acoes.aspx");
     }
     
 }

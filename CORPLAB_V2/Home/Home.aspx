@@ -12,20 +12,14 @@
 <body>
     <form id="form1" runat="server">
         <div runat="server" id="divConteudo">
-            <div class="pagina">
-                <div class="contBt">
-                    <asp:Button runat="server" ID="btEntrada" CssClass="bt" Text="Entrada"
-                        OnClick="btEntrada_Click" />
-                    <asp:Button runat="server" ID="btAnalise" CssClass="bt" Text="Análise" OnClick="btAnalise_Click" />
-                    <asp:Button runat="server" ID="btDescarte" CssClass="bt" Text="Descarte" OnClick="btDescarte_Click" />
-                </div>
+            <div class="pagina">              
                 <div class="contBt">
                     <asp:Button runat="server" ID="btUnidades" CssClass="bt" Text="Cadastrar Unidades"
                         OnClick="btUnidades_Click" />
                     <asp:Button runat="server" ID="btUsuarios" CssClass="bt"
                         Text="Gerenciar Usuários" OnClick="btUsuarios_Click" />
-                    <asp:Button runat="server" ID="btAuditoria" CssClass="bt"
-                        Text="Auditoria" OnClick="btAuditoria_Click" />
+                    <asp:Button runat="server" ID="btAcoes" CssClass="bt"
+                        Text="Ações" OnClick="btAcoes_Click" />
                 </div>
                 <div class="contBt">
                      <asp:Button runat="server" ID="btSair" CssClass="bt"
