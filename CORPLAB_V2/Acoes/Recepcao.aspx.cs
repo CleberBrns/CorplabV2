@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Web.Services;
 
-public partial class Acoes_Acoes : System.Web.UI.Page
+public partial class Acoes_Recepcao : System.Web.UI.Page
 {
     SelecionaDados selecionaDados = new SelecionaDados();
     InsereDados insereDados = new InsereDados();
@@ -45,26 +45,56 @@ public partial class Acoes_Acoes : System.Web.UI.Page
             hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
 
         hddInclusoes.Value = string.Empty;
+      
     }
 
-    protected void btAcao_Click(object sender, EventArgs e)
+    protected void ddlCamaras_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (string.IsNullOrEmpty(txtAcao.Text))
+        lblCamara.Text = " - C&acirc;mara " + ddlCamaras.SelectedItem.Text;
+
+        divCamara.Visible = false;
+        divPrateleira.Visible = true;
+    }
+
+    protected void btPrateleira_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(txtPrateleira.Text))
         {
-            divRetorno.Visible = true;
-            lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+            MostraRetorno();
         }
         else
         {
-            switch (txtAcao.Text)
-            {
-                case "01":
-                    Response.Redirect("../Acoes/Recepcao.aspx");
-                    break;
-                default:
-                    break;
-            }
+            divPrateleira.Visible = false;
+            divInsercoes.Visible = true;
         }
+    }
+
+    protected void btAmostra_Click(object sender, EventArgs e)
+    {
+        //if (string.IsNullOrEmpty(txtAcao.Text))
+        //{
+        //    divRetorno.Visible = true;
+        //    lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+        //}
+        //else
+        //{
+        //    ConfiguraPagina(txtAcao.Text.Trim());
+        //    txtAcao.Text = string.Empty;
+        //}
+    }
+
+    public void ConfiguraPagina(string tipoInsercao)
+    {
+        hddInclusoes.Value = tipoInsercao;
+
+        lblCamara.Text = " - C&acirc;mara " + hddInclusoes.Value;        
+
+    }
+
+    public void MostraRetorno()
+    {
+        divRetorno.Visible = true;
+        lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
     }
 
     public void RetornaPaginaErro(string erro)
@@ -72,5 +102,4 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
     }
-
 }
