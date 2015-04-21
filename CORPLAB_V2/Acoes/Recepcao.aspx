@@ -7,10 +7,19 @@
     <link href="../Styles/Acoes.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         /////////////////////////////////////////////////////////////////////////////////////////////
-        function Redireciona() {
+        function Redireciona(acao) {
 
-            var destino = "../Home/Home.aspx";
+            var destino;
+
+            if (acao == 0) {
+                destino = "../Home/Home.aspx";                
+            }
+            else {
+                destino = "../Acoes/Recepcao.aspx";
+            }
+
             window.location.href = destino;
+           
         }
     </script>
 </head>
@@ -31,6 +40,7 @@
                     <div style="margin-top: 10px">
                         <asp:DropDownList runat="server" ID="ddlCamaras" AutoPostBack="true" OnSelectedIndexChanged="ddlCamaras_SelectedIndexChanged"
                             Width="180px" Height="30px">
+                            <asp:ListItem Text="-- Selecione --" Value="0"></asp:ListItem>
                             <asp:ListItem Text="ALS 01" Value="01"></asp:ListItem>
                             <asp:ListItem Text="ALS 02" Value="02"></asp:ListItem>
                         </asp:DropDownList>
@@ -54,15 +64,27 @@
                         </div>
                     </div>
                 </div>
+                <div style="margin-top: 10%;" runat="server" id="divProcessando" visible="false">
+                    Processando...
+                    <div style="margin-top: 10px">
+                       <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="100%" />
+                    </div>                   
+                </div>
             </div>
-            <div style="margin-top: 3%; margin-bottom: 3%; text-align: center; font-size: 18px; color:red;" runat="server" id="divRetorno" visible="false">
+            <div style="margin-top: 3%; margin-bottom: 3%; text-align: center; font-size: 18px;" runat="server" id="divRetorno" visible="false">
+                <div style="margin-bottom: 3%;">
+                    <asp:Image runat="server" ID="imgOk" ImageUrl="../Imagens/ok.png" Visible="false" Width="8%" />
+                    <asp:Image runat="server" ID="imgErro" ImageUrl="../Imagens/error.png" Visible="false" Width="8%" />
+                </div>
                 <asp:Label runat="server" ID="lblRetorno" />
             </div>
             <div class="rodape">
             </div>
             <div class="contBt">
-              <a href="javascript:Redireciona();">
+              <a href="javascript:Redireciona(0);">
                     <input type="button" class="bt" value="Menu Principal" /></a>
+                 <a href="javascript:Redireciona(1);" runat="server" id="linkInicio" visible="false">
+                    <input type="button" class="bt" value="In&iacute;cio" /></a>
             </div>
         </div>
     </form>

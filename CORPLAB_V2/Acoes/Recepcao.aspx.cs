@@ -15,6 +15,8 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        txtAmostra.Focus();
+
         try
         {
             if (!IsPostBack)
@@ -45,25 +47,33 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
 
         hddInclusoes.Value = string.Empty;
-      
+
+        ExibiLinkInicial();
+
     }
 
     protected void ddlCamaras_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        lblCamara.Text = " - C&acirc;mara " + ddlCamaras.SelectedItem.Text;
+    {        
+        if (ddlCamaras.SelectedValue != "0")
+        {
+            lblCamara.Text = " - C&acirc;mara " + ddlCamaras.SelectedItem.Text;
 
-        divCamara.Visible = false;
-        divPrateleira.Visible = true;
+            divCamara.Visible = false;
+            divPrateleira.Visible = true;
+        }
+        ExibiLinkInicial();
     }
 
     protected void btPrateleira_Click(object sender, EventArgs e)
     {
         if (string.IsNullOrEmpty(txtPrateleira.Text))
         {
-            MostraRetorno();
+            MostraRetorno(string.Empty);
         }
         else
         {
+            lblPrateleira.Text = ", Prateleira " + txtPrateleira.Text.Trim();
+
             divPrateleira.Visible = false;
             divInsercoes.Visible = true;
         }
@@ -71,30 +81,66 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
     protected void btAmostra_Click(object sender, EventArgs e)
     {
-        //if (string.IsNullOrEmpty(txtAcao.Text))
-        //{
-        //    divRetorno.Visible = true;
-        //    lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
-        //}
-        //else
-        //{
-        //    ConfiguraPagina(txtAcao.Text.Trim());
-        //    txtAcao.Text = string.Empty;
-        //}
+        if (string.IsNullOrEmpty(txtAmostra.Text))
+        {
+            MostraRetorno(string.Empty);
+        }
+        else
+        {
+            try
+            {
+                divProcessando.Visible = true;
+                divInsercoes.Visible = false;
+
+                MostraRetorno("Amostra Inclu&iacute;da com sucesso.");
+                imgOk.Visible = true;
+                imgErro.Visible = false;
+
+                txtAmostra.Text = string.Empty;
+                divProcessando.Visible = false;
+                divInsercoes.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                MostraRetorno("Ocorreu um erro ao tentar inserir a amostra; " + txtAmostra.Text.Trim());
+                imgErro.Visible = true;
+                imgOk.Visible = false;
+            }
+
+        }
     }
 
     public void ConfiguraPagina(string tipoInsercao)
     {
         hddInclusoes.Value = tipoInsercao;
 
-        lblCamara.Text = " - C&acirc;mara " + hddInclusoes.Value;        
+        lblCamara.Text = " - C&acirc;mara " + hddInclusoes.Value;
 
     }
 
-    public void MostraRetorno()
+    public void MostraRetorno(string mensagem)
     {
         divRetorno.Visible = true;
-        lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+
+        if (string.IsNullOrEmpty(mensagem))
+        {
+            lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+            imgErro.Visible = true;
+            imgOk.Visible = false;
+        }
+        else
+        {
+            lblRetorno.Text = mensagem;
+        }
+
+    }
+
+    private void ExibiLinkInicial()
+    {
+        if (!string.IsNullOrEmpty(lblCamara.Text))
+        {
+            linkInicio.Visible = true;
+        }
     }
 
     public void RetornaPaginaErro(string erro)

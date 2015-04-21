@@ -15,6 +15,8 @@ public partial class Acoes_Acoes : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        txtAcao.Focus();
+
         try
         {
             if (!IsPostBack)
@@ -51,8 +53,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
     {
         if (string.IsNullOrEmpty(txtAcao.Text))
         {
-            divRetorno.Visible = true;
-            lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+            MostraRetorno(string.Empty);
         }
         else
         {
@@ -62,9 +63,26 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                     Response.Redirect("../Acoes/Recepcao.aspx");
                     break;
                 default:
+                    MostraRetorno("Ação Desconhecida. Favor entrar em contato com o Administrador.");
                     break;
             }
         }
+    }
+
+    private void MostraRetorno(string mensagem)
+    {
+        divRetorno.Visible = true;
+        imgErro.Visible = true;
+
+        if (string.IsNullOrEmpty(mensagem))
+        {
+            lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+        }
+        else
+        {
+            lblRetorno.Text = mensagem;
+        }
+        
     }
 
     public void RetornaPaginaErro(string erro)

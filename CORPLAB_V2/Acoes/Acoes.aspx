@@ -33,7 +33,10 @@
                     </div>                   
                 </div>                          
             </div>
-            <div style="margin-top: 3%; margin-bottom: 3%; text-align: center; font-size: 18px; color:red;" runat="server" id="divRetorno" visible="false">
+            <div style="margin-top: 3%; margin-bottom: 3%; text-align: center; font-size: 18px; color:red;" runat="server" id="divRetorno" visible="false">                
+                <div style="margin-bottom: 3%;">
+                    <asp:Image runat="server" ID="imgErro" ImageUrl="../Imagens/error.png" Visible="false" Width="8%" />
+                </div>
                 <asp:Label runat="server" ID="lblRetorno" />
             </div>
             <div class="rodape">
