@@ -30,7 +30,7 @@
         <input type="hidden" runat="server" id="hddInclusoes" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Sáida <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
+            <h2>Sa&iacute;da <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
             </h2>           
             <div class="insercoes">
                 <div style="margin-top: 10%;" runat="server" id="divInsercaoAtual">

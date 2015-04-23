@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Web.Services;
 
-public partial class Acoes_Recepcao : System.Web.UI.Page
+public partial class Acoes_Entrada : System.Web.UI.Page
 {
     SelecionaDados selecionaDados = new SelecionaDados();
     InsereDados insereDados = new InsereDados();
@@ -89,6 +89,8 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             divPrateleira.Visible = false;
             divInsercoes.Visible = true;
             btNovaPrateleira.Visible = true;
+
+            ExibiLinkInicial();
         }
     }
 
@@ -102,19 +104,18 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         {
             try
             {
-                if (ckbComCaixa.Checked)
+                if (ckbRetiraCaixa.Checked)
                 {
-                    if (string.IsNullOrEmpty(lblComCaixa.Text))
-                    {
-                        lblComCaixa.Text = ", Caixa " + txtCaixa.Text.Trim();
-                    }                    
-                    txtCaixa.Enabled = false;
+                    MostraRetorno("Entrada de caixa executada com sucesso.");
+                }
+                else
+                {
+                    MostraRetorno("Entrada de amostra executada com sucesso.");
                 }
 
                 divProcessando.Visible = true;
                 divInsercoes.Visible = false;
-
-                MostraRetorno("Amostra Inclu&iacute;da com sucesso.");
+               
                 imgOk.Visible = true;
                 imgErro.Visible = false;
 
@@ -124,7 +125,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                MostraRetorno("Ocorreu um erro ao tentar inserir a amostra; " + txtAmostra.Text.Trim());
+                MostraRetorno("Ocorreu um erro ao tentar processar o objeto; " + txtAmostra.Text.Trim());
                 imgErro.Visible = true;
                 imgOk.Visible = false;
             }
@@ -134,8 +135,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
     protected void btNovaPrateleira_Click(object sender, EventArgs e)
     {
-        ckbComCaixa.Checked = false;
-        CaixaDefault();
+        ckbRetiraCaixa.Checked = false;        
 
         txtPrateleira.Text = string.Empty;
         lblPrateleira.Text = string.Empty;
@@ -147,26 +147,18 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         divPrateleira.Visible = true;
     }
 
-    protected void ckbComCaixa_CheckedChanged(object sender, EventArgs e)
+    protected void ckbRetiraCaixa_CheckedChanged(object sender, EventArgs e)
     {
         divRetorno.Visible = false;
-        if (ckbComCaixa.Checked)
+        if (ckbRetiraCaixa.Checked)
         {
-            divComCaixa.Visible = true;
+            lblTipoSaida.Text = "Caixa a entrar";
         }
         else
         {
-            CaixaDefault();
+            lblTipoSaida.Text = "Amostra a entrar";
         }
        
-    }
-
-    private void CaixaDefault()
-    {
-        txtCaixa.Text = string.Empty;
-        txtCaixa.Enabled = true;
-        lblComCaixa.Text = string.Empty;
-        divComCaixa.Visible = false;
     }
 
     public void ConfiguraPagina(string tipoInsercao)

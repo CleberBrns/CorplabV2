@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Descarte.aspx.cs" Inherits="Acoes_Recepcao" EnableEventValidation="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Descarte.aspx.cs" Inherits="Acoes_Descarte" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -15,7 +15,7 @@
                 destino = "../Home/Home.aspx";                
             }
             else {
-                destino = "../Acoes/Recepcao.aspx";
+                destino = "../Acoes/Descarte.aspx";
             }
 
             window.location.href = destino;
@@ -30,7 +30,7 @@
         <input type="hidden" runat="server" id="hddInclusoes" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Recepção <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" /><asp:Label runat="server" ID="lblComCaixa" CssClass="lblCamara" />
+            <h2>Descarte <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
             </h2>           
             <div class="insercoes">
                 <div style="margin-top: 10%;" runat="server" id="divInsercaoAtual">
@@ -57,23 +57,15 @@
                     </div>                   
                 </div>
                 <div style="margin-top: 10%;" runat="server" id="divInsercoes" visible="false">
-                    Insira a amostra
+                    <asp:Label runat="server" ID="lblTipoSaida" Text="Amostra a descartar" />
                     <div style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
                          <div style="display: none">
                             <asp:Button runat="server" ID="btAmostra" OnClick="btAmostra_Click" />
                         </div>
                         <div style="margin-top: 3%;">
-                            <asp:CheckBox runat="server" ID="ckbComCaixa" Text="Com Caixa" AutoPostBack="true" OnCheckedChanged="ckbComCaixa_CheckedChanged" />
-                        </div>
-                        <div runat="server" id="divComCaixa" visible="false" style="margin-top: 3%;">
-                            Insira a caixa
-                            <div style="margin-top: 3%;">
-                                <asp:TextBox runat="server" ID="txtCaixa" Width="180px" Height="25px" autocomplete="off" onkeydown="return (event.keyCode!=13);" />
-                                <div style="display: none">                            
-                        </div>
-                            </div>
-                        </div>                     
+                            <asp:CheckBox runat="server" ID="ckbRetiraCaixa" Text="Descarte de Caixa" AutoPostBack="true" OnCheckedChanged="ckbRetiraCaixa_CheckedChanged" />
+                        </div>                        
                     </div>
                 </div>
                 <div style="margin-top: 10%;" runat="server" id="divProcessando" visible="false">

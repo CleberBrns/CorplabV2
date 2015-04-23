@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Entrada.aspx.cs" Inherits="Acoes_Entrada" EnableEventValidation="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Busca.aspx.cs" Inherits="Auditoria_Busca" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -15,7 +15,7 @@
                 destino = "../Home/Home.aspx";                
             }
             else {
-                destino = "../Acoes/Entrada.aspx";
+                destino = "../Auditoria/Busca.aspx";
             }
 
             window.location.href = destino;
@@ -30,7 +30,7 @@
         <input type="hidden" runat="server" id="hddInclusoes" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Entrada <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
+            <h2>Auditoria <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
             </h2>           
             <div class="insercoes">
                 <div style="margin-top: 10%;" runat="server" id="divInsercaoAtual">
@@ -55,19 +55,7 @@
                             <asp:Button runat="server" ID="btPrateleira" OnClick="btPrateleira_Click" />
                         </div>
                     </div>                   
-                </div>
-                <div style="margin-top: 10%;" runat="server" id="divInsercoes" visible="false">
-                    <asp:Label runat="server" ID="lblTipoSaida" Text="Amostra a entrar" />
-                    <div style="margin-top: 10px">
-                        <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
-                         <div style="display: none">
-                            <asp:Button runat="server" ID="btAmostra" OnClick="btAmostra_Click" />
-                        </div>
-                        <div style="margin-top: 3%;">
-                            <asp:CheckBox runat="server" ID="ckbRetiraCaixa" Text="Entrada de Caixa" AutoPostBack="true" OnCheckedChanged="ckbRetiraCaixa_CheckedChanged" />
-                        </div>                        
-                    </div>
-                </div>
+                </div>                
                 <div style="margin-top: 10%;" runat="server" id="divProcessando" visible="false">
                     Processando...
                     <div style="margin-top: 10px">
@@ -81,15 +69,6 @@
                     <asp:Image runat="server" ID="imgErro" ImageUrl="../Imagens/error.png" Visible="false" Width="8%" />
                 </div>
                 <asp:Label runat="server" ID="lblRetorno" />
-            </div>
-            <div runat="server" id="divInicio" visible="false">
-                <div class="rodape">
-                </div>
-                <div class="contBt">
-                    <a href="javascript:Redireciona(1);" runat="server" id="linkInicio">
-                        <input type="button" class="bt" value="In&iacute;cio" /></a>
-                    <asp:Button runat="server" ID="btNovaPrateleira" OnClick="btNovaPrateleira_Click" CssClass="bt" Text="Nova Prateleira" />                   
-                </div>
             </div>
             <div class="rodape">
             </div>

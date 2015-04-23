@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Web.Services;
 
-public partial class Acoes_Acoes : System.Web.UI.Page
+public partial class Auditoria_Busca : System.Web.UI.Page
 {
     SelecionaDados selecionaDados = new SelecionaDados();
     InsereDados insereDados = new InsereDados();
@@ -15,7 +15,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        txtAcao.Focus();
+        txtPrateleira.Focus();
 
         try
         {
@@ -47,54 +47,68 @@ public partial class Acoes_Acoes : System.Web.UI.Page
             hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
 
         hddInclusoes.Value = string.Empty;
+
     }
 
-    protected void btAcao_Click(object sender, EventArgs e)
+    protected void ddlCamaras_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (string.IsNullOrEmpty(txtAcao.Text))
+        if (ddlCamaras.SelectedValue != "0")
+        {
+            lblCamara.Text = " - C&acirc;mara " + ddlCamaras.SelectedItem.Text;
+
+            divCamara.Visible = false;
+            divPrateleira.Visible = true;
+            txtPrateleira.Focus();
+        }
+    }
+
+    protected void btPrateleira_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(txtPrateleira.Text))
         {
             MostraRetorno(string.Empty);
         }
         else
         {
-            switch (txtAcao.Text)
-            {
-                case "01":
-                    Response.Redirect("../Acoes/Recepcao.aspx");
-                    break;
-                case "02":
-                    Response.Redirect("../Acoes/Saida.aspx");
-                    break;
-                case "03":
-                    Response.Redirect("../Acoes/Entrada.aspx");
-                    break;
-                case "04":
-                    Response.Redirect("../Acoes/Descarte.aspx");
-                    break;
-                case "05":
-                    Response.Redirect("../Auditoria/Busca.aspx");
-                    break;
-                default:
-                    MostraRetorno("Ação Desconhecida. Favor entrar em contato com o Administrador.");
-                    break;
-            }
+            lblPrateleira.Text = ", Prateleira " + txtPrateleira.Text.Trim();
+
+            divPrateleira.Visible = false;          
         }
     }
 
-    private void MostraRetorno(string mensagem)
+    protected void btNovaPrateleira_Click(object sender, EventArgs e)
+    {
+        txtPrateleira.Text = string.Empty;
+        lblPrateleira.Text = string.Empty;
+        txtPrateleira.Focus();
+
+        divRetorno.Visible = false;
+        divPrateleira.Visible = true;
+    }
+
+    public void ConfiguraPagina(string tipoInsercao)
+    {
+        hddInclusoes.Value = tipoInsercao;
+
+        lblCamara.Text = " - C&acirc;mara " + hddInclusoes.Value;
+
+    }
+
+    public void MostraRetorno(string mensagem)
     {
         divRetorno.Visible = true;
-        imgErro.Visible = true;
 
         if (string.IsNullOrEmpty(mensagem))
         {
             lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+            imgErro.Visible = true;
+            imgOk.Visible = false;
         }
         else
         {
             lblRetorno.Text = mensagem;
         }
-        
+
     }
 
     public void RetornaPaginaErro(string erro)
