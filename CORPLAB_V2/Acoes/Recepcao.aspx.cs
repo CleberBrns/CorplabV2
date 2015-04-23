@@ -16,6 +16,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         txtAmostra.Focus();
+        txtAmostra.Focus();
 
         try
         {
@@ -60,7 +61,18 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
             divCamara.Visible = false;
             divPrateleira.Visible = true;
+            txtPrateleira.Focus();
         }
+
+        if (string.IsNullOrEmpty(txtPrateleira.Text))
+        {
+            btNovaPrateleira.Visible = false;
+        }
+        else
+        {
+            btNovaPrateleira.Visible = true;
+        }
+
         ExibiLinkInicial();
     }
 
@@ -76,6 +88,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
             divPrateleira.Visible = false;
             divInsercoes.Visible = true;
+            btNovaPrateleira.Visible = true;
         }
     }
 
@@ -89,6 +102,15 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         {
             try
             {
+                if (ckbComCaixa.Checked)
+                {
+                    if (string.IsNullOrEmpty(lblComCaixa.Text))
+                    {
+                        lblComCaixa.Text = ", Caixa " + txtCaixa.Text.Trim();
+                    }                    
+                    txtCaixa.Enabled = false;
+                }
+
                 divProcessando.Visible = true;
                 divInsercoes.Visible = false;
 
@@ -108,6 +130,43 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             }
 
         }
+    }
+
+    protected void btNovaPrateleira_Click(object sender, EventArgs e)
+    {
+        ckbComCaixa.Checked = false;
+        CaixaDefault();
+
+        txtPrateleira.Text = string.Empty;
+        lblPrateleira.Text = string.Empty;
+        txtPrateleira.Focus();
+
+        divRetorno.Visible = false;
+        divInsercoes.Visible = false;
+        divInicio.Visible = false;
+        divPrateleira.Visible = true;
+    }
+
+    protected void ckbComCaixa_CheckedChanged(object sender, EventArgs e)
+    {
+        divRetorno.Visible = false;
+        if (ckbComCaixa.Checked)
+        {
+            divComCaixa.Visible = true;
+        }
+        else
+        {
+            CaixaDefault();
+        }
+       
+    }
+
+    private void CaixaDefault()
+    {
+        txtCaixa.Text = string.Empty;
+        txtCaixa.Enabled = true;
+        lblComCaixa.Text = string.Empty;
+        divComCaixa.Visible = false;
     }
 
     public void ConfiguraPagina(string tipoInsercao)
@@ -139,7 +198,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
     {
         if (!string.IsNullOrEmpty(lblCamara.Text))
         {
-            linkInicio.Visible = true;
+            divInicio.Visible = true;
         }
     }
 
@@ -148,4 +207,5 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
     }
+
 }

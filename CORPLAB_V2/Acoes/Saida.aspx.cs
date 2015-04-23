@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Web.Services;
 
-public partial class Acoes_Recepcao : System.Web.UI.Page
+public partial class Acoes_Saida : System.Web.UI.Page
 {
     SelecionaDados selecionaDados = new SelecionaDados();
     InsereDados insereDados = new InsereDados();
@@ -15,6 +15,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        txtAmostra.Focus();
         txtAmostra.Focus();
 
         try
@@ -60,7 +61,18 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
             divCamara.Visible = false;
             divPrateleira.Visible = true;
+            txtPrateleira.Focus();
         }
+
+        if (string.IsNullOrEmpty(txtPrateleira.Text))
+        {
+            btNovaPrateleira.Visible = false;
+        }
+        else
+        {
+            btNovaPrateleira.Visible = true;
+        }
+
         ExibiLinkInicial();
     }
 
@@ -76,6 +88,9 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
             divPrateleira.Visible = false;
             divInsercoes.Visible = true;
+            btNovaPrateleira.Visible = true;
+
+            ExibiLinkInicial();
         }
     }
 
@@ -89,10 +104,18 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         {
             try
             {
+                if (ckbRetiraCaixa.Checked)
+                {
+                    MostraRetorno("Caixa retirada com sucesso.");
+                }
+                else
+                {
+                    MostraRetorno("Amostra retirada com sucesso.");
+                }
+
                 divProcessando.Visible = true;
                 divInsercoes.Visible = false;
-
-                MostraRetorno("Amostra Inclu&iacute;da com sucesso.");
+               
                 imgOk.Visible = true;
                 imgErro.Visible = false;
 
@@ -102,12 +125,40 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                MostraRetorno("Ocorreu um erro ao tentar inserir a amostra; " + txtAmostra.Text.Trim());
+                MostraRetorno("Ocorreu um erro ao tentar retirar a amostra; " + txtAmostra.Text.Trim());
                 imgErro.Visible = true;
                 imgOk.Visible = false;
             }
 
         }
+    }
+
+    protected void btNovaPrateleira_Click(object sender, EventArgs e)
+    {
+        ckbRetiraCaixa.Checked = false;        
+
+        txtPrateleira.Text = string.Empty;
+        lblPrateleira.Text = string.Empty;
+        txtPrateleira.Focus();
+
+        divRetorno.Visible = false;
+        divInsercoes.Visible = false;
+        divInicio.Visible = false;
+        divPrateleira.Visible = true;
+    }
+
+    protected void ckbRetiraCaixa_CheckedChanged(object sender, EventArgs e)
+    {
+        divRetorno.Visible = false;
+        if (ckbRetiraCaixa.Checked)
+        {
+            lblTipoSaida.Text = "Caixa a ser retirada";
+        }
+        else
+        {
+            lblTipoSaida.Text = "Amostra a ser retirada";
+        }
+       
     }
 
     public void ConfiguraPagina(string tipoInsercao)
@@ -139,7 +190,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
     {
         if (!string.IsNullOrEmpty(lblCamara.Text))
         {
-            linkInicio.Visible = true;
+            divInicio.Visible = true;
         }
     }
 
@@ -148,4 +199,5 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
     }
+
 }

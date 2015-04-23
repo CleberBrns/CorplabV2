@@ -26,7 +26,7 @@
                 <div style="margin-top: 10%;">
                     Aguardando a&ccedil;&atilde;o...   
                     <div style="margin-top:10px">
-                        <asp:TextBox runat="server" ID="txtAcao" Width="180px" Height="25px" />
+                        <asp:TextBox runat="server" ID="txtAcao" Width="180px" Height="25px" autocomplete="off" />
                         <div style="display: none">
                             <asp:Button runat="server" ID="btAcao" OnClick="btAcao_Click" />
                         </div>

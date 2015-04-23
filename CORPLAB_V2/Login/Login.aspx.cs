@@ -25,6 +25,7 @@ public partial class Login_Login : System.Web.UI.Page
         if (txtLogin.Text == "admin" && txtSenha.Text == "@dmin01")
         {
             Session["SessionUser"] = "Gestor";
+            Session["SessionIdUser"] = "0";
             Session["SessionIdUnidade"] = "0";
             Response.Redirect("../Home/Home.aspx");
             lblRetorno.Visible = false;
