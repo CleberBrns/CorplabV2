@@ -5,8 +5,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Home - ALS CorpLab</title>
-    <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
-    <script src="../Scripts/Home.js" type="text/javascript"></script>
     <link href="../Styles/Home.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -14,7 +12,7 @@
         <div runat="server" id="divConteudo">
             <div class="pagina">              
                 <div class="contBt">
-                    <asp:Button runat="server" ID="btUnidades" CssClass="bt" Text="Cadastrar Unidades"
+                    <asp:Button runat="server" ID="btUnidades" CssClass="bt" Text="Gerenciar Unidades"
                         OnClick="btUnidades_Click" />
                     <asp:Button runat="server" ID="btUsuarios" CssClass="bt"
                         Text="Gerenciar Usuários" OnClick="btUsuarios_Click" />

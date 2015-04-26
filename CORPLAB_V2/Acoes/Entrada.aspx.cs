@@ -175,7 +175,7 @@ public partial class Acoes_Entrada : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(mensagem))
         {
-            lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+            lblRetorno.Text = "Por favor, preencha o campo corretamente para prosseguir";
             imgErro.Visible = true;
             imgOk.Visible = false;
         }
@@ -200,4 +200,13 @@ public partial class Acoes_Entrada : System.Web.UI.Page
         Response.Redirect("../Erro/Erro.aspx");
     }
 
+    protected void btMenuPrincipal_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Home/Home.aspx");
+    }
+
+    protected void btInicio_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Acoes/Entrada.aspx");
+    }
 }

@@ -72,6 +72,9 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                     Response.Redirect("../Acoes/Descarte.aspx");
                     break;
                 case "05":
+                    Response.Redirect("../Auditoria/Auditoria.aspx");
+                    break;
+                case "06":
                     Response.Redirect("../Auditoria/Busca.aspx");
                     break;
                 default:
@@ -88,19 +91,23 @@ public partial class Acoes_Acoes : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(mensagem))
         {
-            lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+            lblRetorno.Text = "Por favor, preencha o campo corretamente para prosseguir";
         }
         else
         {
             lblRetorno.Text = mensagem;
-        }
-        
+        }        
     }
 
     public void RetornaPaginaErro(string erro)
     {
         Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
+    }
+
+    protected void btMenuPrincipal_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Home/Home.aspx");
     }
 
 }

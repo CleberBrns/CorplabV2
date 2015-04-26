@@ -15,8 +15,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        txtAmostra.Focus();
-        txtAmostra.Focus();
+        txtAmostra.Focus();        
 
         try
         {
@@ -54,7 +53,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
     }
 
     protected void ddlCamaras_SelectedIndexChanged(object sender, EventArgs e)
-    {        
+    {
         if (ddlCamaras.SelectedValue != "0")
         {
             lblCamara.Text = " - C&acirc;mara " + ddlCamaras.SelectedItem.Text;
@@ -104,23 +103,29 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             {
                 if (ckbComCaixa.Checked)
                 {
-                    if (string.IsNullOrEmpty(lblComCaixa.Text))
+                    if (!string.IsNullOrEmpty(txtCaixa.Text))
                     {
-                        lblComCaixa.Text = ", Caixa " + txtCaixa.Text.Trim();
-                    }                    
-                    txtCaixa.Enabled = false;
+                        if (string.IsNullOrEmpty(lblComCaixa.Text))
+                        {
+                            lblComCaixa.Text = ", Caixa " + txtCaixa.Text.Trim();
+                        }
+                        txtCaixa.Enabled = false;
+
+                        InsereAmostra();
+                    }
+                    else
+                    {
+                        MostraRetorno("Para continuar preencha o campo caixa ou remova a marcação 'Com Caixa'");
+                        imgErro.Visible = true;
+                        imgOk.Visible = false;
+                    }
+
+                }
+                else
+                {
+                    InsereAmostra();
                 }
 
-                divProcessando.Visible = true;
-                divInsercoes.Visible = false;
-
-                MostraRetorno("Amostra Inclu&iacute;da com sucesso.");
-                imgOk.Visible = true;
-                imgErro.Visible = false;
-
-                txtAmostra.Text = string.Empty;
-                divProcessando.Visible = false;
-                divInsercoes.Visible = true;
             }
             catch (Exception ex)
             {
@@ -130,6 +135,20 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             }
 
         }
+    }
+
+    private void InsereAmostra()
+    {
+        divProcessando.Visible = true;
+        divInsercoes.Visible = false;
+
+        MostraRetorno("Amostra Inclu&iacute;da com sucesso.");
+        imgOk.Visible = true;
+        imgErro.Visible = false;
+
+        txtAmostra.Text = string.Empty;
+        divProcessando.Visible = false;
+        divInsercoes.Visible = true;
     }
 
     protected void btNovaPrateleira_Click(object sender, EventArgs e)
@@ -158,7 +177,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         {
             CaixaDefault();
         }
-       
+
     }
 
     private void CaixaDefault()
@@ -183,7 +202,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(mensagem))
         {
-            lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+            lblRetorno.Text = "Por favor, preencha o campo corretamente para prosseguir";
             imgErro.Visible = true;
             imgOk.Visible = false;
         }
@@ -206,6 +225,16 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
     {
         Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
+    }
+
+    protected void btMenuPrincipal_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Home/Home.aspx");
+    }
+
+    protected void btInicio_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Acoes/Recepcao.aspx");
     }
 
 }

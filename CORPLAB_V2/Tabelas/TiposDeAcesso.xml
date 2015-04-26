@@ -5,11 +5,11 @@
     <TIPO>Gestor Geral</TIPO>
   </TIPOACESSO>
   <TIPOACESSO>
-    <ID>1</ID>
+    <ID>2</ID>
     <TIPO>Gestor de Unidade</TIPO>
   </TIPOACESSO>
   <TIPOACESSO>
-    <ID>2</ID>
+    <ID>3</ID>
     <TIPO>Usuário de Produção</TIPO>
   </TIPOACESSO>
 </TIPOSACESSO>

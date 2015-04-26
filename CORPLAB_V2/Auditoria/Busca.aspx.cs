@@ -100,7 +100,7 @@ public partial class Auditoria_Busca : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(mensagem))
         {
-            lblRetorno.Text = "Por favor, preencha o campo corretamenta para prosseguir";
+            lblRetorno.Text = "Por favor, preencha o campo corretamente para prosseguir";
             imgErro.Visible = true;
             imgOk.Visible = false;
         }

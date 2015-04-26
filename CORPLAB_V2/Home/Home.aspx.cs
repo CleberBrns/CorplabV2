@@ -15,8 +15,7 @@ public partial class Home_Home : System.Web.UI.Page
             {
                 if (Session["SessionUser"].ToString() != "Gestor")
                 {
-                    btUsuarios.Visible = false;
-                    btUnidades.Visible = false;
+                    
                 }
             }
         }

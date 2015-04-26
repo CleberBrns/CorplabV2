@@ -1,68 +1,132 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Auditoria.aspx.cs" Inherits="Auditoria_Auditoria" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Auditoria - ALS CorpLab</title>
-    <link href="../Styles/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
-    <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
-    <script src="../Scripts/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
-    <script src="../Scripts/Auditoria.js" type="text/javascript"></script>
     <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        function Redireciona(acao) {
+
+            var destino;
+
+            if (acao == 0) {
+                destino = "../Home/Home.aspx";                
+            }
+            else {
+                destino = "../Auditoria/Auditoria.aspx";
+            }
+
+            window.location.href = destino;
+           
+        }
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <input type="hidden" id="hddIdUnidade" runat="server" value="0" />
+        <input type="hidden" runat="server" id="hddTestPost" />
+        <input type="hidden" runat="server" id="hddIdUnidade" value="0" />
+        <input type="hidden" runat="server" id="hddIdPrateleira" />
         <input type="hidden" id="hddErro" runat="server" />
-        <div runat="server" id="divConteudo">
-            <div class="pagina">
-                <h2>Auditoria</h2>
-                <div class="clear"></div>
-                <div style="margin-top: 10px; text-align: center;" class="insercoes">
-                    <div style="margin-top: 5px;" class="divUnidade">
-                        Unidade
-                <asp:DropDownList runat="server" ID="ddlUnidade" Width="180px" Height="25px">
-                </asp:DropDownList>
-                    </div>
-                    <div style="margin-top: 10px;" class="divCamara">
-                        <span>Câmara</span>
-                        <asp:DropDownList runat="server" ID="ddlCamaras" Width="120px" Height="25px">
-                            <asp:ListItem Value="0">-- Selecione --</asp:ListItem>
+        <div class="pagina" runat="server" id="divPagina">
+            <h2>Auditoria <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
+            </h2>
+            <div style="padding-bottom: 3%;">
+                <div class="insercoes">
+                    <div style="margin-top: 3%;" runat="server" id="divCamara">
+                        Selecione a C&acirc;mara
+                    <div style="margin-top: 10px">
+                        <asp:DropDownList runat="server" ID="ddlCamaras" AutoPostBack="true" OnSelectedIndexChanged="ddlCamaras_SelectedIndexChanged"
+                            Width="180px" Height="30px">
+                            <asp:ListItem Text="-- Selecione --" Value="0"></asp:ListItem>
+                            <asp:ListItem Text="ALS 01" Value="01"></asp:ListItem>
+                            <asp:ListItem Text="ALS 02" Value="02"></asp:ListItem>
                         </asp:DropDownList>
                     </div>
-                    <div style="margin-top: 10px;">
-                        Prateleira
-                <asp:DropDownList runat="server" ID="ddlPrateleira" Width="120px" Height="25px">
-                    <asp:ListItem Value="0">-- Selecione --</asp:ListItem>
-                </asp:DropDownList>
                     </div>
-                    <div style="margin-top: 10px;" class="contBt">
-                        <input type="button" id="btPesquisar" class="bt" value="Pesquisar" />
-                    </div>
-                    <div id="divRetornoPesquisa" class="none" style="margin-top: 10px; color: red;">
-                        <asp:Label runat="server" ID="lblRetornoPesquisa" Text="Não existem amostras cadastradas nessa prateleira"/>
-                    </div>
-                    <div class="rodape" style="margin-top: 10px;">
-                    </div>
-                    <div id="divExibicaoInfos" class="none">
-                        <div class="insercoes" id="divInfoGrupo">
-                            <div style="margin-top: 10px; text-align: center;" runat="server" id="divRetornos">
-                            </div>
+                    <div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
+                        Entre com a Prateleira
+                    <div style="margin-top: 10px">
+                        <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
+                        <div style="display: none">
+                            <asp:Button runat="server" ID="btPrateleira" OnClick="btPrateleira_Click" />
                         </div>
-                        <div class="clear"></div>
-                        <div class="rodape"></div>
+                    </div>
+                    </div>
+                    <div runat="server" id="divBotaoAuditoria" visible="false" style="margin-top: 3%;">
+                        <div>
+                            Amostra a ser auditada 
                         </div>
-                    <div class="clear"></div>
+                        <br />
+                        <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
+                        <div style="display: none">
+                            <asp:Button runat="server" ID="btAuditarAmostra" OnClick="btAuditarAmostra_Click" />
+                        </div>
+                    </div>
+                    <div style="margin-top: 3%; margin-bottom: 3%; text-align: center; font-size: 18px;" runat="server" id="divRetornoAuditar" visible="false">
+                        <div style="margin-bottom: 3%;">
+                            <asp:Image runat="server" ID="imgOkAuditar" ImageUrl="../Imagens/ok.png" Visible="false" Width="3%" />
+                            <asp:Image runat="server" ID="imgErroAuditar" ImageUrl="../Imagens/error.png" Visible="false" Width="3%" />
+                            <asp:Label runat="server" ID="lblRetornoAuditar" />
+                        </div>
+                    </div>
+                    <div style="margin-top: 3%;" runat="server" id="divAuditoria" visible="false">
+                        <div>
+                            <asp:Repeater runat="server" ID="rptAuditoria">
+                                <HeaderTemplate>
+                                    <table cellspacing="0" cellpadding="0" width="100%">
+                                        <tr class="amostrasPrateleira" style="background-color: #DDD;">
+                                            <td>CodAmostra</td>
+                                            <td>Data Recepção</td>
+                                            <td>Usuario Recepção</td>
+                                            <td>Estante</td>
+                                            <td>Prateleira</td>
+                                            <td>Caixa</td>
+                                            <td>Ultima Alteração</td>
+                                            <td>Auditado?</td>
+                                        </tr>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <tr class="amostrasGrupo">
+                                        <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "DataRecepcao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "UsuarioRecepcao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Estante") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "UltimaAlteracao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Auditado") %></td>
+                                    </tr>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    </table>
+                                </FooterTemplate>
+                            </asp:Repeater>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10%;" runat="server" id="divProcessando" visible="false">
+                        Processando...
+                    <div style="margin-top: 10px">
+                        <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="100%" />
+                    </div>
+                    </div>
+                </div>              
+                <div runat="server" id="divInicio" visible="false" style="padding-top: 2%;">
                     <div class="rodape">
                     </div>
+                    <div class="contBt">
+                        <asp:Button runat="server" CssClass="bt" ID="btInicio" OnClick="btInicio_Click" Text="Inicio" />
+                        <asp:Button runat="server" ID="btNovaPrateleira" OnClick="btNovaPrateleira_Click" CssClass="bt" Text="Nova Prateleira" Visible="false" />
+                        <asp:Button runat="server" ID="btImprimir" OnClick="btImprimir_Click" CssClass="bt" Text="Imprimir" Visible="false" />
+                    </div>
                 </div>
-                <div class="contBt">
-                    <a href="javascript:Redireciona(0);">
-                        <input type="button" class="bt" value="Menu Principal" runat="server" id="btMenuPrincipal" /></a>
-                    <a href="javascript:Redireciona(1);">
-                        <input type="button" class="bt" value="Voltar" runat="server" id="btVoltar" /></a>
-                </div>
+            </div>
+            <div class="rodape">
+            </div>
+            <div class="contBt">
+              <a href="javascript:Redireciona(0);">
+                    <input type="button" class="bt" value="Menu Principal" /></a>
             </div>
         </div>
     </form>

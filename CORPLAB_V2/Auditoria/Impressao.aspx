@@ -4,16 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
-    <link href="../Styles/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
-    <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
-    <script src="../Scripts/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
-    <script src="../Scripts/Impressao.js" type="text/javascript"></script>
-    <link href="../Styles/Impressao.css" rel="stylesheet" type="text/css" />
+    <title>Impressão - ALS CorpLab</title>
+    <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
-        $(document).ready(function () {
-            window.print();
-        });
+        //$(document).ready(function () {
+        //    window.print();
+        //});
     </script>
 </head>
 <body>
@@ -23,26 +19,57 @@
         <div runat="server" id="divConteudo">
             <div class="pagina">
                 <div style="text-align: center">
-                    <h2>Controle -
-                    <asp:Label runat="server" ID="lblDataControle" />
-                        - Grupo:
-                    <asp:Label runat="server" ID="lblIdGrupo" /></h2>
+                    <h2>Auditoria
+                        <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
+                    </h2>
                 </div>
                 <div class="insercoes">
-                    <div style="margin-top: 10px; text-align: center;" runat="server" id="divRetornos">
+                    <div style="margin-top: 3%;" runat="server" id="divAuditoria">
+                        <div>
+                            <asp:Repeater runat="server" ID="rptAuditoria">
+                                <HeaderTemplate>
+                                    <table cellspacing="0" cellpadding="0" width="100%">
+                                        <tr class="amostrasPrateleira" style="background-color: #DDD;">
+                                            <td>CodAmostra</td>
+                                            <td>Data Recepção</td>
+                                            <td>Usuario Recepção</td>
+                                            <td>Estante</td>
+                                            <td>Prateleira</td>
+                                            <td>Caixa</td>
+                                            <td>Ultima Alteração</td>
+                                            <td>Auditado?</td>
+                                        </tr>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <tr class="amostrasGrupo">
+                                        <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "DataRecepcao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "UsuarioRecepcao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Estante") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "UltimaAlteracao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Auditado") %></td>
+                                    </tr>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    </table>
+                                </FooterTemplate>
+                            </asp:Repeater>
+                        </div>
                     </div>
                 </div>
                 <div class="clear"></div>
                 <div class="rodape">
                 </div>
-                <div class="clear" style="padding-top: 40px;"></div>
+                <%--<div class="clear" style="padding-top: 40px;"></div>
                 <div class="divAssinaturas">
                     <div>
                         <span style="border-top-style: solid; border-top-color: black; border-top-width: 3px;">Assinatura Responsável Estoque</span>
                         <span style="padding-left: 160px;"></span>
                         <span style="border-top-style: solid; border-top-color: black; border-top-width: 3px;">Assinatura Responsável Retirada</span>
                     </div>
-                </div>
+                </div>--%>
             </div>
         </div>
     </form>

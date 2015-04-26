@@ -5,7 +5,7 @@
 
 .pagina {
     width: 90%;
-    height: 30%;
+    height: 100%%;
     font-family: Arial;
     margin: 40px auto;
     background: #f8f8f8;
@@ -100,4 +100,20 @@
 
 .clear {
     clear: both;
+}
+.lblCamara
+{
+     font-size: 16px;
+}
+.divAssinaturas {
+    text-align: center;
+}
+
+.assinaturas {
+    border-style: solid;
+    border-bottom-width: 3px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    width: 150px;
 }
