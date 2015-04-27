@@ -257,4 +257,8 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         Response.Redirect("../Erro/Erro.aspx");
     }
 
+    protected void btMenuPrincipal_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Home/Home.aspx");
+    }
 }

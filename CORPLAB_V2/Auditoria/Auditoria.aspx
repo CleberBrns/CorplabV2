@@ -5,23 +5,6 @@
 <head runat="server">
     <title>Auditoria - ALS CorpLab</title>
     <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript">
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        function Redireciona(acao) {
-
-            var destino;
-
-            if (acao == 0) {
-                destino = "../Home/Home.aspx";                
-            }
-            else {
-                destino = "../Auditoria/Auditoria.aspx";
-            }
-
-            window.location.href = destino;
-           
-        }
-    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -47,22 +30,24 @@
                     </div>
                     <div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
                         Entre com a Prateleira
-                    <div style="margin-top: 10px">
+                    <asp:Panel runat="server" DefaultButton="btPrateleira" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
                         <div style="display: none">
                             <asp:Button runat="server" ID="btPrateleira" OnClick="btPrateleira_Click" />
                         </div>
-                    </div>
+                    </asp:Panel>
                     </div>
                     <div runat="server" id="divBotaoAuditoria" visible="false" style="margin-top: 3%;">
                         <div>
                             Amostra a ser auditada 
                         </div>
                         <br />
-                        <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
-                        <div style="display: none">
-                            <asp:Button runat="server" ID="btAuditarAmostra" OnClick="btAuditarAmostra_Click" />
-                        </div>
+                        <asp:Panel runat="server" DefaultButton="btAuditarAmostra">
+                            <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
+                            <div style="display: none">
+                                <asp:Button runat="server" ID="btAuditarAmostra" OnClick="btAuditarAmostra_Click" />
+                            </div>
+                        </asp:Panel>
                     </div>
                     <div style="margin-top: 3%; margin-bottom: 3%; text-align: center; font-size: 18px;" runat="server" id="divRetornoAuditar" visible="false">
                         <div style="margin-bottom: 3%;">
@@ -125,8 +110,7 @@
             <div class="rodape">
             </div>
             <div class="contBt">
-              <a href="javascript:Redireciona(0);">
-                    <input type="button" class="bt" value="Menu Principal" /></a>
+              <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" />
             </div>
         </div>
     </form>
