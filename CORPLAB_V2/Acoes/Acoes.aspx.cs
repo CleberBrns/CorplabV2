@@ -21,14 +21,14 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (Session["SessionUser"].ToString() != string.Empty)
+                if (Session["SessionUsuario"].ToString() != string.Empty)
                 {
                     if (!IsPostBack)
                         CarregaPagina();
                 }
                 else
                 {
-                    Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);                    
+                    Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
                     Response.Redirect("../Login/Login.aspx");
                 }
 
@@ -43,10 +43,8 @@ public partial class Acoes_Acoes : System.Web.UI.Page
 
     private void CarregaPagina()
     {
-        if (Session["SessionUser"].ToString() != "Gestor")
-            hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
+        hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
 
-        hddInclusoes.Value = string.Empty;
     }
 
     protected void btAcao_Click(object sender, EventArgs e)
@@ -71,8 +69,8 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                 case "04":
                     Response.Redirect("../Acoes/Descarte.aspx");
                     break;
-                case "05":
-                    Response.Redirect("../Auditoria/Auditoria.aspx");
+                case "05"://Auditoria
+                    VerificaAcessoUsuario();
                     break;
                 case "06":
                     Response.Redirect("../Auditoria/Busca.aspx");
@@ -81,6 +79,18 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                     MostraRetorno("Ação Desconhecida. Favor entrar em contato com o Administrador.");
                     break;
             }
+        }
+    }
+
+    private void VerificaAcessoUsuario()
+    {
+        if (Session["SessionTipoAcesso"].ToString() == "1")
+        {
+            Response.Redirect("../Auditoria/Auditoria.aspx");
+        }
+        else
+        {
+            MostraRetorno("Você não possui permissões para acessar essa ferramenta.");
         }
     }
 
@@ -96,7 +106,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         else
         {
             lblRetorno.Text = mensagem;
-        }        
+        }
     }
 
     public void RetornaPaginaErro(string erro)

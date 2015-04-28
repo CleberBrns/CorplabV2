@@ -12,26 +12,23 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
     SelecionaDados selecionaDados = new SelecionaDados();
     InsereDados insereDados = new InsereDados();
 
-
     protected void Page_Load(object sender, EventArgs e)
     {
-        txtAmostra.Focus();        
+        txtAmostra.Focus();
 
         try
         {
             if (!IsPostBack)
             {
-                if (Session["SessionUser"].ToString() != string.Empty)
+                if (Session["SessionUsuario"].ToString() != string.Empty)
                 {
                     if (!IsPostBack)
                         CarregaPagina();
                 }
                 else
                 {
-                    Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
-                    Response.Redirect("../Login/Login.aspx");
+                    RedirecionaLogin();
                 }
-
             }
         }
         catch (Exception ex)
@@ -41,39 +38,22 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
     }
 
+    private void RedirecionaLogin()
+    {
+        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
+        Response.Redirect("../Login/Login.aspx");
+    }
+
     private void CarregaPagina()
     {
-        if (Session["SessionUser"].ToString() != "Gestor")
-            hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
+        hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
+        hddIdUsuario.Value = Session["SessionIdUsuario"].ToString();
 
-        hddInclusoes.Value = string.Empty;
-
-        ExibiLinkInicial();
+        divPrateleira.Visible = true;
+        txtPrateleira.Focus();
 
     }
 
-    protected void ddlCamaras_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlCamaras.SelectedValue != "0")
-        {
-            lblCamara.Text = " - C&acirc;mara " + ddlCamaras.SelectedItem.Text;
-
-            divCamara.Visible = false;
-            divPrateleira.Visible = true;
-            txtPrateleira.Focus();
-        }
-
-        if (string.IsNullOrEmpty(txtPrateleira.Text))
-        {
-            btNovaPrateleira.Visible = false;
-        }
-        else
-        {
-            btNovaPrateleira.Visible = true;
-        }
-
-        ExibiLinkInicial();
-    }
 
     protected void btPrateleira_Click(object sender, EventArgs e)
     {
@@ -83,11 +63,33 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         }
         else
         {
-            lblPrateleira.Text = ", Prateleira " + txtPrateleira.Text.Trim();
+            try
+            {
+                DataTable dtPrateleira = selecionaDados.ConsultaPrateleira(txtPrateleira.Text.Trim());
 
-            divPrateleira.Visible = false;
-            divInsercoes.Visible = true;
-            btNovaPrateleira.Visible = true;
+                if (dtPrateleira.Rows.Count > 0)
+                {
+                    hddIdPrateleria.Value = dtPrateleira.DefaultView[0]["IdPrateleira"].ToString();
+                    lblPrateleira.Text = " Prateleira " + txtPrateleira.Text.Trim();
+
+                    divPrateleira.Visible = false;
+                    divInsercoes.Visible = true;
+                    btNovaPrateleira.Visible = true;  
+                }
+                else
+                {
+                    divRetorno.Visible = true;
+                    imgOk.Visible = false;
+                    imgErro.Visible = true;
+                    lblRetorno.Text = "Prateleira não cadastrada. <br/> Favor verificar com o Administrador do Sistema";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
+
         }
     }
 
@@ -188,14 +190,6 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         divComCaixa.Visible = false;
     }
 
-    public void ConfiguraPagina(string tipoInsercao)
-    {
-        hddInclusoes.Value = tipoInsercao;
-
-        lblCamara.Text = " - C&acirc;mara " + hddInclusoes.Value;
-
-    }
-
     public void MostraRetorno(string mensagem)
     {
         divRetorno.Visible = true;
@@ -215,7 +209,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
     private void ExibiLinkInicial()
     {
-        if (!string.IsNullOrEmpty(lblCamara.Text))
+        if (!string.IsNullOrEmpty(lblPrateleira.Text))
         {
             divInicio.Visible = true;
         }

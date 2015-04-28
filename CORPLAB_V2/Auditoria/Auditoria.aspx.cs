@@ -21,23 +21,34 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (Session["SessionUser"].ToString() != string.Empty)
+                if (Session["SessionIdTipoAcesso"].ToString() != "1")
                 {
-                    if (!IsPostBack)
-                        CarregaPagina();
+                    RetornaPaginaErro("Você não possui permissões para acessar essa ferramenta.");
                 }
                 else
                 {
-                    Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
-                    Response.Redirect("../Login/Login.aspx");
+                    if (Session["SessionUsuario"].ToString() != string.Empty)
+                    {
+                        if (!IsPostBack)
+                            CarregaPagina();
+                    }
+                    else
+                    {
+                        RedirecionaLogin();
+                    }
                 }
-
             }
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro(ex.ToString());
+            RedirecionaLogin();
         }
+    }
+
+    private void RedirecionaLogin()
+    {
+        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
+        Response.Redirect("../Login/Login.aspx");
     }
 
     private void CarregaPagina()
@@ -130,7 +141,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         Session["SessionPrateleira"] = txtPrateleira.Text;
 
         Response.Write("<script>window.open('../Auditoria/Impressao.aspx','_blank')</script");
-             
+
     }
 
     protected void btAuditarAmostra_Click(object sender, EventArgs e)

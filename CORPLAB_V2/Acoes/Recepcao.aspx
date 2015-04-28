@@ -7,29 +7,20 @@
     <link href="../Styles/Acoes.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <form id="form1" runat="server">
-        <input type="hidden" runat="server" id="hddTestPost" />
-        <input type="hidden" runat="server" id="hddIdUnidade" value="0" />
-        <input type="hidden" runat="server" id="hddInclusoes" />
+    <form id="form1" runat="server">        
+        <input type="hidden" runat="server" id="hddIdUsuario" />
+        <input type="hidden" runat="server" id="hddIdUnidade" />
+        <input type="hidden" runat="server" id="hddIdCamara" />
+        <input type="hidden" runat="server" id="hddIdEstante" />
+        <input type="hidden" runat="server" id="hddIdPrateleria" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Recepção <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" /><asp:Label runat="server" ID="lblComCaixa" CssClass="lblCamara" />
+            <h2>Recepção<asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" /><asp:Label runat="server" ID="lblComCaixa" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
                     <div style="margin-top: 10%;" runat="server" id="divInsercaoAtual">
                         <asp:Label runat="server" ID="lblInsercaoAtual" />
-                    </div>
-                    <div style="margin-top: 10%;" runat="server" id="divCamara">
-                        Selecione a C&acirc;mara
-                    <div style="margin-top: 10px">
-                        <asp:DropDownList runat="server" ID="ddlCamaras" AutoPostBack="true" OnSelectedIndexChanged="ddlCamaras_SelectedIndexChanged"
-                            Width="180px" Height="30px">
-                            <asp:ListItem Text="-- Selecione --" Value="0"></asp:ListItem>
-                            <asp:ListItem Text="ALS 01" Value="01"></asp:ListItem>
-                            <asp:ListItem Text="ALS 02" Value="02"></asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
                     </div>
                     <div style="margin-top: 10%;" runat="server" id="divPrateleira" visible="false">
                         Entre com a Prateleira

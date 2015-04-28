@@ -264,4 +264,76 @@ public class SelecionaDados
         return dtConsulta;
     }
 
+    public DataTable ConsultaCamarasUnidade(int idUnidade)
+    {
+        DataTable dtConsulta = new DataTable();
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@idUnidade", idUnidade);
+                sqlCommand.CommandText = "usp_camaraUnidade_select";
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                dtConsulta.Load(sqlDataReader);
+
+                sqlDataReader.Close();
+                sqlDataReader.Dispose();
+                sqlDataReader = null;
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return dtConsulta;
+    }
+
+    public DataTable ConsultaPrateleira(string prateleira)
+    {
+        DataTable dtConsulta = new DataTable();
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@prateleira", prateleira);
+                sqlCommand.CommandText = "usp_prateleira_select";
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                dtConsulta.Load(sqlDataReader);
+
+                sqlDataReader.Close();
+                sqlDataReader.Dispose();
+                sqlDataReader = null;
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return dtConsulta;
+    }
+
 }
