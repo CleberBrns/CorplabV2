@@ -26,4 +26,14 @@ public partial class Erro_Erro : System.Web.UI.Page
         catch (Exception ex) { }//Apenas exibe a página indicando o erro
     }
 
+    protected void btMenuPrincipal_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Home/Home.aspx");
+    }
+
+    protected void btSair_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Login/Login.aspx");
+    }
+
 }

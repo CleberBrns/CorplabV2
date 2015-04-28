@@ -16,30 +16,38 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        //try
-        //{
-        //    if (Session["UsuarioLogado"].ToString() != string.Empty)
-        //    {
-        //        if (!IsPostBack)
-        //            CarregaDados();
-        //        else
-        //            DesmarcaSelecionados();
-        //    }
-        //    else
-        //    {
-        //        Response.Redirect("../Home/Home.aspx");
-        //    }
-        //}
-        //catch (Exception)//Sem sessão
-        //{
-        //    Response.Redirect("../Home/Home.aspx");
-        //}
+        try
+        {
+            if (!IsPostBack)
+            {
+                if (Session["SessionUsuario"].ToString() != string.Empty)
+                {
+                    if (!IsPostBack)
+                        CarregaDados();
+                    else
+                        DesmarcaSelecionados();
+                }
+                else
+                {
+                    RedirecionaLogin();
+                }
 
-        if (!IsPostBack)
-            CarregaDados();
-        else
-            DesmarcaSelecionados();
+            }
+        }
+        catch (Exception ex)
+        {
+            RetornaPaginaErro(ex.ToString());
+        }
 
+
+
+    }
+
+
+    private void RedirecionaLogin()
+    {
+        Response.Write("<script>alert('Perdeu a sessão!')</script>");
+        Response.Redirect("../Login/Login.aspx");
     }
 
     /// <summary>
@@ -95,7 +103,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
         InsereDados insereDados = new InsereDados();
 
-        insereDados.InsereUsuario(nomeUsuario, login, senha, idUnidade, idTipoAcesso, 1);
+        //insereDados.InsereUsuario(nomeUsuario, login, senha, idUnidade, idTipoAcesso, 1);
 
         return msgRetorno;
     }
@@ -125,8 +133,8 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
         if (dtUsuarios.Rows.Count > 0)
         {
             rblUsuarios.DataSource = dtUsuarios;
-            rblUsuarios.DataTextField = "NOME";
-            rblUsuarios.DataValueField = "ID";
+            rblUsuarios.DataTextField = "Nome";
+            rblUsuarios.DataValueField = "IdUsuario";
             rblUsuarios.DataBind();
 
             rptCadastros.DataSource = dtUsuarios;
@@ -168,8 +176,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
         Label lblIdCadastro = (Label)e.Item.FindControl("lblIdCadastro");
         Panel dvUsuario = (Panel)e.Item.FindControl("dvUsuario");
 
-        lblUnidade.Text = RetornaDescricaoUnidade(Convert.ToInt32(lblUnidade.Text.Trim()));
-        lblTipoAcesso.Text = RetornaDescricaoTipoAcesso(Convert.ToInt32(lblTipoAcesso.Text.Trim()));
+        lblUnidade.Text = RetornaDescricaoUnidade(Convert.ToInt32(lblUnidade.Text.Trim()));        
 
         dvUsuario.CssClass = "none dvUsuario css" + lblIdCadastro.Text.Trim();
     }
@@ -193,31 +200,6 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
         catch (Exception) { }//Continua Vazio
 
         return nomeUnidade;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="idTipoAcesso"></param>
-    /// <returns></returns>
-    private string RetornaDescricaoTipoAcesso(int idTipoAcesso)
-    {
-        string tipoAcesso = "Não definido";
-
-        try
-        {
-            DataSet dsTiposAcesso = new DataSet();
-            string sCaminhoXML = Server.MapPath("../Tabelas/TiposDeAcesso.xml");
-            dsTiposAcesso.ReadXml(sCaminhoXML);
-            DataView dvTipoAcesso = dsTiposAcesso.Tables[0].DefaultView;
-
-            dvTipoAcesso.RowFilter = "ID = " + idTipoAcesso + "";
-
-            tipoAcesso = dvTipoAcesso[0]["TIPO"].ToString().Trim();
-        }
-        catch (Exception) { }//Continua Vazio
-
-        return tipoAcesso;
     }
 
     #region Ações dos Botões
@@ -244,7 +226,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
                 if (idCadastro == lblIdCadastro.Text)
                 {
-                    atualizaDados.AtualizaUsuario(Convert.ToInt32(idCadastro), txtLogin.Text.Trim(), txtSenha.Text.Trim());
+                    //atualizaDados.AtualizaUsuario(Convert.ToInt32(idCadastro), txtLogin.Text.Trim(), txtSenha.Text.Trim());
                     break;
                 }
             }
@@ -271,6 +253,12 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
     protected void btErro_Click(object sender, EventArgs e)
     {
         Session["ExcessaoDeErro"] = hddErro.Value;
+        Response.Redirect("../Erro/Erro.aspx");
+    }
+
+    public void RetornaPaginaErro(string erro)
+    {
+        Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
     }
 }

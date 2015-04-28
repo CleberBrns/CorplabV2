@@ -15,6 +15,145 @@ public class InsereDados
     SelecionaDados selecionaDados = new SelecionaDados();
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
+    public int InsereUnidade(string unidade, int idCidade, int idEstado)
+    {
+        int idUnidade = 0;
+
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_unidade_insert";
+                sqlCommand.Parameters.AddWithValue("@unidade", unidade);
+                sqlCommand.Parameters.AddWithValue("@idCidade", idCidade);
+                sqlCommand.Parameters.AddWithValue("@idEstado", idEstado);
+                sqlCommand.Parameters.AddWithValue("@idUnidade", 0).Direction = ParameterDirection.Output;
+
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                idUnidade = int.Parse(sqlCommand.Parameters["@idUnidade"].Value.ToString());
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return idUnidade;
+    }
+
+    public int InsereCamara(string codCamara, int idUnidade)
+    {
+        int idCamara = 0;
+
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_camara_insert";
+                sqlCommand.Parameters.AddWithValue("@NomeCamara", codCamara);
+                sqlCommand.Parameters.AddWithValue("@idUnidade", idUnidade);                              
+                sqlCommand.Parameters.AddWithValue("@idCamara", 0).Direction = ParameterDirection.Output;
+
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                idCamara = int.Parse(sqlCommand.Parameters["@idCamara"].Value.ToString());
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return idCamara;
+    }
+
+    public int InsereEstante(string codEstante, int idCamara)
+    {
+        int idEstante = 0;
+
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_estante_insert";
+                sqlCommand.Parameters.AddWithValue("@Estante", codEstante);
+                sqlCommand.Parameters.AddWithValue("@idCamara", idCamara);
+                sqlCommand.Parameters.AddWithValue("@idEstante", 0).Direction = ParameterDirection.Output;
+
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                idEstante = int.Parse(sqlCommand.Parameters["@idEstante"].Value.ToString());
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return idEstante;
+    }
+
+    public void InserePrateleira(int idEstante, string codPrateleira)
+    {
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_prateleira_insert";
+                sqlCommand.Parameters.AddWithValue("@idEstante", idEstante);
+                sqlCommand.Parameters.AddWithValue("@Prateleira", codPrateleira);
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+    }
+
     public void InsereAmostra(string sIdGrupo, int idAmostra, string descricao, int idTipoAmostra, int idPrateleira, string nomeCaixa)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
@@ -51,7 +190,6 @@ public class InsereDados
         }
     }
 
-
     public void InsereUsuario(string nome, string login, string senha, int idUnidade, int idTipoAcesso, int idStatus)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
@@ -86,106 +224,5 @@ public class InsereDados
         }
     }
 
-    public int InsereUnidade(string unidade, int idCidade, int idEstado, int idPais, int qtdCamaras)
-    {
-        int idUnidade = 0;
 
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_unidade_insert";
-                sqlCommand.Parameters.AddWithValue("@unidade", unidade);
-                sqlCommand.Parameters.AddWithValue("@idCidade", idCidade);
-                sqlCommand.Parameters.AddWithValue("@idEstado", idEstado);
-                sqlCommand.Parameters.AddWithValue("@idPais", idPais);
-                sqlCommand.Parameters.AddWithValue("@idUnidade", 0).Direction = ParameterDirection.Output;
-
-                sqlConnection.Open();
-                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                idUnidade = int.Parse(sqlCommand.Parameters["@idUnidade"].Value.ToString());
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-
-        for (int camara = 1; camara < qtdCamaras + 1; camara++)
-            InsereCamara(idUnidade, camara);
-
-
-        return idUnidade;
-
-    }
-
-    public void InsereCamara(int idUnidade, int qtdCamara)
-    {
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_camara_insert";
-                sqlCommand.Parameters.AddWithValue("@NomeCamara", "Câmara nº" + qtdCamara);
-                sqlCommand.Parameters.AddWithValue("@idUnidade", idUnidade);
-                sqlConnection.Open();
-                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-    }
-
-    public void InserePrateleira(int idCamara, string prateleira)
-    {
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_prateleira_insert";
-                sqlCommand.Parameters.AddWithValue("@idCamara", idCamara);
-                sqlCommand.Parameters.AddWithValue("@Prateleira", prateleira);
-                sqlConnection.Open();
-                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-    }
 }

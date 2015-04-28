@@ -21,12 +21,21 @@ public partial class Unidades_Unidades : System.Web.UI.Page
     {
         Response.Redirect("../Unidades/Cadastrar.aspx");
 
-        //DataTable dtUnidades = new DataTable();
-
-        //if (dtUnidades.Rows.Count == 0)
+        //try
+        //{
+        //    if (Convert.ToInt32(Session["SessionQtdUnidades"].ToString()) > 0)
+        //    {
+        //        btGerenciar.Visible = true;
+        //    }
+        //    else
+        //    {
+        //        Response.Redirect("../Unidades/Cadastrar.aspx");
+        //    }
+        //}
+        //catch (Exception)
         //{
         //    Response.Redirect("../Unidades/Cadastrar.aspx");
-        //}
+        //}        
     }
 
     protected void btNovaUnidade_Click(object sender, EventArgs e)

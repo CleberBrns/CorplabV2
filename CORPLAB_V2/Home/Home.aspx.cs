@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -7,24 +8,55 @@ using System.Web.UI.WebControls;
 
 public partial class Home_Home : System.Web.UI.Page
 {
+    SelecionaDados selecionaDados = new SelecionaDados();
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            if (Session["SessionUser"].ToString() != string.Empty)
+            if (Session["SessionUsuario"].ToString() != string.Empty)
             {
-                if (Session["SessionUser"].ToString() != "Gestor")
-                {
-                    
-                }
+                CarregaPagina();
             }
         }
         catch (Exception)
         {
-            Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+            Response.Write("<script>alert('Perdeu a sessão!')</script>");
             Response.Redirect("../Login/Login.aspx");
         }
 
+    }
+
+    private void CarregaPagina()
+    {
+        //Usuário Gestor
+        if (Session["SessionIdTipoAcesso"].ToString() != "1")
+        {
+            btUnidades.Visible = false;
+            btUsuarios.Visible = false;
+        }
+        else
+        {
+            try
+            {
+                DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
+
+                Session["SessionQtdUnidades"] = "0";
+                if (!(dtUnidades.Rows.Count > 0))
+                {
+                    btUsuarios.Visible = false;
+                }
+                else
+                {
+                    Session["SessionQtdUnidades"] = dtUnidades.Rows.Count.ToString();
+                }
+            }
+            catch (Exception ex)
+            {                
+                btUsuarios.Visible = false;
+            }
+
+        }
     }
 
     protected void btUsuarios_Click(object sender, EventArgs e)
@@ -34,8 +66,11 @@ public partial class Home_Home : System.Web.UI.Page
 
     protected void btSair_Click(object sender, EventArgs e)
     {
-        Session["SessionUser"] = null;
+        Session["SessionUsuario"] = null;
+        Session["SessionIdUsuario"] = null;
+        Session["SessionIdTipoAcesso"] = null;
         Session["SessionIdUnidade"] = null;
+
         Response.Redirect("../Login/Login.aspx");
     }
 
@@ -48,5 +83,5 @@ public partial class Home_Home : System.Web.UI.Page
     {
         Response.Redirect("../Acoes/Acoes.aspx");
     }
-    
+
 }

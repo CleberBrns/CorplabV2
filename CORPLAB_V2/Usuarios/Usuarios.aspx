@@ -36,7 +36,7 @@
                                     <div>
                                         <span>
                                             <asp:Label ID="lblNome" runat="server" Text='<%#Eval("NOME")%>' Style="display: none;"></asp:Label>
-                                            <asp:Label ID="lblIdCadastro" runat="server" Style="display: none;" Text='<%#Eval("ID")%>'></asp:Label>
+                                            <asp:Label ID="lblIdCadastro" runat="server" Style="display: none;" Text='<%#Eval("IDUSUARIO")%>'></asp:Label>
                                         </span>
                                     </div>
                                     <div style="margin-top: 3px;">
@@ -48,7 +48,7 @@
                                     <div style="margin-top: 3px;">
                                         <span class="descricao">Tipo de Acesso</span>
                                         <div>
-                                            <asp:Label ID="lblTipoAcesso" runat="server" Text='<%#Eval("IDTIPO")%>'></asp:Label></div>
+                                            <asp:Label ID="lblTipoAcesso" runat="server" Text='<%#Eval("IDTIPOACESSO")%>'></asp:Label></div>
                                     </div>
                                     <div style="margin-top: 15px;">
                                         <asp:Panel runat="server" ID="pnlCadastro">
@@ -65,10 +65,10 @@
                                         </asp:Panel>
                                     </div>
                                     <div class="contBotoes">
-                                        <asp:Button ID="btAlterar" runat="server" CssClass="btAcoes" Text="Alterar" CommandArgument='<%#Eval("ID")%>'
+                                        <asp:Button ID="btAlterar" runat="server" CssClass="btAcoes" Text="Alterar" CommandArgument='<%#Eval("IDUSUARIO")%>'
                                             OnClick="btAlterar_Click" ToolTip="Alterar o Cadastro" />
                                          <input type="button" class="btAcoes" id="btExcluir" value="Excluir" title="Excluí o Cadastro"
-                                            name='<%#Eval("ID")%>' />
+                                            name='<%#Eval("IDUSUARIO")%>' />
                                     </div>
                                 </div>
                             </asp:Panel>

@@ -29,9 +29,8 @@
         <div class="rodape" style="margin-top:38%;">
         </div>
         <div class="contBt">
-            <a href="javascript:Redireciona(0);">
-                <input type="button" class="bt" value="Menu Principal" /></a> <a href="javascript:Redireciona(1);">
-                    <input type="button" class="bt" value="Sair" /></a>
+            <asp:Button runat="server" ID="btMenuPrincipal" OnClick="btMenuPrincipal_Click" Text="Menu Principal" CssClass="bt" />
+            <asp:Button runat="server" ID="btSair" OnClick="btSair_Click" Text="Sair" CssClass="bt" />
         </div>
     </div>
     </form>

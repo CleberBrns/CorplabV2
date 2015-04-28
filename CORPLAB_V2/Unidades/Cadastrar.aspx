@@ -7,13 +7,13 @@
     <link href="../Styles/Acoes.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <form id="form1" runat="server">
-        <input type="hidden" runat="server" id="hddTestPost" />
-        <input type="hidden" runat="server" id="hddIdUnidade" value="0" />
-        <input type="hidden" runat="server" id="hddInclusoes" />
+    <form id="form1" runat="server">        
+        <input type="hidden" runat="server" id="hddIdUnidade" />
+        <input type="hidden" runat="server" id="hddIdCamara" />
+        <input type="hidden" runat="server" id="hddIdEstante" />        
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Nova Unidade<asp:Label runat="server" ID="lblUnidade" CssClass="lblCamara" />
+            <h2>Nova Unidade<asp:Label runat="server" ID="lblUnidade" CssClass="lblCamara" /><asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblEstante" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
@@ -32,7 +32,8 @@
                         </div>
                         <div style="margin-top: 5px;">
                             Cidade
-                    <asp:DropDownList runat="server" ID="ddlCidade" Width="180px" Height="25px" Enabled="false">
+                    <asp:DropDownList runat="server" ID="ddlCidade" Width="180px" Height="25px" Enabled="false" AutoPostBack="true" 
+                        OnSelectedIndexChanged="ddlCidade_SelectedIndexChanged">
                         <asp:ListItem Text="-- Selecione --" Value="0" />
                     </asp:DropDownList>
                         </div>
@@ -91,7 +92,8 @@
                     <div class="contBt">
                         <asp:Button runat="server" ID="btCadastrar" OnClick="btCadastrar_Click" CssClass="bt" Text="Cadastrar" />
                         <asp:Button runat="server" ID="btConfigurarUnidade" OnClick="btConfigurarUnidade_Click" CssClass="bt" Text="Configurar Unidade" Visible="false" />
-                        <asp:Button runat="server" ID="btInicio" OnClick="btInicio_Click" CssClass="bt" Text="Inicio" Visible="false" />                     
+                        <asp:Button runat="server" ID="btInicio" OnClick="btInicio_Click" CssClass="bt" Text="Inicio" Visible="false" />
+                        <asp:Button runat="server" ID="btNovaEstante" OnClick="btNovaEstante_Click" CssClass="bt" Text="Nova Estante" Visible="false" />                      
                     </div>
                 </div>
             </div>

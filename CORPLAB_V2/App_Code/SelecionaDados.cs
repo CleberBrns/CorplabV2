@@ -15,9 +15,9 @@ public class SelecionaDados
 {
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
-    public DataTable ConsultaPrateleiraAuditoria(int idPrateleira)
+    public DataTable ConsultaUsuario(string login, string senha)
     {
-        DataTable dtAuditoria = new DataTable();
+        DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -25,12 +25,13 @@ public class SelecionaDados
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@idPrateleira", idPrateleira);
-                sqlCommand.CommandText = "usp_auditoria_x_prateleira_select";
+                sqlCommand.Parameters.AddWithValue("@login", login);
+                sqlCommand.Parameters.AddWithValue("@senha", senha);
+                sqlCommand.CommandText = "usp_usuario_select";
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                dtAuditoria.Load(sqlDataReader);
+                dtConsulta.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -48,156 +49,12 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return dtAuditoria;
-    }
-
-    public DataTable ConsultaGrupoXAmostra(string codGrupo)
-    {
-        DataTable dtAmostrasGrupo = new DataTable();
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@idGrupo", codGrupo);
-                sqlCommand.CommandText = "usp_grupo_x_amostras_select";
-                sqlConnection.Open();
-                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                dtAmostrasGrupo.Load(sqlDataReader);
-
-                sqlDataReader.Close();
-                sqlDataReader.Dispose();
-                sqlDataReader = null;
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-
-        return dtAmostrasGrupo;
-    }
-
-    public DataTable ConsultaAcessoUsuario(string login, string senha)
-    {
-        DataTable dtUsuario = new DataTable();
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@Login", login);
-                sqlCommand.Parameters.AddWithValue("@Senha", senha);
-                sqlCommand.CommandText = "usp_usuarioAcesso_select";
-                sqlConnection.Open();
-                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                dtUsuario.Load(sqlDataReader);
-
-                sqlDataReader.Close();
-                sqlDataReader.Dispose();
-                sqlDataReader = null;
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-
-        return dtUsuario;
-    }
-
-    public DataTable ConsultaTipoAmostra()
-    {
-        DataTable dtTipoAmostra = new DataTable();
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_tipoAmostra_select";                
-                sqlConnection.Open();
-                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                dtTipoAmostra.Load(sqlDataReader);
-
-                sqlDataReader.Close();
-                sqlDataReader.Dispose();
-                sqlDataReader = null;
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-
-        return dtTipoAmostra;
-    }
-
-    public DataTable ConsultaPrateleiras(int idCamara)
-    {
-        DataTable dtPrateleiras = new DataTable();
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_prateleira_select";
-                sqlCommand.Parameters.AddWithValue("@IdCamara", idCamara);
-                sqlConnection.Open();
-                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                dtPrateleiras.Load(sqlDataReader);
-
-                sqlDataReader.Close();
-                sqlDataReader.Dispose();
-                sqlDataReader = null;
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-
-        return dtPrateleiras;
+        return dtConsulta;
     }
 
     public DataTable ConsultaTodosUsuarios()
     {
-        DataTable dtUsuarios = new DataTable();
+        DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -209,7 +66,7 @@ public class SelecionaDados
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                dtUsuarios.Load(sqlDataReader);
+                dtConsulta.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -227,12 +84,12 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return dtUsuarios;
+        return dtConsulta;
     }
 
     public DataTable ConsultaTipoAcesso()
     {
-        DataTable dtTipoAcesso = new DataTable();
+        DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -244,7 +101,7 @@ public class SelecionaDados
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                dtTipoAcesso.Load(sqlDataReader);
+                dtConsulta.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -262,12 +119,12 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return dtTipoAcesso;
+        return dtConsulta;
     }
 
     public DataTable ConsultaTodasUnidades()
     {
-        DataTable dtUnidades = new DataTable();
+        DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -275,11 +132,11 @@ public class SelecionaDados
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_todasUnidades_select";                
+                sqlCommand.CommandText = "usp_todasUnidades_select";
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-                
-                dtUnidades.Load(sqlDataReader);
+
+                dtConsulta.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -297,12 +154,12 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return dtUnidades;
+        return dtConsulta;
     }
 
-    public DataTable ConsultaCamaras(int idUnidade)
+    public DataTable ConsultaPaises()
     {
-        DataTable dtCamaras = new DataTable();
+        DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -310,12 +167,11 @@ public class SelecionaDados
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_camara_select";
-                sqlCommand.Parameters.AddWithValue("@IdUnidade", idUnidade);
+                sqlCommand.CommandText = "usp_todasUnidades_select";
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                dtCamaras.Load(sqlDataReader);           
+                dtConsulta.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -333,32 +189,25 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return dtCamaras;
+        return dtConsulta;
     }
-
-    public List<ListItem> ConsultaPais()
+    
+    public DataTable ConsultaEstados(int idPais)
     {
-        List<ListItem> ListPais = new List<ListItem>();
+        DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
-
-        string query = "select pais.pkIdPais as IdPais, pais.Pais from ALS_PAIS pais";
         try
         {
             using (sqlConnection)
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.Text;
-                sqlCommand.CommandText = query;
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@idPais", idPais);
+                sqlCommand.CommandText = "usp_Estado_select";
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                if (sqlDataReader.HasRows)
-                {
-                    while (sqlDataReader.Read())
-                    {
-                        ListPais.Add(new ListItem(sqlDataReader["Pais"].ToString(), sqlDataReader["IdPais"].ToString()));
-                    }
-                }    
+                dtConsulta.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -376,63 +225,25 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return ListPais;
-    }
-
-    public DataTable ConsultaEstados()
-    {
-        DataTable dtPais = new DataTable();
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-
-        string query = "select estado.pkIdEstado as IdEstado, estado.Estado, estado.UF from ALS_ESTADO estado";
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.Text;
-                sqlCommand.CommandText = query;
-                sqlConnection.Open();
-                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                dtPais.Load(sqlDataReader);
-
-                sqlDataReader.Close();
-                sqlDataReader.Dispose();
-                sqlDataReader = null;
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-
-        return dtPais;
+        return dtConsulta;
     }
 
     public DataTable ConsultaCidades(int idEstado)
     {
-        DataTable dtCidades = new DataTable();
+        DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
-
-        string query = "select cidade.pkIdcidade as IdCidade,cidade.Cidade from ALS_CIDADE cidade where cidade.fkIdEstado = " + idEstado + "";
         try
         {
             using (sqlConnection)
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.Text;
-                sqlCommand.CommandText = query;
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@idEstado", idEstado);
+                sqlCommand.CommandText = "usp_Cidade_select";
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                dtCidades.Load(sqlDataReader);
+                dtConsulta.Load(sqlDataReader);
 
                 sqlDataReader.Close();
                 sqlDataReader.Dispose();
@@ -450,7 +261,7 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return dtCidades;
+        return dtConsulta;
     }
 
 }

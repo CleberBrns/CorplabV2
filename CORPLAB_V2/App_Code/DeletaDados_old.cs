@@ -8,14 +8,15 @@ using System.Configuration;
 
 
 /// <summary>
-///
+/// 
 /// </summary>
-public class AtualizaDados
+public class DeletaDados_old
 {
     SelecionaDados selecionaDados = new SelecionaDados();
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
-    public void AtualizaUsuario(int idUsuario, string login, string senha)
+
+    public void DeletaUsuario(int idUsuario)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
 
@@ -25,10 +26,8 @@ public class AtualizaDados
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_usuario_update";
+                sqlCommand.CommandText = "usp_usuario_delete";
                 sqlCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
-                sqlCommand.Parameters.AddWithValue("@login", login);
-                sqlCommand.Parameters.AddWithValue("@senha", senha);
                 sqlConnection.Open();
                 sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
@@ -45,5 +44,4 @@ public class AtualizaDados
             sqlConnection = null;
         }
     }
-
 }

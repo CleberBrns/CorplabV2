@@ -4,27 +4,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title>Login - ALS CorpLab</title>
-    <link href="../Styles/Login.css" rel="stylesheet" type="text/css" />    
+    <link href="../Styles/Login.css" rel="stylesheet" type="text/css" />
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="../Scripts/Login.js" type="text/javascript"></script>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div runat="server" id="divLogin">
-        <div class="pagina paginaLogin">
-            <div>
-                <h4>Login:</h4>
-                <asp:TextBox ID="txtLogin" style="margin-top: 5px; margin-bottom: 5px;" runat="server" Width="100%"></asp:TextBox>
-                 <h4>Senha:</h4>
-                <asp:TextBox ID="txtSenha" style="margin-top: 5px;" TextMode="Password" runat="server" Width="100%"></asp:TextBox>
-                <asp:Label runat="server" ID="lblRetorno" Visible="false" Style="color: Red; font-weight: bold;" />
-            </div>
-            <div class="contBt">
-                <asp:Button runat="server" ID="btLogar" CssClass="bt" Text="OK" OnClick="Acessar_Click" />
-                <asp:Button runat="server" ID="btLimparLogin" CssClass="bt" Text="Limpar" />
+        <div runat="server" id="divLogin">
+            <div class="pagina paginaLogin">
+                <div>
+                    <h4>Login:</h4>
+                    <asp:TextBox ID="txtLogin" Style="margin-top: 5px; margin-bottom: 5px;" runat="server" Width="100%"></asp:TextBox>
+                    <h4>Senha:</h4>
+                    <asp:TextBox ID="txtSenha" Style="margin-top: 5px;" TextMode="Password" runat="server" Width="100%"></asp:TextBox>
+                    <div runat="server" id="divRetorno" visible="false" style="margin-top: 5%; text-align:center;">
+                        <div>
+                            <asp:Image runat="server" ID="imgErro" ImageUrl="../Imagens/error.png" Width="10%" />
+                        </div>
+                        <br />
+                        <asp:Label runat="server" ID="lblRetorno" Style="color: Red; font-weight: bold;" />
+                    </div>
+                </div>
+                <div class="contBt">
+                    <asp:Button runat="server" ID="btLogar" CssClass="bt" Text="OK" OnClick="Acessar_Click" />
+                    <asp:Button runat="server" ID="btLimparLogin" CssClass="bt" Text="Limpar" />
+                </div>
             </div>
         </div>
-    </div>
     </form>
 </body>
 </html>
