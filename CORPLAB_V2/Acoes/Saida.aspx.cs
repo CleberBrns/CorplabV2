@@ -28,7 +28,7 @@ public partial class Acoes_Saida : System.Web.UI.Page
                 }
                 else
                 {
-                    Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+                    Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
                     Response.Redirect("../Login/Login.aspx");
                 }
 

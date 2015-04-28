@@ -26,7 +26,7 @@ public class AtualizaDados
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.CommandText = "usp_usuario_update";
-                sqlCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                sqlCommand.Parameters.AddWithValue("@idUsuario", idUsuario);
                 sqlCommand.Parameters.AddWithValue("@login", login);
                 sqlCommand.Parameters.AddWithValue("@senha", senha);
                 sqlConnection.Open();

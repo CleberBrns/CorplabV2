@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>Usuários</title>
+    <title>Usuários - ALS CorpLab</title>
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="../Scripts/Usuarios.js" type="text/javascript"></script>
     <link href="../Styles/Usuarios.css" rel="stylesheet" type="text/css" />
@@ -48,7 +48,7 @@
                                     <div style="margin-top: 3px;">
                                         <span class="descricao">Tipo de Acesso</span>
                                         <div>
-                                            <asp:Label ID="lblTipoAcesso" runat="server" Text='<%#Eval("IDTIPOACESSO")%>'></asp:Label></div>
+                                            <asp:Label ID="lblTipoAcesso" runat="server" Text='<%#Eval("TIPOACESSO")%>'></asp:Label></div>
                                     </div>
                                     <div style="margin-top: 15px;">
                                         <asp:Panel runat="server" ID="pnlCadastro">
@@ -123,19 +123,19 @@
             </div>
         </asp:Panel>
         <div class="contBotoes" style="padding-right: 13px; margin-top: 10px;">
-            <asp:Button ID="lkbVoltar" runat="server" CssClass="bt" Text="Voltar" OnClientClick="RecarregaPagina()"
+            <asp:Button ID="lkbVoltar" runat="server" CssClass="bt" Text="Voltar" OnClick="RecarregarPagina_Click"
                 ToolTip="Voltar para a listagem" />
             <asp:Button ID="btNovoCadastro" runat="server" CssClass="bt" Text="Novo Cadastro"
-                OnClientClick="RecarregaPagina()" ToolTip="Janela para novo cadastro" />
+                OnClick="RecarregarPagina_Click" ToolTip="Janela para novo cadastro"  />
             <asp:Button ID="btMenuInicial" CssClass="bt" runat="server" Text="Menu Inicial" ToolTip="Voltar ao menu inicial"
-                OnClick="btMenuInicial_Click" />
+                OnClick="btMenuInicial_Click" />            
         </div>
         <div style="height: 20px">
         </div>
     </div>
-    <div runat="server" id="divBotoesAux" class="none">
+    <asp:Panel runat="server" id="divBotoesAux" class="none" DefaultButton="btErro">
         <asp:Button runat="server" ID="btErro" Text="Erro" OnClick="btErro_Click" />
-    </div>
+    </asp:Panel>
     </form>
 </body>
 </html>

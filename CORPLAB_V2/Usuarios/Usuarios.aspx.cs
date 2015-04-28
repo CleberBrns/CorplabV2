@@ -20,18 +20,24 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (Session["SessionUsuario"].ToString() != string.Empty)
+                if (Session["SessionIdTipoAcesso"].ToString() != "1")
                 {
-                    if (!IsPostBack)
-                        CarregaDados();
-                    else
-                        DesmarcaSelecionados();
+                    RetornaPaginaErro("Você não possui permissões para acessar essa ferramenta.");
                 }
                 else
                 {
-                    RedirecionaLogin();
+                    if (Session["SessionUsuario"].ToString() != string.Empty)
+                    {
+                        if (!IsPostBack)
+                            CarregaDados();
+                        else
+                            DesmarcaSelecionados();
+                    }
+                    else
+                    {
+                        RedirecionaLogin();
+                    }
                 }
-
             }
         }
         catch (Exception ex)
@@ -39,14 +45,11 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
             RetornaPaginaErro(ex.ToString());
         }
 
-
-
     }
-
 
     private void RedirecionaLogin()
     {
-        Response.Write("<script>alert('Perdeu a sessão!')</script>");
+        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);        
         Response.Redirect("../Login/Login.aspx");
     }
 
@@ -103,7 +106,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
         InsereDados insereDados = new InsereDados();
 
-        //insereDados.InsereUsuario(nomeUsuario, login, senha, idUnidade, idTipoAcesso, 1);
+        insereDados.InsereUsuario(nomeUsuario, login, senha, idUnidade, idTipoAcesso, 1);
 
         return msgRetorno;
     }
@@ -197,7 +200,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
             nomeUnidade = dtUnidades.DefaultView[0]["Unidade"].ToString().Trim();
         }
-        catch (Exception) { }//Continua Vazio
+        catch (Exception) { }//Continua defaut
 
         return nomeUnidade;
     }
@@ -226,7 +229,8 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
                 if (idCadastro == lblIdCadastro.Text)
                 {
-                    //atualizaDados.AtualizaUsuario(Convert.ToInt32(idCadastro), txtLogin.Text.Trim(), txtSenha.Text.Trim());
+                    atualizaDados.AtualizaUsuario(Convert.ToInt32(idCadastro), txtLogin.Text.Trim(), txtSenha.Text.Trim());
+                    DesmarcaSelecionados();
                     break;
                 }
             }
@@ -260,5 +264,11 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
     {
         Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
+    }
+
+    protected void RecarregarPagina_Click(object sender, EventArgs e)
+    {
+        DesmarcaSelecionados();
+        Response.Redirect("../Usuarios/Usuarios.aspx");
     }
 }

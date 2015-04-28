@@ -38,16 +38,15 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
 
     private void RedirecionaLogin()
     {
-        Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
+        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
         Response.Redirect("../Login/Login.aspx");
     }
 
     private void CarregaPagina()
     {
-        DataView dvEstados = selecionaDados.ConsultaEstados().DefaultView;
-        dvEstados.RowFilter = "IdEstado in (19,25)";
+        DataTable dtEstados = selecionaDados.ConsultaEstados(1);
 
-        ddlEstado.DataSource = dvEstados;
+        ddlEstado.DataSource = dtEstados;
         ddlEstado.DataTextField = "Estado";
         ddlEstado.DataValueField = "IdEstado";
         ddlEstado.DataBind();

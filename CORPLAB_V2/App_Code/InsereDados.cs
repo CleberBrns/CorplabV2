@@ -206,7 +206,7 @@ public class InsereDados
                 sqlCommand.Parameters.AddWithValue("@senha", senha);
                 sqlCommand.Parameters.AddWithValue("@idUnidade", idUnidade);
                 sqlCommand.Parameters.AddWithValue("@idTipoAcesso", idTipoAcesso);
-                sqlCommand.Parameters.AddWithValue("@idStatus", idStatus);
+                sqlCommand.Parameters.AddWithValue("@idTipoStatus", idStatus);
                 sqlConnection.Open();
                 sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 

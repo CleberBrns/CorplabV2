@@ -38,7 +38,7 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
 
     private void RedirecionaLogin()
     {
-        Response.Write("<script>alert('Perdeu a sessão!')</script>");
+        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
         Response.Redirect("../Login/Login.aspx");
     }
 
