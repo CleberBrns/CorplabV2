@@ -182,7 +182,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
             if (dtAmostraXPrateleira.Rows.Count > 0)
             {
-                MostraRetornoErro("A amostra já " + sCodAmostra + " foi inserida nessa ação e não pode ser duplicada.");
+                MostraRetornoErro("A amostra " + sCodAmostra + " já foi recebida nessa ação e não pode ser duplicada.");
                 txtAmostra.Text = string.Empty;
                 txtAmostra.Focus();
             }
@@ -291,6 +291,11 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
     protected void btMenuPrincipal_Click(object sender, EventArgs e)
     {
         Response.Redirect("../Home/Home.aspx");
+    }
+
+    protected void btMenuAcoes_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Acoes/Acoes.aspx");
     }
 
 }

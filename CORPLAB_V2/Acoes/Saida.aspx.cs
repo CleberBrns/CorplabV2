@@ -94,7 +94,7 @@ public partial class Acoes_Saida : System.Web.UI.Page
             catch (Exception ex)
             {
                 RetornaPaginaErro(ex.ToString());
-            }           
+            }
         }
     }
 
@@ -159,31 +159,31 @@ public partial class Acoes_Saida : System.Web.UI.Page
 
             if (dtVerificaAmostra.Rows.Count > 0)
             {
-                DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraSaida(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra);
+                //DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraSaida(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra);
 
-                if (dtAmostraXPrateleira.Rows.Count > 0)
-                {
-                    MostraRetornoErro("A amostra " + sCodAmostra + " já foi retirada nessa ação e não pode ser duplicada.");
-                    txtAmostra.Text = string.Empty;
-                    txtAmostra.Focus();
-                }
-                else
-                {
-                    insereDados.InsereAmostraSaida(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
+                //if (dtAmostraXPrateleira.Rows.Count > 0)
+                //{
+                //    MostraRetornoErro("A amostra " + sCodAmostra + " já foi retirada nessa ação e não pode ser duplicada.");
+                //    txtAmostra.Text = string.Empty;
+                //    txtAmostra.Focus();
+                //}
+                //else
+                //{
+                insereDados.InsereAmostraSaida(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
 
-                    MostraRetorno("Saída da amostra executada com sucesso.");
+                MostraRetorno("Saída da amostra executada com sucesso.");
 
-                    imgOk.Visible = true;
-                    imgErro.Visible = false;
+                imgOk.Visible = true;
+                imgErro.Visible = false;
 
-                    txtAmostra.Text = string.Empty;
-                    divProcessando.Visible = false;
-                    divInsercoes.Visible = true;
-                }
+                txtAmostra.Text = string.Empty;
+                divProcessando.Visible = false;
+                divInsercoes.Visible = true;
+                //}
             }
             else
             {
-                MostraRetornoErro("A amostra " + sCodAmostra + " ainda não foi cadastrada, <br /> A mesma deve passar pela a ação de Recepção."+
+                MostraRetornoErro("A amostra " + sCodAmostra + " ainda não foi cadastrada, <br /> A mesma deve passar pela a ação de Recepção." +
                     "<br /> Qualquer dúvida, por favor, consulte o administrador do sistema");
                 txtAmostra.Text = string.Empty;
                 txtAmostra.Focus();
@@ -256,4 +256,8 @@ public partial class Acoes_Saida : System.Web.UI.Page
         Response.Redirect("../Home/Home.aspx");
     }
 
+    protected void btMenuAcoes_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Acoes/Acoes.aspx");
+    }
 }

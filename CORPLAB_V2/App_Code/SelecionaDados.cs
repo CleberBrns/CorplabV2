@@ -557,4 +557,40 @@ public class SelecionaDados
         return dtConsulta;
     }
 
+    public DataTable ConsultaPrateleiraAuditoria(int idPrateleira)
+    {
+        DataTable dtConsulta = new DataTable();
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@idPrateleira", idPrateleira);
+                sqlCommand.CommandText = "usp_auditoria_prateleira_select";
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                dtConsulta.Load(sqlDataReader);
+
+                sqlDataReader.Close();
+                sqlDataReader.Dispose();
+                sqlDataReader = null;
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return dtConsulta;
+    }
+
 }

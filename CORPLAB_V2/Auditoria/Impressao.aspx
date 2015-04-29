@@ -20,7 +20,7 @@
             <div class="pagina">
                 <div style="text-align: center">
                     <h2>Auditoria
-                        <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
+                        <asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
                     </h2>
                 </div>
                 <div class="insercoes">
@@ -31,8 +31,7 @@
                                     <table cellspacing="0" cellpadding="0" width="100%">
                                         <tr class="amostrasPrateleira" style="background-color: #DDD;">
                                             <td>CodAmostra</td>
-                                            <td>Data Recepção</td>
-                                            <td>Usuario Recepção</td>
+                                            <td>Usuário Data Recepção</td>                                            
                                             <td>Estante</td>
                                             <td>Prateleira</td>
                                             <td>Caixa</td>
@@ -43,8 +42,7 @@
                                 <ItemTemplate>
                                     <tr class="amostrasGrupo">
                                         <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "DataRecepcao") %></td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "UsuarioRecepcao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "DataUsuarioRecepcao") %></td>                                        
                                         <td><%# DataBinder.Eval(Container.DataItem, "Estante") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>

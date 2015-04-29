@@ -16,7 +16,7 @@
             <h2>Ações</h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
-                    <div style="margin-top: 10%;">
+                    <div style="margin-top: 3%;">
                         Aguardando a&ccedil;&atilde;o...   
                     <asp:Panel runat="server" DefaultButton="btAcao" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtAcao" Width="180px" Height="25px" autocomplete="off" />

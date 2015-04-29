@@ -256,4 +256,8 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         Response.Redirect("../Home/Home.aspx");
     }
 
+    protected void btMenuAcoes_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Acoes/Acoes.aspx");
+    }
 }

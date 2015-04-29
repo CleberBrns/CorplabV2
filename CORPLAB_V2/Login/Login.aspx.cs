@@ -19,56 +19,56 @@ public partial class Login_Login : System.Web.UI.Page
     }
 
     private void VerificaAcesso()
-    {
-        SelecionaDados selecionaDados = new SelecionaDados();
+    {       
 
-        //if (txtLogin.Text == "sistemas" && txtSenha.Text == "sistem@01")
-        //{
-        //    Session["SessionUsuario"] = "Sistema";
-        //    Session["SessionIdUsuario"] = "0";
-        //    Session["SessionIdTipoAcesso"] = "1";
-        //    Response.Redirect("../Home/Home.aspx");
-        //    divRetorno.Visible = false;
-        //}
-        //else
-        //{
-        try
+        if (txtLogin.Text == "sistemas" && txtSenha.Text == "sistem@s01")
         {
-            DataTable dtUsuario = selecionaDados.ConsultaUsuario(txtLogin.Text.Trim(), txtSenha.Text.Trim());
-
-            if (dtUsuario.Rows.Count > 0)
+            Session["SessionUsuario"] = "Sistema";
+            Session["SessionIdUsuario"] = "0";
+            Session["SessionIdTipoAcesso"] = "1";
+            Response.Redirect("../Home/Home.aspx");
+            divRetorno.Visible = false;
+        }
+        else
+        {
+            try
             {
-                if (dtUsuario.Rows[0]["IdTipoStatus"].ToString() == "0")
+                SelecionaDados selecionaDados = new SelecionaDados();
+                DataTable dtUsuario = selecionaDados.ConsultaUsuario(txtLogin.Text.Trim(), txtSenha.Text.Trim());
+
+                if (dtUsuario.Rows.Count > 0)
                 {
-                    divRetorno.Visible = true;
-                    lblRetorno.Text = "Usuário bloqueado. <br /> Para mais informações, por favor, contate o Administrador do Sistema.";
+                    if (dtUsuario.Rows[0]["IdTipoStatus"].ToString() == "0")
+                    {
+                        divRetorno.Visible = true;
+                        lblRetorno.Text = "Usuário bloqueado. <br /> Para mais informações, por favor, contate o Administrador do Sistema.";
+                    }
+                    else
+                    {
+                        divRetorno.Visible = false;
+
+                        Session["SessionUsuario"] = dtUsuario.Rows[0]["Nome"].ToString();
+                        Session["SessionIdUsuario"] = dtUsuario.Rows[0]["IdUsuario"].ToString();
+                        Session["SessionIdTipoAcesso"] = dtUsuario.Rows[0]["IdTipoAcesso"].ToString();
+                        Session["SessionIdUnidade"] = dtUsuario.Rows[0]["IdUnidade"].ToString();
+                        Response.Redirect("../Home/Home.aspx");
+                    }
+
                 }
                 else
                 {
-                    divRetorno.Visible = false;
-
-                    Session["SessionUsuario"] = dtUsuario.Rows[0]["Nome"].ToString();
-                    Session["SessionIdUsuario"] = dtUsuario.Rows[0]["IdUsuario"].ToString();
-                    Session["SessionIdTipoAcesso"] = dtUsuario.Rows[0]["IdTipoAcesso"].ToString();
-                    Session["SessionIdUnidade"] = dtUsuario.Rows[0]["IdUnidade"].ToString();
-                    Response.Redirect("../Home/Home.aspx");
+                    divRetorno.Visible = true;
+                    lblRetorno.Text = "Dados de acesso incorrentos <br /> e/ou usuário não cadastrado.";
                 }
 
             }
-            else
+            catch (Exception)
             {
                 divRetorno.Visible = true;
-                lblRetorno.Text = "Dados de acesso incorrentos <br /> e/ou usuário não cadastrado.";
+                lblRetorno.Text = "Erro com a requisição.<br /> Por favor, contate o Administrador do sistema.";
             }
 
         }
-        catch (Exception)
-        {
-            divRetorno.Visible = true;
-            lblRetorno.Text = "Erro com a requisição.<br /> Por favor, contate o Administrador do sistema.";
-        }
-
-        //}
 
     }
 }

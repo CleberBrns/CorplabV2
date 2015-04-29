@@ -19,10 +19,10 @@
             </h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
-                    <div style="margin-top: 10%;" runat="server" id="divInsercaoAtual">
+                    <div style="margin-top: 3%;" runat="server" id="divInsercaoAtual">
                         <asp:Label runat="server" ID="lblInsercaoAtual" />
                     </div>
-                    <div style="margin-top: 10%;" runat="server" id="divPrateleira" visible="false">
+                    <div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
                         Entre com a Prateleira
                     <asp:Panel runat="server" DefaultButton="btPrateleira" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
@@ -31,7 +31,7 @@
                         </div>
                     </asp:Panel>
                     </div>
-                    <div style="margin-top: 10%;" runat="server" id="divInsercoes" visible="false">
+                    <div style="margin-top: 3%;" runat="server" id="divInsercoes" visible="false">
                         Insira a amostra
                     <asp:Panel runat="server" DefaultButton="btAmostra" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
@@ -51,9 +51,9 @@
                         </div>
                     </asp:Panel>
                     </div>
-                    <div style="margin-top: 10%;" runat="server" id="divProcessando" visible="false">
+                    <div style="margin-top: 3%;" runat="server" id="divProcessando" visible="false">
                         Processando...
-                    <div style="margin-top: 10px">
+                    <div style="margin-top: 3px">
                         <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="100%" />
                     </div>
                     </div>
@@ -73,10 +73,13 @@
                     </div>
                 </div>
             </div>
-            <div class="rodape">
-            </div>
-            <div class="contBt">
-              <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" />
+            <div>
+                <div class="rodape">
+                </div>
+                <div class="contBt">
+                    <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" />
+                    <asp:Button runat="server" ID="btMenuAcoes" OnClick="btMenuAcoes_Click" CssClass="bt" Text="Menu Ações" />
+                </div>
             </div>
         </div>
     </form>

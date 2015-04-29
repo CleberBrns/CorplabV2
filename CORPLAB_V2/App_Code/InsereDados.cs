@@ -328,4 +328,39 @@ public class InsereDados
         }
     }
 
+    public void InsereAmostraAuditoria(int idPrateleira, int idUsuario, int codAmostra)
+    {
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_amostra_auditoria_insert";
+
+                sqlCommand.Parameters.AddWithValue("@IdPrateleira", idPrateleira);
+                sqlCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                sqlCommand.Parameters.AddWithValue("@IdAcao", 5);
+                sqlCommand.Parameters.AddWithValue("@CodAmostra", codAmostra);
+                sqlCommand.Parameters.AddWithValue("@Caixa", string.Empty);
+
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+    }
+
 }

@@ -11,24 +11,14 @@
         <input type="hidden" runat="server" id="hddTestPost" />
         <input type="hidden" runat="server" id="hddIdUnidade" value="0" />
         <input type="hidden" runat="server" id="hddIdPrateleira" />
+        <input type="hidden" runat="server" id="hddCodPrateleira" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
             <h2>Auditoria <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
-                    <div style="margin-top: 3%;" runat="server" id="divCamara">
-                        Selecione a C&acirc;mara
-                    <div style="margin-top: 10px">
-                        <asp:DropDownList runat="server" ID="ddlCamaras" AutoPostBack="true" OnSelectedIndexChanged="ddlCamaras_SelectedIndexChanged"
-                            Width="180px" Height="30px">
-                            <asp:ListItem Text="-- Selecione --" Value="0"></asp:ListItem>
-                            <asp:ListItem Text="ALS 01" Value="01"></asp:ListItem>
-                            <asp:ListItem Text="ALS 02" Value="02"></asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
-                    </div>
-                    <div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
+                    <div style="margin-top: 3%;" runat="server" id="divPrateleira">
                         Entre com a Prateleira
                     <asp:Panel runat="server" DefaultButton="btPrateleira" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
@@ -63,8 +53,7 @@
                                     <table cellspacing="0" cellpadding="0" width="100%">
                                         <tr class="amostrasPrateleira" style="background-color: #DDD;">
                                             <td>CodAmostra</td>
-                                            <td>Data Recepção</td>
-                                            <td>Usuario Recepção</td>
+                                            <td>Usuário Data Recepção</td>                                            
                                             <td>Estante</td>
                                             <td>Prateleira</td>
                                             <td>Caixa</td>
@@ -75,8 +64,7 @@
                                 <ItemTemplate>
                                     <tr class="amostrasGrupo">
                                         <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "DataRecepcao") %></td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "UsuarioRecepcao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "DataUsuarioRecepcao") %></td>                                        
                                         <td><%# DataBinder.Eval(Container.DataItem, "Estante") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>
@@ -101,8 +89,7 @@
                     <div class="rodape">
                     </div>
                     <div class="contBt">
-                        <asp:Button runat="server" CssClass="bt" ID="btInicio" OnClick="btInicio_Click" Text="Inicio" />
-                        <asp:Button runat="server" ID="btNovaPrateleira" OnClick="btNovaPrateleira_Click" CssClass="bt" Text="Nova Prateleira" Visible="false" />
+                        <asp:Button runat="server" CssClass="bt" ID="btInicio" OnClick="btInicio_Click" Text="Nova Consulta" />                        
                         <asp:Button runat="server" ID="btImprimir" OnClick="btImprimir_Click" CssClass="bt" Text="Imprimir" Visible="false" />
                     </div>
                 </div>

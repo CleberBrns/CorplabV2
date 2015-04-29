@@ -23,7 +23,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
             {
                 if (Session["SessionUsuario"].ToString().ToLower() == "sistemas")
                 {
-                    RetornaPaginaErro("Esse usuário possui acesso somente ao cadastro de Unidades e Usuários <br/>"+
+                    RetornaPaginaErro("Esse usuário possui acesso somente ao cadastro de Unidades e Usuários <br/>" +
                         " Para ter acesso as ações, por favor, cadastre um usuário vinculado a alguma Unidade");
                 }
                 else
@@ -76,8 +76,8 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                 case "04":
                     Response.Redirect("../Acoes/Descarte.aspx");
                     break;
-                case "05"://Auditoria
-                    VerificaAcessoUsuario();
+                case "05":                  
+                    VerificaAcessoAuditoria();
                     break;
                 //case "06":
                 //    Response.Redirect("../Auditoria/Busca.aspx");
@@ -89,9 +89,9 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         }
     }
 
-    private void VerificaAcessoUsuario()
+    private void VerificaAcessoAuditoria()
     {
-        if (Session["SessionTipoAcesso"].ToString() == "1")
+        if (Session["SessionIdTipoAcesso"].ToString() == "1")
         {
             Response.Redirect("../Auditoria/Auditoria.aspx");
         }
@@ -99,6 +99,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         {
             MostraRetorno("Você não possui permissões para acessar essa ferramenta.");
         }
+
     }
 
     private void MostraRetorno(string mensagem)

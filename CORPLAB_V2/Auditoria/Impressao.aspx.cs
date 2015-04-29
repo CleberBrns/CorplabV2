@@ -9,6 +9,8 @@ using System.Web.UI.WebControls;
 
 public partial class Analise_Impressao : System.Web.UI.Page
 {
+    SelecionaDados selecionaDados = new SelecionaDados();
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -16,9 +18,9 @@ public partial class Analise_Impressao : System.Web.UI.Page
             if (!IsPostBack)
             {
                 if (!string.IsNullOrEmpty(Session["SessionIdBusca"].ToString()) && !string.IsNullOrEmpty(Session["SessionTipoBusca"].ToString()) &&
-                    !string.IsNullOrEmpty(Session["SessionCamara"].ToString()) && !string.IsNullOrEmpty(Session["SessionPrateleira"].ToString()))
+                    !string.IsNullOrEmpty(Session["SessionPrateleira"].ToString()))
                 {
-                    CarregaInfoConsulta(Session["SessionCamara"].ToString().Trim(), Session["SessionIdBusca"].ToString().Trim(),
+                    CarregaInfoConsulta(Session["SessionIdBusca"].ToString().Trim(),
                         Session["SessionTipoBusca"].ToString().Trim(), Session["SessionPrateleira"].ToString().Trim());
                 }               
             }
@@ -35,15 +37,14 @@ public partial class Analise_Impressao : System.Web.UI.Page
         Response.Redirect("../Erro/Erro.aspx");
     }
 
-    private void CarregaInfoConsulta(string camara, string idBusca, string tipoBusca, string prateleira)
+    private void CarregaInfoConsulta(string idBusca, string tipoBusca, string prateleira)
     {
         DataTable dtBusca = new DataTable();
 
         if (tipoBusca == "0")//Prateleira
-        {
-            lblCamara.Text = " - C&acirc;mara " + camara;
-            lblPrateleira.Text = ", Prateleira " + prateleira;
-            dtBusca = CarregaTabelaTeste();
+        {            
+            lblPrateleira.Text = " - Prateleira " + prateleira;
+            dtBusca = CarregaInfoPrateleira(idBusca);
         }
         else//Amostra
         {
@@ -53,50 +54,46 @@ public partial class Analise_Impressao : System.Web.UI.Page
         CarregaRepeater(dtBusca);
     }
 
-    private DataTable CarregaTabelaTeste()
+    private DataTable CarregaInfoPrateleira(string codPrateleira)
     {
-        DataTable dtInfoBusca = new DataTable();
+        DataTable dtInfoPrateleira = new DataTable();
 
-        dtInfoBusca.Columns.Add("CodAmostra");
-        dtInfoBusca.Columns.Add("DataRecepcao");
-        dtInfoBusca.Columns.Add("UsuarioRecepcao");
-        dtInfoBusca.Columns.Add("Estante");
-        dtInfoBusca.Columns.Add("Prateleira");
-        dtInfoBusca.Columns.Add("Caixa");
-        dtInfoBusca.Columns.Add("UltimaAlteracao");
-        dtInfoBusca.Columns.Add("Auditado");
+        int idPrateleira = Convert.ToInt32(codPrateleira);
 
-        for (int i = 0; i < 20; i++)
+        dtInfoPrateleira.Columns.Add("CodAmostra");
+        dtInfoPrateleira.Columns.Add("DataUsuarioRecepcao");
+        dtInfoPrateleira.Columns.Add("Estante");
+        dtInfoPrateleira.Columns.Add("Prateleira");
+        dtInfoPrateleira.Columns.Add("Caixa");
+        dtInfoPrateleira.Columns.Add("UltimaAlteracao");
+        dtInfoPrateleira.Columns.Add("Auditado");
+
+        DataTable dtPrateleiraAuditoria = selecionaDados.ConsultaPrateleiraAuditoria(idPrateleira);
+
+        if (dtPrateleiraAuditoria.Rows.Count > 0)
         {
-            dtInfoBusca.Rows.Add(3501 + i, DateTime.Now.ToShortDateString(), "David", "E0" + i, "P0" + i, VerificaCaixa(i), FormaHistorico(i), VerificaAudicao(i));
+            foreach (DataRow item in dtPrateleiraAuditoria.Rows)
+            {
+                dtInfoPrateleira.Rows.Add(item["CodAmostra"].ToString(),
+                    ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
+                    item["Prateleira"].ToString(), item["Caixa"].ToString(),
+                    ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["Acao"].ToString()),
+                    item["Auditado"].ToString());
+            }
         }
 
-        return dtInfoBusca;
+        return dtInfoPrateleira;
     }
 
-    private string VerificaCaixa(int numero)
+    private object ConfiguraUsuarioRecepcao(string dataRecepcao, string usuarioRecepcao)
     {
-        string caixa = string.Empty;
-
-        if (numero % 2 == 0)
-            caixa = numero.ToString();
-
-        return caixa;
+        return (usuarioRecepcao + " - " + Convert.ToDateTime(dataRecepcao).ToShortDateString() + " " + Convert.ToDateTime(dataRecepcao).ToShortTimeString());
     }
 
-    private string VerificaAudicao(int testaPar)
+    private object ConfiguraUltimaAlteracao(string nomeUsuario, string dataAtualizacao, string acao)
     {
-        string auditado = "Não";
-
-        if (testaPar % 2 == 0)
-            auditado = "Sim";
-
-        return auditado;
-    }
-
-    public string FormaHistorico(int numero)
-    {
-        return "João - " + numero + "/04/2015 - Saída";
+        return (nomeUsuario + " - " + Convert.ToDateTime(dataAtualizacao).ToShortDateString() + " " +
+            Convert.ToDateTime(dataAtualizacao).ToShortTimeString() + " - " + acao);
     }
 
     private void CarregaRepeater(DataTable dtBusca)
