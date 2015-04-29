@@ -158,7 +158,7 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
     protected void btConfigurarUnidade_Click(object sender, EventArgs e)
     {
         lblUnidade.Text = " - Configuração da Unidade " + txtNomeUnidade.Text.Trim();
-
+        
         btConfigurarUnidade.Visible = false;
         divUnidade.Visible = false;
         divRetorno.Visible = false;
@@ -186,7 +186,7 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
                 divProcessando.Visible = false;
                 MostrarRetorno("Câmara " + txtCamara.Text.Trim() + " cadastrada com sucesso", 0);
                 divCamara.Visible = false;
-                divEstante.Visible = true;
+                divEstante.Visible = true;                
             }
             catch (Exception ex)
             {
@@ -251,6 +251,7 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
                 btMenuPrincipal.Enabled = true;
                 btInicio.Visible = true;
                 btNovaEstante.Visible = true;
+                btNovaCamara.Visible = true;
 
                 txtPrateleiras.Text = string.Empty;
                 txtPrateleiras.Focus();
@@ -265,6 +266,22 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
         {
             MostrarRetorno("Para continuar preencha o campo Prateleira", 1);
         }
+    }
+
+    protected void btNovaCamara_Click(object sender, EventArgs e)
+    {
+        divRetorno.Visible = false;
+        divPrateleiras.Visible = false;
+        divEstante.Visible = false;
+        divCamara.Visible = true;
+
+        hddIdCamara.Value = string.Empty;
+        txtCamara.Text = string.Empty;
+        lblCamara.Text = string.Empty;
+
+        hddIdEstante.Value = string.Empty;
+        txtEstante.Text = string.Empty;
+        lblEstante.Text = string.Empty;
     }
 
     protected void btNovaEstante_Click(object sender, EventArgs e)

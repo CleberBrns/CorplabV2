@@ -70,18 +70,24 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
                 if (dtPrateleira.Rows.Count > 0)
                 {
                     hddIdPrateleria.Value = dtPrateleira.DefaultView[0]["IdPrateleira"].ToString();
-                    lblPrateleira.Text = " Prateleira " + txtPrateleira.Text.Trim();
+                    lblPrateleira.Text = " - Prateleira " + txtPrateleira.Text.Trim();
 
+                    divRetorno.Visible = false;
+                    lblRetorno.Text = string.Empty;
                     divPrateleira.Visible = false;
                     divInsercoes.Visible = true;
-                    btNovaPrateleira.Visible = true;  
+                    btNovaPrateleira.Visible = true;
+                    divInicio.Visible = true;
+                    txtAmostra.Focus();
                 }
                 else
                 {
                     divRetorno.Visible = true;
                     imgOk.Visible = false;
                     imgErro.Visible = true;
-                    lblRetorno.Text = "Prateleira não cadastrada. <br/> Favor verificar com o Administrador do Sistema";
+                    lblRetorno.Text = "Prateleira não cadastrada. <br/> Favor consultar o Administrador do Sistema";
+                    txtPrateleira.Text = string.Empty;
+                    txtPrateleira.Focus();
                 }
 
             }
@@ -89,7 +95,6 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             {
                 RetornaPaginaErro(ex.ToString());
             }
-
         }
     }
 
@@ -103,29 +108,40 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         {
             try
             {
-                if (ckbComCaixa.Checked)
-                {
-                    if (!string.IsNullOrEmpty(txtCaixa.Text))
-                    {
-                        if (string.IsNullOrEmpty(lblComCaixa.Text))
-                        {
-                            lblComCaixa.Text = ", Caixa " + txtCaixa.Text.Trim();
-                        }
-                        txtCaixa.Enabled = false;
+                bool formatoCorreto = ValidaCampoAmostra(txtAmostra.Text.Trim());
 
-                        InsereAmostra();
+                if (formatoCorreto)
+                {
+                    if (ckbComCaixa.Checked)
+                    {
+                        if (!string.IsNullOrEmpty(txtCaixa.Text))
+                        {
+                            if (string.IsNullOrEmpty(lblComCaixa.Text))
+                            {
+                                lblComCaixa.Text = ", Caixa " + txtCaixa.Text.Trim();
+                            }
+                            txtCaixa.Enabled = false;
+
+                            InsereAmostra(txtAmostra.Text.Trim(), txtCaixa.Text.Trim());
+                        }
+                        else
+                        {
+                            MostraRetorno("Para continuar preencha o campo caixa ou remova a marcação 'Com Caixa'");
+                            imgErro.Visible = true;
+                            imgOk.Visible = false;
+                        }
+
                     }
                     else
                     {
-                        MostraRetorno("Para continuar preencha o campo caixa ou remova a marcação 'Com Caixa'");
-                        imgErro.Visible = true;
-                        imgOk.Visible = false;
+                        InsereAmostra(txtAmostra.Text.Trim(), string.Empty);
                     }
-
                 }
                 else
                 {
-                    InsereAmostra();
+                    MostraRetorno("O campo Amostra só aceita caracteres numéricos. <br /> Por favor, consulte o administrador do sistema.");
+                    imgErro.Visible = true;
+                    imgOk.Visible = false;
                 }
 
             }
@@ -139,18 +155,68 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         }
     }
 
-    private void InsereAmostra()
+    private bool ValidaCampoAmostra(string codAmostra)
     {
-        divProcessando.Visible = true;
-        divInsercoes.Visible = false;
+        bool valido = false;
 
-        MostraRetorno("Amostra Inclu&iacute;da com sucesso.");
-        imgOk.Visible = true;
-        imgErro.Visible = false;
+        try
+        {
+            int dCodAmostra = Convert.ToInt32(codAmostra.Trim());
+            valido = true;
+        }
+        catch (Exception) { }//Continua false
 
-        txtAmostra.Text = string.Empty;
+        return valido;
+    }
+
+    private void InsereAmostra(string sCodAmostra, string caixa)
+    {
+        try
+        {
+            divProcessando.Visible = true;
+            divInsercoes.Visible = false;
+
+            int codAmostra = Convert.ToInt32(sCodAmostra);
+
+            DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraRecepcao(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra);
+
+            if (dtAmostraXPrateleira.Rows.Count > 0)
+            {
+                MostraRetornoErro("A amostra já " + sCodAmostra + " foi inserida nessa ação e não pode ser duplicada.");
+                txtAmostra.Text = string.Empty;
+                txtAmostra.Focus();
+            }
+            else
+            {
+                insereDados.InsereAmostraRecepcao(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
+
+                MostraRetorno("Amostra Inclu&iacute;da com sucesso.");
+
+                imgOk.Visible = true;
+                imgErro.Visible = false;
+
+                txtAmostra.Text = string.Empty;
+                divProcessando.Visible = false;
+                divInsercoes.Visible = true;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            MostraRetornoErro("Ocorreu um erro ao tentar inserir a amostra. <br /> Por favor, consulte o administrador do sistema");
+        }
+
+    }
+
+    private void MostraRetornoErro(string mensagem)
+    {
         divProcessando.Visible = false;
         divInsercoes.Visible = true;
+
+        MostraRetorno(mensagem);
+
+        imgOk.Visible = false;
+        imgErro.Visible = true;
     }
 
     protected void btNovaPrateleira_Click(object sender, EventArgs e)
@@ -158,6 +224,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         ckbComCaixa.Checked = false;
         CaixaDefault();
 
+        hddIdPrateleria.Value = string.Empty;
         txtPrateleira.Text = string.Empty;
         lblPrateleira.Text = string.Empty;
         txtPrateleira.Focus();
@@ -224,11 +291,6 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
     protected void btMenuPrincipal_Click(object sender, EventArgs e)
     {
         Response.Redirect("../Home/Home.aspx");
-    }
-
-    protected void btInicio_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("../Acoes/Recepcao.aspx");
     }
 
 }

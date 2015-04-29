@@ -93,6 +93,7 @@
                         <asp:Button runat="server" ID="btCadastrar" OnClick="btCadastrar_Click" CssClass="bt" Text="Cadastrar" />
                         <asp:Button runat="server" ID="btConfigurarUnidade" OnClick="btConfigurarUnidade_Click" CssClass="bt" Text="Configurar Unidade" Visible="false" />
                         <asp:Button runat="server" ID="btInicio" OnClick="btInicio_Click" CssClass="bt" Text="Inicio" Visible="false" />
+                        <asp:Button runat="server" ID="btNovaCamara" OnClick="btNovaCamara_Click" CssClass="bt" Text="Nova Câmara" Visible="false" />
                         <asp:Button runat="server" ID="btNovaEstante" OnClick="btNovaEstante_Click" CssClass="bt" Text="Nova Estante" Visible="false" />                      
                     </div>
                 </div>

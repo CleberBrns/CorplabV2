@@ -68,8 +68,7 @@
                 <div runat="server" id="divInicio" visible="false">
                     <div class="rodape">
                     </div>
-                    <div class="contBt">
-                        <asp:Button runat="server" ID="btInicio" CssClass="bt" Text="Início" OnClick="btInicio_Click" /> 
+                    <div class="contBt">                        
                         <asp:Button runat="server" ID="btNovaPrateleira" OnClick="btNovaPrateleira_Click" CssClass="bt" Text="Nova Prateleira" />
                     </div>
                 </div>

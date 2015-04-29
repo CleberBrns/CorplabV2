@@ -3,46 +3,42 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Recep&ccedil;&atilde;o - ALS CorpLab</title>
+    <title>Descarte - ALS CorpLab</title>
     <link href="../Styles/Acoes.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <form id="form1" runat="server">
-        <input type="hidden" runat="server" id="hddTestPost" />
-        <input type="hidden" runat="server" id="hddIdUnidade" value="0" />
-        <input type="hidden" runat="server" id="hddInclusoes" />
+    <form id="form1" runat="server">        
+        <input type="hidden" runat="server" id="hddIdUsuario" />
+        <input type="hidden" runat="server" id="hddIdUnidade" />
+        <input type="hidden" runat="server" id="hddIdCamara" />
+        <input type="hidden" runat="server" id="hddIdEstante" />
+        <input type="hidden" runat="server" id="hddIdPrateleria" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Descarte
-                <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" />
+            <h2>Descarte<asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
                     <div style="margin-top: 10%;" runat="server" id="divInsercaoAtual">
                         <asp:Label runat="server" ID="lblInsercaoAtual" />
                     </div>
-                    <div style="margin-top: 10%;" runat="server" id="divCamara">
-                        Selecione a C&acirc;mara
-                    <div style="margin-top: 10px">
-                        <asp:DropDownList runat="server" ID="ddlCamaras" AutoPostBack="true" OnSelectedIndexChanged="ddlCamaras_SelectedIndexChanged"
-                            Width="180px" Height="30px">
-                            <asp:ListItem Text="-- Selecione --" Value="0"></asp:ListItem>
-                            <asp:ListItem Text="ALS 01" Value="01"></asp:ListItem>
-                            <asp:ListItem Text="ALS 02" Value="02"></asp:ListItem>
-                        </asp:DropDownList>
+                    <div style="margin-top: 10%;" runat="server" id="divPrateleira" visible="false">
+                        Entre com a Prateleira
+                    <asp:Panel runat="server" DefaultButton="btPrateleira" style="margin-top: 10px">
+                        <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
+                        <div style="display: none">
+                            <asp:Button runat="server" ID="btPrateleira" OnClick="btPrateleira_Click" />
+                        </div>
+                    </asp:Panel>
                     </div>
-                    </div>
-                    <div style="margin-top: 10%;" runat="server" id="divAmostra" visible="false">
-                        <asp:Label runat="server" ID="lblTipoSaida" Text="Amostra a descartar" />
-                        <asp:Panel runat="server" DefaultButton="btAmostra" style="margin-top: 10px">
-                            <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
-                            <div style="display: none">
-                                <asp:Button runat="server" ID="btAmostra" OnClick="btAmostra_Click" />
-                            </div>
-                            <div style="margin-top: 3%;">
-                                <asp:CheckBox runat="server" ID="ckbRetiraCaixa" Text="Descarte de Caixa" AutoPostBack="true" OnCheckedChanged="ckbRetiraCaixa_CheckedChanged" />
-                            </div>
-                        </asp:Panel>
+                    <div style="margin-top: 10%;" runat="server" id="divInsercoes" visible="false">
+                        Amostra a descartar
+                    <asp:Panel runat="server" DefaultButton="btAmostra" style="margin-top: 10px">
+                        <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
+                        <div style="display: none">
+                            <asp:Button runat="server" ID="btAmostra" OnClick="btAmostra_Click" />
+                        </div>                      
+                    </asp:Panel>
                     </div>
                     <div style="margin-top: 10%;" runat="server" id="divProcessando" visible="false">
                         Processando...
@@ -61,8 +57,8 @@
                 <div runat="server" id="divInicio" visible="false">
                     <div class="rodape">
                     </div>
-                    <div class="contBt">
-                        <asp:Button runat="server" ID="btInicio" CssClass="bt" Text="Início" OnClick="btInicio_Click" />
+                    <div class="contBt">                        
+                        <asp:Button runat="server" ID="btNovaPrateleira" OnClick="btNovaPrateleira_Click" CssClass="bt" Text="Nova Prateleira" />
                     </div>
                 </div>
             </div>

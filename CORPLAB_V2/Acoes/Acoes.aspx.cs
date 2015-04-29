@@ -72,9 +72,9 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                 case "05"://Auditoria
                     VerificaAcessoUsuario();
                     break;
-                case "06":
-                    Response.Redirect("../Auditoria/Busca.aspx");
-                    break;
+                //case "06":
+                //    Response.Redirect("../Auditoria/Busca.aspx");
+                //    break;
                 default:
                     MostraRetorno("Ação Desconhecida. Favor entrar em contato com o Administrador.");
                     break;

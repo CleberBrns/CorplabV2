@@ -154,42 +154,6 @@ public class InsereDados
         }
     }
 
-    public void InsereAmostra(string sIdGrupo, int idAmostra, string descricao, int idTipoAmostra, int idPrateleira, string nomeCaixa)
-    {
-        SqlConnection sqlConnection = new SqlConnection(sConexao);
-
-        try
-        {
-            using (sqlConnection)
-            {
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_grupo_x_amostras_insert";
-
-                sqlCommand.Parameters.AddWithValue("@idGrupo", sIdGrupo);
-                sqlCommand.Parameters.AddWithValue("@idAmostra", idAmostra);
-                sqlCommand.Parameters.AddWithValue("@Descricao", descricao);
-                sqlCommand.Parameters.AddWithValue("@idtipoAmostra", idTipoAmostra);
-                sqlCommand.Parameters.AddWithValue("@idPrateleira", idPrateleira);
-                sqlCommand.Parameters.AddWithValue("@NomeCaixa", nomeCaixa);
-
-                sqlConnection.Open();
-                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                sqlCommand.Dispose();
-                sqlCommand = null;
-            }
-        }
-        finally
-        {
-            if (sqlConnection.State == ConnectionState.Open)
-            {
-                sqlConnection.Close();
-            }
-            sqlConnection = null;
-        }
-    }
-
     public void InsereUsuario(string nome, string login, string senha, int idUnidade, int idTipoAcesso, int idStatus)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
@@ -224,5 +188,144 @@ public class InsereDados
         }
     }
 
+    public void InsereAmostraRecepcao(int idPrateleira, int idUsuario, int codAmostra, string caixa)
+    {
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_amostra_recepcao_insert";
+
+                sqlCommand.Parameters.AddWithValue("@IdPrateleira", idPrateleira);
+                sqlCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                sqlCommand.Parameters.AddWithValue("@IdAcao", 1);
+                sqlCommand.Parameters.AddWithValue("@CodAmostra", codAmostra);          
+                sqlCommand.Parameters.AddWithValue("@Caixa", caixa);
+
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+    }
+
+    public void InsereAmostraSaida(int idPrateleira, int idUsuario, int codAmostra, string caixa)
+    {
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_amostra_saida_insert";
+
+                sqlCommand.Parameters.AddWithValue("@IdPrateleira", idPrateleira);
+                sqlCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                sqlCommand.Parameters.AddWithValue("@IdAcao", 2);
+                sqlCommand.Parameters.AddWithValue("@CodAmostra", codAmostra);
+                sqlCommand.Parameters.AddWithValue("@Caixa", caixa);
+
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+    }
+
+    public void InsereAmostraEntrada(int idPrateleira, int idUsuario, int codAmostra, string caixa)
+    {
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_amostra_entrada_insert";
+
+                sqlCommand.Parameters.AddWithValue("@IdPrateleira", idPrateleira);
+                sqlCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                sqlCommand.Parameters.AddWithValue("@IdAcao", 3);
+                sqlCommand.Parameters.AddWithValue("@CodAmostra", codAmostra);
+                sqlCommand.Parameters.AddWithValue("@Caixa", caixa);
+
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+    }
+
+    public void InsereAmostraDescarte(int idPrateleira, int idUsuario, int codAmostra, string caixa)
+    {
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_amostra_descarte_insert";
+
+                sqlCommand.Parameters.AddWithValue("@IdPrateleira", idPrateleira);
+                sqlCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                sqlCommand.Parameters.AddWithValue("@IdAcao", 4);
+                sqlCommand.Parameters.AddWithValue("@CodAmostra", codAmostra);
+                sqlCommand.Parameters.AddWithValue("@Caixa", caixa);
+
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+    }
 
 }

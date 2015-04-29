@@ -12,7 +12,6 @@ public partial class Acoes_Descarte : System.Web.UI.Page
     SelecionaDados selecionaDados = new SelecionaDados();
     InsereDados insereDados = new InsereDados();
 
-
     protected void Page_Load(object sender, EventArgs e)
     {
         txtAmostra.Focus();
@@ -21,17 +20,15 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (Session["SessionUser"].ToString() != string.Empty)
+                if (Session["SessionUsuario"].ToString() != string.Empty)
                 {
                     if (!IsPostBack)
                         CarregaPagina();
                 }
                 else
                 {
-                    Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
-                    Response.Redirect("../Login/Login.aspx");
+                    RedirecionaLogin();
                 }
-
             }
         }
         catch (Exception ex)
@@ -41,29 +38,64 @@ public partial class Acoes_Descarte : System.Web.UI.Page
 
     }
 
+    private void RedirecionaLogin()
+    {
+        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
+        Response.Redirect("../Login/Login.aspx");
+    }
+
     private void CarregaPagina()
     {
-        if (Session["SessionUser"].ToString() != "Gestor")
-            hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
+        hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
+        hddIdUsuario.Value = Session["SessionIdUsuario"].ToString();
 
-        hddInclusoes.Value = string.Empty;
-
-        ExibiLinkInicial();
+        divPrateleira.Visible = true;
+        txtPrateleira.Focus();
 
     }
 
-    protected void ddlCamaras_SelectedIndexChanged(object sender, EventArgs e)
+
+    protected void btPrateleira_Click(object sender, EventArgs e)
     {        
-        if (ddlCamaras.SelectedValue != "0")
+        if (string.IsNullOrEmpty(txtPrateleira.Text))
         {
-            lblCamara.Text = " - C&acirc;mara " + ddlCamaras.SelectedItem.Text;
-
-            divCamara.Visible = false;
-            divAmostra.Visible = true;
-            txtAmostra.Focus();
+            MostraRetorno(string.Empty);
         }
+        else
+        {
+            try
+            {
+                DataTable dtPrateleira = selecionaDados.ConsultaPrateleira(txtPrateleira.Text.Trim());
 
-        ExibiLinkInicial();
+                if (dtPrateleira.Rows.Count > 0)
+                {
+                    hddIdPrateleria.Value = dtPrateleira.DefaultView[0]["IdPrateleira"].ToString();
+                    lblPrateleira.Text = " - Prateleira " + txtPrateleira.Text.Trim();
+
+                    divRetorno.Visible = false;
+                    lblRetorno.Text = string.Empty;
+                    divPrateleira.Visible = false;
+                    divInsercoes.Visible = true;
+                    btNovaPrateleira.Visible = true;
+                    divInicio.Visible = true;
+                    txtAmostra.Focus();
+                }
+                else
+                {
+                    divRetorno.Visible = true;
+                    imgOk.Visible = false;
+                    imgErro.Visible = true;
+                    lblRetorno.Text = "Prateleira não cadastrada. <br/> Favor consultar o Administrador do Sistema";
+                    txtPrateleira.Text = string.Empty;
+                    txtPrateleira.Focus();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                RetornaPaginaErro(ex.ToString());
+            }            
+        }
     }
 
     protected void btAmostra_Click(object sender, EventArgs e)
@@ -76,26 +108,23 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         {
             try
             {
-                if (ckbRetiraCaixa.Checked)
+                bool formatoCorreto = ValidaCampoAmostra(txtAmostra.Text.Trim());
+
+                if (formatoCorreto)
                 {
-                    MostraRetorno("Caixa descartada com sucesso.");
+                    InsereAmostra(txtAmostra.Text.Trim(), string.Empty);
                 }
                 else
                 {
-                    MostraRetorno("Amostra descartada com sucesso.");
+                    MostraRetorno("O campo Amostra só aceita caracteres numéricos. <br /> Por favor, consulte o administrador do sistema.");
+                    imgErro.Visible = true;
+                    imgOk.Visible = false;
                 }
 
-                divProcessando.Visible = true;                
-               
-                imgOk.Visible = true;
-                imgErro.Visible = false;
-
-                txtAmostra.Text = string.Empty;
-                divProcessando.Visible = false;               
             }
             catch (Exception ex)
             {
-                MostraRetorno("Ocorreu um erro ao tentar processar o objeto; " + txtAmostra.Text.Trim());
+                MostraRetorno("Ocorreu um erro ao tentar Descartar a amostra; " + txtAmostra.Text.Trim());
                 imgErro.Visible = true;
                 imgOk.Visible = false;
             }
@@ -103,26 +132,92 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         }
     }
 
-    protected void ckbRetiraCaixa_CheckedChanged(object sender, EventArgs e)
+    private bool ValidaCampoAmostra(string codAmostra)
     {
-        divRetorno.Visible = false;
-        if (ckbRetiraCaixa.Checked)
+        bool valido = false;
+
+        try
         {
-            lblTipoSaida.Text = "Caixa a descartar";
+            int dCodAmostra = Convert.ToInt32(codAmostra.Trim());
+            valido = true;
         }
-        else
-        {
-            lblTipoSaida.Text = "Amostra a descartar";
-        }
-       
+        catch (Exception) { }//Continua false
+
+        return valido;
     }
 
-    public void ConfiguraPagina(string tipoInsercao)
+    private void InsereAmostra(string sCodAmostra, string caixa)
     {
-        hddInclusoes.Value = tipoInsercao;
+        try
+        {
+            divProcessando.Visible = true;
+            divInsercoes.Visible = false;
 
-        lblCamara.Text = " - C&acirc;mara " + hddInclusoes.Value;
+            int codAmostra = Convert.ToInt32(sCodAmostra);
 
+            DataTable dtVerificaAmostra = selecionaDados.ConsultaAmostra(codAmostra);
+
+            if (dtVerificaAmostra.Rows.Count > 0)
+            {
+                DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraDescarte(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra);
+
+                if (dtAmostraXPrateleira.Rows.Count > 0)
+                {
+                    MostraRetornoErro("A amostra " + sCodAmostra + " já foi descartada nessa ação e não pode ser duplicada.");
+                    txtAmostra.Text = string.Empty;
+                    txtAmostra.Focus();
+                }
+                else
+                {
+                    insereDados.InsereAmostraDescarte(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
+
+                    MostraRetorno("Descarte da amostra executado com sucesso.");
+
+                    imgOk.Visible = true;
+                    imgErro.Visible = false;
+
+                    txtAmostra.Text = string.Empty;
+                    divProcessando.Visible = false;
+                    divInsercoes.Visible = true;
+                }
+            }
+            else
+            {
+                MostraRetornoErro("A amostra " + sCodAmostra + " ainda não foi cadastrada, <br /> A mesma deve passar pela a ação de Recepção."+
+                    "<br /> Qualquer dúvida, por favor, consulte o administrador do sistema");
+                txtAmostra.Text = string.Empty;
+                txtAmostra.Focus();
+            }
+        }
+        catch (Exception ex)
+        {
+            MostraRetornoErro("Ocorreu um erro ao tentar executar o Descarte da amostra. <br /> Por favor, consulte o administrador do sistema");
+        }
+
+    }
+
+    private void MostraRetornoErro(string mensagem)
+    {
+        divProcessando.Visible = false;
+        divInsercoes.Visible = true;
+
+        MostraRetorno(mensagem);
+
+        imgOk.Visible = false;
+        imgErro.Visible = true;
+    }
+
+    protected void btNovaPrateleira_Click(object sender, EventArgs e)
+    {
+        txtAmostra.Text = string.Empty;
+        txtPrateleira.Text = string.Empty;
+        lblPrateleira.Text = string.Empty;
+        txtPrateleira.Focus();
+
+        divRetorno.Visible = false;
+        divInsercoes.Visible = false;
+        divInicio.Visible = false;
+        divPrateleira.Visible = true;
     }
 
     public void MostraRetorno(string mensagem)
@@ -144,7 +239,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
 
     private void ExibiLinkInicial()
     {
-        if (!string.IsNullOrEmpty(lblCamara.Text))
+        if (!string.IsNullOrEmpty(lblPrateleira.Text))
         {
             divInicio.Visible = true;
         }
@@ -161,8 +256,4 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         Response.Redirect("../Home/Home.aspx");
     }
 
-    protected void btInicio_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("../Acoes/Descarte.aspx");
-    }
 }
