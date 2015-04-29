@@ -18,16 +18,22 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (Session["SessionUsuario"].ToString() != string.Empty)
+                if (Session["SessionIdTipoAcesso"].ToString() != "1")
                 {
-                    if (!IsPostBack)
-                        CarregaPagina();
+                    RetornaPaginaErro("Você não possui permissões para acessar essa ferramenta.");
                 }
                 else
                 {
-                    RedirecionaLogin();
+                    if (Session["SessionUsuario"].ToString() != string.Empty)
+                    {
+                        if (!IsPostBack)
+                            CarregaPagina();
+                    }
+                    else
+                    {
+                        RedirecionaLogin();
+                    }
                 }
-
             }
         }
         catch (Exception ex)

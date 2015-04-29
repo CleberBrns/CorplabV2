@@ -24,6 +24,11 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
                 {
                     RetornaPaginaErro("Você não possui permissões para acessar essa ferramenta.");
                 }
+                else if (Session["SessionQtdUnidades"].ToString() == "0")
+                {
+                    RetornaPaginaErro("Não existem Unidades cadastradas para vincular usuários. <br/>"+
+                                      "Por favor, consulte o administrador do sistemas.");
+                }
                 else
                 {
                     if (Session["SessionUsuario"].ToString() != string.Empty)

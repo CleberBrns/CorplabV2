@@ -21,15 +21,23 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (Session["SessionUsuario"].ToString() != string.Empty)
+                if (Session["SessionUsuario"].ToString().ToLower() == "sistemas")
                 {
-                    if (!IsPostBack)
-                        CarregaPagina();
+                    RetornaPaginaErro("Esse usuário possui acesso somente ao cadastro de Unidades e Usuários <br/>"+
+                        " Para ter acesso as ações, por favor, cadastre um usuário vinculado a alguma Unidade");
                 }
                 else
                 {
-                    Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
-                    Response.Redirect("../Login/Login.aspx");
+                    if (Session["SessionUsuario"].ToString() != string.Empty)
+                    {
+                        if (!IsPostBack)
+                            CarregaPagina();
+                    }
+                    else
+                    {
+                        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
+                        Response.Redirect("../Login/Login.aspx");
+                    }
                 }
 
             }

@@ -11,10 +11,18 @@ public partial class Unidades_Unidades : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        if (Session["SessionIdTipoAcesso"].ToString() != "1")
         {
-            CarregaDados();
+            RetornaPaginaErro("Você não possui permissões para acessar essa ferramenta.");
         }
+        else
+        {
+            if (!IsPostBack)
+            {
+                CarregaDados();
+            }
+        }
+
     }
 
     private void CarregaDados()
@@ -49,5 +57,11 @@ public partial class Unidades_Unidades : System.Web.UI.Page
     protected void btMenuPrincipal_Click(object sender, EventArgs e)
     {
         Response.Redirect("../Home/Home.aspx");
+    }
+
+    public void RetornaPaginaErro(string erro)
+    {
+        Session["ExcessaoDeErro"] = erro.Trim();
+        Response.Redirect("../Erro/Erro.aspx");
     }
 }

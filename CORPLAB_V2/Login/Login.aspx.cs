@@ -22,11 +22,11 @@ public partial class Login_Login : System.Web.UI.Page
     {
         SelecionaDados selecionaDados = new SelecionaDados();
 
-        //if (txtLogin.Text == "admin" && txtSenha.Text == "@dmin01")
+        //if (txtLogin.Text == "sistemas" && txtSenha.Text == "sistem@01")
         //{
-        //    Session["SessionUser"] = "Gestor";
-        //    Session["SessionIdUser"] = "0";
-        //    Session["SessionIdUnidade"] = "0";
+        //    Session["SessionUsuario"] = "Sistema";
+        //    Session["SessionIdUsuario"] = "0";
+        //    Session["SessionIdTipoAcesso"] = "1";
         //    Response.Redirect("../Home/Home.aspx");
         //    divRetorno.Visible = false;
         //}
