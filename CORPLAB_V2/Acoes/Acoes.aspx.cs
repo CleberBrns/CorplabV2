@@ -35,8 +35,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                     }
                     else
                     {
-                        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
-                        Response.Redirect("../Login/Login.aspx");
+                        RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
                     }
                 }
 
@@ -44,7 +43,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro(ex.ToString());
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
 
     }

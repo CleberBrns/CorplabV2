@@ -62,7 +62,8 @@
 .insercoes
 {
     font-size: 18px;
-    padding: 10px 38% 15px;
+    padding: 10px 0% 15px;
+    text-align: center;
 }
 .btIncluir
 {

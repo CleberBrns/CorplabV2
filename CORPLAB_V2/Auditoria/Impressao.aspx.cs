@@ -25,9 +25,14 @@ public partial class Analise_Impressao : System.Web.UI.Page
         }
         catch (Exception)
         {
-            Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
-            Response.Redirect("../Login/Login.aspx");
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
+    }
+
+    public void RetornaPaginaErro(string erro)
+    {
+        Session["ExcessaoDeErro"] = erro.Trim();
+        Response.Redirect("../Erro/Erro.aspx");
     }
 
     private void CarregaInfoConsulta(string camara, string idBusca, string tipoBusca, string prateleira)

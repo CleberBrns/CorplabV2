@@ -41,7 +41,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            RedirecionaLogin();
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
     }
 

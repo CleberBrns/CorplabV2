@@ -38,7 +38,7 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro(ex.ToString());
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
     }
 
@@ -50,14 +50,14 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
 
     private void CarregaPagina()
     {
-        DataTable dtEstados = selecionaDados.ConsultaEstados(1);
+        DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
 
-        ddlEstado.DataSource = dtEstados;
-        ddlEstado.DataTextField = "Estado";
-        ddlEstado.DataValueField = "IdEstado";
-        ddlEstado.DataBind();
+        ddlUnidades.DataSource = dtUnidades ;
+        ddlUnidades.DataTextField = "Unidade";
+        ddlUnidades.DataValueField = "IdUnidade";
+        ddlUnidades.DataBind();
 
-        ddlEstado.Items.Insert(0, new ListItem("-- Selecione -- ", "0"));
+        ddlUnidades.Items.Insert(0, new ListItem("-- Selecione -- ", "0"));
     }
 
     private void MostrarRetorno(string mensagem, int tipoRetorno)
@@ -77,102 +77,42 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
         lblRetorno.Text = mensagem;
     }
 
-    protected void ddlEstado_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlUnidades_SelectedIndexChanged(object sender, EventArgs e)
     {
         divRetorno.Visible = false;
+        btMenuUnidades.Visible = false;
 
-        if (ddlEstado.SelectedValue != "0")
+        if (ddlUnidades.SelectedValue != "0")
         {
-            ddlCidade.Enabled = true;
+            btInicio.Visible = true;
+            divOpcoes.Visible = true;         
+            divUnidades.Visible = false;
+            hddIdUnidade.Value = ddlUnidades.SelectedValue;
 
-            DataTable dtCidade = selecionaDados.ConsultaCidades(Convert.ToInt32(ddlEstado.SelectedValue));
-
-            ddlCidade.DataSource = dtCidade;
-            ddlCidade.DataTextField = "Cidade";
-            ddlCidade.DataValueField = "IdCidade";
-            ddlCidade.DataBind();
-
-            ddlCidade.Items.Insert(0, new ListItem("-- Selecione -- ", "0"));
+            lblUnidade.Text = " - Configuração da Unidade " + ddlUnidades.SelectedItem.Text.Trim();                    
+            
         }
         else
-        {
-            ddlCidade.Enabled = false;
-            ddlCidade.SelectedValue = "0";
-        }
-
-    }
-
-    protected void ddlCidade_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlCidade.SelectedValue != "0")
         {
             divRetorno.Visible = false;
         }
     }
 
-    protected void btCadastrar_Click(object sender, EventArgs e)
+    protected void ddlCamaras_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (ddlEstado.SelectedValue != "0")
+        if (ddlCamaras.SelectedValue != "0")
         {
-            if (ddlCidade.SelectedValue != "0")
-            {
-                if (!string.IsNullOrEmpty(txtNomeUnidade.Text))
-                {
-                    try
-                    {
-                        divProcessando.Visible = true;
+            hddIdCamara.Value = ddlCamaras.SelectedValue;
+            divDropCamara.Visible = false;
+            divEstante.Visible = true;
 
-                        ddlEstado.Enabled = false;
-                        ddlCidade.Enabled = false;
-                        txtNomeUnidade.Enabled = false;
-                        txtNomeUnidade.ReadOnly = true;
-                        btMenuPrincipal.Enabled = false;
-                        btMenuPrincipal.ToolTip = "Por favor, configure a unidade antes de continuar";
-
-                        btConfigurarUnidade.Visible = true;
-                        btCadastrar.Visible = false;
-
-                        hddIdUnidade.Value = insereDados.InsereUnidade(txtNomeUnidade.Text.Trim(), Convert.ToInt32(ddlCidade.SelectedValue.Trim()),
-                                             Convert.ToInt32(ddlEstado.SelectedValue.Trim())).ToString();//(string unidade, int idCidade, int idEstado)
-
-                        divProcessando.Visible = false;
-                        MostrarRetorno("Unidade cadastrada com sucesso. <br/> Por favor, clique em Configurar Unidade", 0);
-                    }
-                    catch (Exception ex)
-                    {
-                        RetornaPaginaErro(ex.ToString());
-                    }
-
-                }
-                else
-                {
-                    MostrarRetorno("Por favor, preencha o nome da unidade", 1);
-                }
-
-            }
-            else
-            {
-                MostrarRetorno("Por favor, selecione uma Cidade", 1);
-            }
+            lblCamara.Text = ", Câmara " + ddlCamaras.SelectedValue;
+            txtEstante.Focus();
         }
         else
         {
-            MostrarRetorno("Por favor, selecione um Estado", 1);
+            divRetorno.Visible = false;
         }
-    }
-
-    protected void btConfigurarUnidade_Click(object sender, EventArgs e)
-    {
-        lblUnidade.Text = " - Configuração da Unidade " + txtNomeUnidade.Text.Trim();
-
-        btConfigurarUnidade.Visible = false;
-        divUnidade.Visible = false;
-        divRetorno.Visible = false;
-
-        divConfiguraUnidade.Visible = true;
-
-        divCamara.Visible = true;
-        txtCamara.Focus();
 
     }
 
@@ -186,6 +126,13 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
             try
             {
                 divProcessando.Visible = true;
+
+                btInicio.Visible = true;
+                btInicio.Enabled = false;
+                btInicio.ToolTip = "Por favor, finalize a configuração antes de continuar";
+
+                btMenuPrincipal.Enabled = false;
+                btMenuPrincipal.ToolTip = "Por favor, finalize a configuração antes de continuar";
 
                 hddIdCamara.Value = insereDados.InsereCamara(txtCamara.Text, Convert.ToInt32(hddIdUnidade.Value.Trim())).ToString();
 
@@ -255,8 +202,8 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
                 MostrarRetorno("Prateleira " + txtPrateleiras.Text + " cadastrada com sucesso", 0);
 
                 btMenuPrincipal.Enabled = true;
+                btInicio.Enabled = true;                
                 btInicio.Visible = true;
-                btNovaEstante.Visible = true;
 
                 txtPrateleiras.Text = string.Empty;
                 txtPrateleiras.Focus();
@@ -273,20 +220,56 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
         }
     }
 
-    protected void btNovaEstante_Click(object sender, EventArgs e)
+    protected void btNovaCamara_Click(object sender, EventArgs e)
     {
-        divRetorno.Visible = false;
-        divPrateleiras.Visible = false;
-        divEstante.Visible = true;
+        divConfiguraUnidade.Visible = true;
+        divOpcoes.Visible = false;
+        divCamara.Visible = true;
+
+        hddIdCamara.Value = string.Empty;
+        txtCamara.Text = string.Empty;
+        txtCamara.Focus();
+        lblCamara.Text = string.Empty;
 
         hddIdEstante.Value = string.Empty;
         txtEstante.Text = string.Empty;
         lblEstante.Text = string.Empty;
+    }
+
+    protected void btNovaEstante_Click(object sender, EventArgs e)
+    {
+        DataTable dtCamara = selecionaDados.ConsultaCamarasUnidade(Convert.ToInt32(hddIdUnidade.Value));
+
+        if (dtCamara.Rows.Count > 0)
+        {
+            ddlCamaras.DataSource = dtCamara;
+            ddlCamaras.DataTextField = "NomeCamara";
+            ddlCamaras.DataValueField = "IdCamara";
+            ddlCamaras.DataBind();
+
+            ddlCamaras.Items.Insert(0, new ListItem("-- Selecione -- ", "0"));
+
+            divOpcoes.Visible = false;
+            divRetorno.Visible = false;
+            divPrateleiras.Visible = false;
+            divEstante.Visible = false;
+            divConfiguraUnidade.Visible = true;
+            divDropCamara.Visible = true;
+
+            hddIdEstante.Value = string.Empty;
+            txtEstante.Text = string.Empty;
+            lblEstante.Text = string.Empty;
+        }
+        else
+        {
+            MostrarRetorno("Não existem Câmaras cadastradas para essa a Unidade selecionada", 1);
+        }
 
     }
 
     protected void btInicio_Click(object sender, EventArgs e)
     {
+        btMenuUnidades.Visible = true;
         hddIdUnidade.Value = string.Empty;
         hddIdCamara.Value = string.Empty;
         hddIdEstante.Value = string.Empty;
@@ -305,4 +288,12 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
         Response.Redirect("../Erro/Erro.aspx");
     }
 
+    protected void btMenuUnidades_Click(object sender, EventArgs e)
+    {
+        hddIdUnidade.Value = string.Empty;
+        hddIdCamara.Value = string.Empty;
+        hddIdEstante.Value = string.Empty;
+
+        Response.Redirect("../Unidades/Unidades.aspx");
+    }
 }

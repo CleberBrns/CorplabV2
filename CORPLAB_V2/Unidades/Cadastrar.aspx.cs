@@ -39,7 +39,7 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro(ex.ToString());
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
     }
 
@@ -120,7 +120,8 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
                 if (!string.IsNullOrEmpty(txtNomeUnidade.Text))
                 {
                     try
-                    {
+                    {                        
+
                         divProcessando.Visible = true;
 
                         ddlEstado.Enabled = false;
@@ -129,6 +130,8 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
                         txtNomeUnidade.ReadOnly = true;
                         btMenuPrincipal.Enabled = false;
                         btMenuPrincipal.ToolTip = "Por favor, configure a unidade antes de continuar";
+                        btMenuUnidades.Enabled = false;
+                        btMenuUnidades.ToolTip = "Por favor, configure a unidade antes de continuar";
 
                         btConfigurarUnidade.Visible = true;
                         btCadastrar.Visible = false;
@@ -255,7 +258,10 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
 
                 MostrarRetorno("Prateleira " + txtPrateleiras.Text + " cadastrada com sucesso", 0);
 
+                btMenuUnidades.Enabled = true;
+                btMenuUnidades.ToolTip = string.Empty;
                 btMenuPrincipal.Enabled = true;
+                btMenuPrincipal.ToolTip = string.Empty;
                 btInicio.Visible = true;
                 btNovaEstante.Visible = true;
                 btNovaCamara.Visible = true;
@@ -305,6 +311,7 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
 
     protected void btInicio_Click(object sender, EventArgs e)
     {
+        btMenuUnidades.Visible = true;
         hddIdUnidade.Value = string.Empty;
         hddIdCamara.Value = string.Empty;
         hddIdEstante.Value = string.Empty;
@@ -321,6 +328,15 @@ public partial class Unidades_Cadastrar : System.Web.UI.Page
     {
         Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
+    }
+
+    protected void btMenuUnidades_Click(object sender, EventArgs e)
+    {
+        hddIdUnidade.Value = string.Empty;
+        hddIdCamara.Value = string.Empty;
+        hddIdEstante.Value = string.Empty;
+
+        Response.Redirect("../Unidades/Unidades.aspx");
     }
 
 }

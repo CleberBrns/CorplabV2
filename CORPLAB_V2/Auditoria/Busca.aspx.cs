@@ -36,7 +36,7 @@ public partial class Auditoria_Busca : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro(ex.ToString());
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
 
     }

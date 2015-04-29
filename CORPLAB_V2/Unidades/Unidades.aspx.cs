@@ -11,16 +11,23 @@ public partial class Unidades_Unidades : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["SessionIdTipoAcesso"].ToString() != "1")
+        try
         {
-            RetornaPaginaErro("Você não possui permissões para acessar essa ferramenta.");
-        }
-        else
-        {
-            if (!IsPostBack)
+            if (Session["SessionIdTipoAcesso"].ToString() != "1")
             {
-                CarregaDados();
+                RetornaPaginaErro("Você não possui permissões para acessar essa ferramenta.");
             }
+            else
+            {
+                if (!IsPostBack)
+                {
+                    CarregaDados();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
 
     }

@@ -47,7 +47,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro(ex.ToString());
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
 
     }

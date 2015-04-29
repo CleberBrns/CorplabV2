@@ -27,13 +27,13 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
                 }
                 else
                 {
-                    RedirecionaLogin();
+                    RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
                 }
             }
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro(ex.ToString());
+            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
         }
 
     }
