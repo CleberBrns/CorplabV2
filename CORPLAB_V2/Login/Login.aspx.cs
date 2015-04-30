@@ -26,6 +26,7 @@ public partial class Login_Login : System.Web.UI.Page
             Session["SessionUsuario"] = "Sistema";
             Session["SessionIdUsuario"] = "0";
             Session["SessionIdTipoAcesso"] = "1";
+            Session["SessionQtdUnidades"] = "0";
             Response.Redirect("../Home/Home.aspx");
             divRetorno.Visible = false;
         }
