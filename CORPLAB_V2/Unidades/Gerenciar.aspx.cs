@@ -38,7 +38,14 @@ public partial class Unidades_Gerenciar : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+            if (Session["SessionIdTipoAcesso"] == null)
+            {
+                RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
+            }
+            else
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
         }
     }
 

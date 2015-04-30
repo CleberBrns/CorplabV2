@@ -27,13 +27,20 @@ public partial class Acoes_Saida : System.Web.UI.Page
                 }
                 else
                 {
-                    RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+                    RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
                 }
             }
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+            if (Session["SessionIdTipoAcesso"] == null)
+            {
+                RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
+            }
+            else
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
         }
 
     }

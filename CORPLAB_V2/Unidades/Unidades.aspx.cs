@@ -27,27 +27,28 @@ public partial class Unidades_Unidades : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+            if (Session["SessionIdTipoAcesso"] == null)
+            {
+                RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
+            }
+            else
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
+
         }
 
     }
 
     private void CarregaDados()
     {
-        try
+        int qtdUnidades = 0;
+
+        Int32.TryParse(Session["SessionQtdUnidades"].ToString(), out qtdUnidades);
+
+        if (qtdUnidades > 0)
         {
-            if (Convert.ToInt32(Session["SessionQtdUnidades"].ToString()) > 0)
-            {
-                btGerenciar.Visible = true;
-            }
-            else
-            {
-                Response.Redirect("../Unidades/Cadastrar.aspx");
-            }
-        }
-        catch (Exception)
-        {
-            Response.Redirect("../Unidades/Cadastrar.aspx");
+            btGerenciar.Visible = true;
         }
     }
 

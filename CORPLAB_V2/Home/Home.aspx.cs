@@ -19,9 +19,16 @@ public partial class Home_Home : System.Web.UI.Page
                 CarregaPagina();
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+            if (Session["SessionIdTipoAcesso"] == null)
+            {
+                RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
+            }
+            else
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
         }
 
     }

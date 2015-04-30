@@ -20,20 +20,27 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (Session["SessionUsuario"].ToString() != string.Empty)
+                if (Session["SessionUsuario"] != null)
                 {
                     if (!IsPostBack)
                         CarregaPagina();
                 }
                 else
                 {
-                    RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+                    RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
                 }
             }
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+            if (Session["SessionIdTipoAcesso"] == null)
+            {
+                RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
+            }
+            else
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
         }
 
     }

@@ -21,9 +21,13 @@ public partial class Erro_Erro : System.Web.UI.Page
             lblExcessao.Text = Session["ExcessaoDeErro"].ToString();
 
             if (!string.IsNullOrEmpty(lblExcessao.Text.Trim()))
-                lblComExcessao.Visible = true;           
+            {
+                lblComExcessao.Visible = true;
+                btMenuPrincipal.Visible = false;
+            }
+
         }
-        catch (Exception ex) { btMenuPrincipal.Visible = false; }//Apenas exibe a página indicando o erro
+        catch (Exception ex) { }//Apenas exibe a página indicando o erro
     }
 
     protected void btMenuPrincipal_Click(object sender, EventArgs e)

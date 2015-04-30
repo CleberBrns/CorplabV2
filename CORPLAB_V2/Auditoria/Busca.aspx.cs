@@ -28,15 +28,21 @@ public partial class Auditoria_Busca : System.Web.UI.Page
                 }
                 else
                 {
-                    Page.ClientScript.RegisterStartupScript(GetType(), "SemSessao", "alert('Perdeu a sessão!');", true);
-                    Response.Redirect("../Login/Login.aspx");
+                    RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
                 }
 
             }
         }
         catch (Exception ex)
         {
-            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+            if (Session["SessionIdTipoAcesso"] == null)
+            {
+                RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
+            }
+            else
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
         }
 
     }
