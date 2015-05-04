@@ -23,7 +23,7 @@ public partial class Login_Login : System.Web.UI.Page
 
         if (txtLogin.Text == "sistemas" && txtSenha.Text == "sistem@s01")
         {
-            Session["SessionUsuario"] = "Sistema";
+            Session["SessionUsuario"] = "Sistemas";
             Session["SessionIdUsuario"] = "0";
             Session["SessionIdTipoAcesso"] = "1";
             Session["SessionQtdUnidades"] = "0";

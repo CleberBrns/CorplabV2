@@ -20,7 +20,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         try
         {
             if (!IsPostBack)
-            {
+            {                
                 if (Session["SessionUsuario"].ToString().ToLower() == "sistemas")
                 {
                     RetornaPaginaErro("Esse usuário possui acesso somente ao cadastro de Unidades e Usuários <br/>" +

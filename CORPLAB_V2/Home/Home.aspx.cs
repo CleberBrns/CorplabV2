@@ -41,7 +41,7 @@ public partial class Home_Home : System.Web.UI.Page
 
     private void CarregaPagina()
     {
-        //Usuário Gestor
+        //Usuário Produção
         if (Session["SessionIdTipoAcesso"].ToString() != "1")
         {
             btUnidades.Visible = false;
@@ -51,6 +51,11 @@ public partial class Home_Home : System.Web.UI.Page
         {
             try
             {
+                if (Session["SessionUsuario"].ToString().ToLower() == "sistemas")
+                {
+                    btAcoes.Visible = false;
+                }
+
                 DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
 
                 Session["SessionQtdUnidades"] = "0";
