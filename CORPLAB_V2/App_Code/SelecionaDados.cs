@@ -167,7 +167,7 @@ public class SelecionaDados
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_todasUnidades_select";
+                sqlCommand.CommandText = "usp_Pais_select";//Não existe a proc ainda
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
