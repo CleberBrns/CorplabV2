@@ -67,9 +67,15 @@ public partial class Unidades_Unidades : System.Web.UI.Page
         Response.Redirect("../Home/Home.aspx");
     }
 
+    protected void btConsultar_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Unidades/Consultar.aspx");
+    }
+
     public void RetornaPaginaErro(string erro)
     {
         Session["ExcessaoDeErro"] = erro.Trim();
         Response.Redirect("../Erro/Erro.aspx");
     }
+
 }

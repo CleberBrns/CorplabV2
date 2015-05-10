@@ -55,12 +55,12 @@
                                             <div id="divLogin" runat="server" class="contInformacoe">
                                                 <span>Login</span>
                                                 <asp:TextBox ID="txtLogin" Width="120px" Font-Size="11px" Text='<%#Eval("LOGIN")%>'
-                                                    runat="server" Style="text-align: center;" ToolTip="Máximo de 8 dígitos!"></asp:TextBox>
+                                                    runat="server" Style="text-align: center;" ToolTip="Máximo de 15 dígitos!" MaxLength="15"></asp:TextBox>
                                             </div>
                                             <div id="divSenha" runat="server" class="contInformacoe">
                                                 <span>Senha</span>
                                                 <asp:TextBox ID="txtSenha" Width="120px" Font-Size="11px" Text='<%#Eval("SENHA")%>'
-                                                    runat="server" Style="text-align: center;" ToolTip="Máximo de 8 dígitos!"></asp:TextBox>
+                                                    runat="server" Style="text-align: center;" ToolTip="Máximo de 15 dígitos!" MaxLength="15"></asp:TextBox>
                                             </div>
                                         </asp:Panel>
                                     </div>
@@ -102,13 +102,13 @@
                         <div id="div1" runat="server" class="contInformacoe">
                             <span class="descricao">Login</span>
                             <asp:TextBox ID="txtNovoLogin" Width="160px" Font-Size="15px" runat="server" Style="text-align: center;"
-                                ToolTip="Mínimo de 4 e Máximo de 8 caracteres!" autocomplete="off" MaxLength="8"></asp:TextBox>
+                                ToolTip="Mínimo de 4 e Máximo de 15 caracteres!" autocomplete="off" MaxLength="15"></asp:TextBox>
                         </div>
                         <div id="div2" runat="server" class="contInformacoe">
                             <span class="descricao">Senha</span>
                             <asp:TextBox ID="txtNovaSenha" TextMode="Password" autocomplete="off" Width="160px"
-                                Font-Size="15px" runat="server" Style="text-align: center;" ToolTip="Mínimo de 4 e Máximo de 8 caracteres!"
-                                MaxLength="8"></asp:TextBox>
+                                Font-Size="15px" runat="server" Style="text-align: center;" ToolTip="Mínimo de 4 e Máximo de 15 caracteres!"
+                                MaxLength="15"></asp:TextBox>
                         </div>
                     </div>
                     <div class="contBotoes" style="width: 176%;">                      

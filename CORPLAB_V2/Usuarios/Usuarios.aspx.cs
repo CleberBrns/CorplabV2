@@ -207,6 +207,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
                 DadosDefault();
                 DesmarcaSelecionados();
+                CarregaDados();
 
                 Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Usuário cadastrado com sucesso!');", true);
             }
@@ -259,7 +260,9 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
                 if (idCadastro == lblIdCadastro.Text)
                 {
                     atualizaDados.AtualizaUsuario(Convert.ToInt32(idCadastro), txtLogin.Text.Trim(), txtSenha.Text.Trim());
+                    DadosDefault();
                     DesmarcaSelecionados();
+                    CarregaDados();
                     break;
                 }
             }
@@ -286,7 +289,9 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
                 if (idCadastro == lblIdCadastro.Text)
                 {
                     DeletaUsuario(idCadastro);
+                    DadosDefault();
                     DesmarcaSelecionados();
+                    CarregaDados();
                     break;
                 }
             }
