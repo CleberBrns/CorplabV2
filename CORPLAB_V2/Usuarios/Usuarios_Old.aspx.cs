@@ -26,7 +26,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
                 }
                 else if (Session["SessionQtdUnidades"].ToString() == "0")
                 {
-                    RetornaPaginaErro("Não existem Unidades cadastradas para vincular usuários. <br/>" +
+                    RetornaPaginaErro("Não existem Unidades cadastradas para vincular usuários. <br/>"+
                                       "Por favor, consulte o administrador do sistemas.");
                 }
                 else
@@ -61,7 +61,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
     private void RedirecionaLogin()
     {
-        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
+        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);        
         Response.Redirect("../Login/Login.aspx");
     }
 
@@ -70,58 +70,78 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
     /// </summary>
     public void CarregaDados()
     {
-        CarregaUsuarios();
-        CarregaUnidades();
-        CarregaTipoAcesso();
+        CarregaCadastros();    
         DadosDefault();
     }
 
-    private void CarregaUnidades()
+    [WebMethod]
+    public static List<ListItem> Unidades()
     {
+        List<ListItem> ListUnidades = new List<ListItem>();
+
+        SelecionaDados selecionaDados = new SelecionaDados();
         DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
 
         if (dtUnidades.Rows.Count > 0)
         {
-            ddlUnidade.DataSource = dtUnidades;
-            ddlUnidade.DataTextField = "Unidade";
-            ddlUnidade.DataValueField = "IdUnidade";
-            ddlUnidade.DataBind();
+            foreach (DataRow item in dtUnidades.Rows)
+                ListUnidades.Add(new ListItem(item["Unidade"].ToString(), item["IdUnidade"].ToString()));
         }
+
+        return ListUnidades;
     }
 
-    private void CarregaTipoAcesso()
+    [WebMethod]
+    public static List<ListItem> TipoAcesso()
     {
+        List<ListItem> ListTipoAcesso = new List<ListItem>();
+
+        SelecionaDados selecionaDados = new SelecionaDados();
         DataTable dtTipoAcesso = selecionaDados.ConsultaTipoAcesso();
 
         if (dtTipoAcesso.Rows.Count > 0)
         {
-            ddlNivelAcesso.DataSource = dtTipoAcesso;
-            ddlNivelAcesso.DataTextField = "TipoAcesso";
-            ddlNivelAcesso.DataValueField = "IdTipoAcesso";
-            ddlNivelAcesso.DataBind();
+            foreach (DataRow item in dtTipoAcesso.Rows)
+                ListTipoAcesso.Add(new ListItem(item["TipoAcesso"].ToString(), item["IdTipoAcesso"].ToString()));
         }
+
+        return ListTipoAcesso;
     }
 
-    private void InsereUsuario(string sIdUnidade, string sIdTipoAcesso, string nomeUsuario, string login, string senha)
+    [WebMethod]
+    public static string InsereUsuario(string sIdUnidade, string sIdTipoAcesso, string nomeUsuario, string login, string senha)
     {
+        string msgRetorno = string.Empty;
+
         int idUnidade = Convert.ToInt32(sIdUnidade.Trim());
         int idTipoAcesso = Convert.ToInt32(sIdTipoAcesso.Trim());
 
         InsereDados insereDados = new InsereDados();
 
         insereDados.InsereUsuario(nomeUsuario, login, senha, idUnidade, idTipoAcesso, 1);
+
+        return msgRetorno;
     }
 
-    private void DeletaUsuario(string sIdUsuario)
+    [WebMethod]
+    public static string DeletaUsuario(string sIdUsuario)
     {
+        string msgRetorno = string.Empty;
+
         int idUsuario = Convert.ToInt32(sIdUsuario.Trim());
 
         DeletaDados deletaDados = new DeletaDados();
 
         deletaDados.DeletaUsuario(idUsuario);
+
+        return msgRetorno;
     }
 
-    private void CarregaUsuarios()
+
+    /// <summary>
+    /// Carrega as tabelas para exibição.
+    /// </summary>
+    private void CarregaCadastros()
     {
         DataTable dtUsuarios = selecionaDados.ConsultaTodosUsuarios();
 
@@ -134,17 +154,21 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
             rptCadastros.DataSource = dtUsuarios;
             rptCadastros.DataBind();
+
         }
     }
 
 
     private void DadosDefault()
-    {
+    {       
         txtNovoNome.Text = string.Empty;
         txtNovoLogin.Text = string.Empty;
         txtNovaSenha.Text = string.Empty;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void DesmarcaSelecionados()
     {
         foreach (ListItem item in rblUsuarios.Items)
@@ -153,6 +177,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
                 item.Selected = false;
         }
     }
+
 
     /// <summary>
     /// Identação 
@@ -166,7 +191,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
         Label lblIdCadastro = (Label)e.Item.FindControl("lblIdCadastro");
         Panel dvUsuario = (Panel)e.Item.FindControl("dvUsuario");
 
-        lblUnidade.Text = RetornaDescricaoUnidade(Convert.ToInt32(lblUnidade.Text.Trim()));
+        lblUnidade.Text = RetornaDescricaoUnidade(Convert.ToInt32(lblUnidade.Text.Trim()));        
 
         dvUsuario.CssClass = "none dvUsuario css" + lblIdCadastro.Text.Trim();
     }
@@ -179,7 +204,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
     private string RetornaDescricaoUnidade(int idUnidade)
     {
         string nomeUnidade = "Não definida";
-
+        
         try
         {
             DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
@@ -194,49 +219,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
 
     #region Ações dos Botões
 
-    protected void btCadastrar_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            bool loginCadastrado = false;
-            loginCadastrado = VerificaLogin(txtNovoLogin.Text.Trim());
-
-            if (!loginCadastrado)
-            {
-                InsereUsuario(ddlUnidade.SelectedValue, ddlNivelAcesso.SelectedValue, txtNovoNome.Text.Trim(), txtNovoLogin.Text.Trim(), txtNovaSenha.Text.Trim());
-
-                DadosDefault();
-                DesmarcaSelecionados();
-
-                Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Usuário cadastrado com sucesso!');", true);
-            }
-            else
-            {
-                Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Por favor, defina um novo Login pois o digitado já está sendo usado.');", true);
-            }
-           
-        }
-        catch (Exception ex)
-        {
-            Session["ExcessaoDeErro"] = ex.ToString();
-            Response.Redirect("../Erro/Erro.aspx");
-        }
-    }
-
-    private bool VerificaLogin(string novoLogin)
-    {
-        DataTable dtLoginUsuario = selecionaDados.ConsultaLoginUsuario(novoLogin);
-
-        if (dtLoginUsuario.Rows.Count > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }      
-    }
-
+    
     /// <summary>
     /// Grava e altera os números
     /// </summary>
@@ -271,33 +254,7 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
             Session["ExcessaoDeErro"] = ex.ToString();
             Response.Redirect("../Erro/Erro.aspx");
         }
-    }
 
-    protected void btExcluir_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            string idCadastro = ((Button)sender).CommandArgument.ToString().Trim();
-
-            foreach (RepeaterItem item in rptCadastros.Items)
-            {
-                Label lblIdCadastro = (Label)item.FindControl("lblIdCadastro");
-
-                if (idCadastro == lblIdCadastro.Text)
-                {
-                    DeletaUsuario(idCadastro);
-                    DesmarcaSelecionados();
-                    break;
-                }
-            }
-
-            Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Usuário excluído com sucesso!');", true);
-        }
-        catch (Exception ex)
-        {
-            Session["ExcessaoDeErro"] = ex.ToString();
-            Response.Redirect("../Erro/Erro.aspx");
-        }
 
     }
 

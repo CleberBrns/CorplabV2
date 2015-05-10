@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Usuarios.aspx.cs" Inherits="Usuarios_Usuarios"  EnableEventValidation="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Usuarios_Old.aspx.cs" Inherits="Usuarios_Usuarios"  EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -67,8 +67,8 @@
                                     <div class="contBotoes">
                                         <asp:Button ID="btAlterar" runat="server" CssClass="btAcoes" Text="Alterar" CommandArgument='<%#Eval("IDUSUARIO")%>'
                                             OnClick="btAlterar_Click" ToolTip="Alterar o Cadastro" />
-                                        <asp:Button ID="btExcluir" runat="server" CssClass="btAcoes" Text="Excluir" CommandArgument='<%#Eval("IDUSUARIO")%>'
-                                            OnClick="btExcluir_Click" ToolTip="Excluí o Cadastro" />                                        
+                                         <input type="button" class="btAcoes" id="btExcluir" value="Excluir" title="Excluí o Cadastro"
+                                            name='<%#Eval("IDUSUARIO")%>' />
                                     </div>
                                 </div>
                             </asp:Panel>
@@ -111,9 +111,9 @@
                                 MaxLength="8"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="contBotoes" style="width: 176%;">                      
-                        <asp:Button runat="server" ID="btCadastrar" Text="Cadastrar" CssClass="btAcoes"
-                            ToolTip="Cadastrar Novo Usuário" OnClick="btCadastrar_Click" />
+                    <div class="contBotoes" style="width: 176%;">
+                        <input type="button" runat="server" id="btCadastrar" value="Cadastrar" class="btAcoes"
+                            title="Cadastrar Novo Usuário" />
                         <asp:Button ID="btLimpar" runat="server" Text="Limpar Campos" CssClass="btAcoes"
                             ToolTip="Limpa as informações" />
                     </div>
