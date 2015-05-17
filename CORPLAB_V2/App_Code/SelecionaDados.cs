@@ -408,7 +408,7 @@ public class SelecionaDados
         return dtConsulta;
     }
 
-    public DataTable ConsultaAmostraRecepcao(int idPrateleira, int codAmostra)
+    public DataTable ConsultaAmostraRecepcao(int idPrateleira, long codAmostra)
     {
         DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
@@ -519,7 +519,7 @@ public class SelecionaDados
         return dtConsulta;
     }
 
-    public DataTable ConsultaAmostraDescarte(int idPrateleira, int codAmostra)
+    public DataTable ConsultaAmostraDescarte(int idPrateleira, long codAmostra)
     {
         DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
@@ -593,7 +593,7 @@ public class SelecionaDados
         return dtConsulta;
     }
 
-    public DataTable ConsultaAmostra(int codAmostra)
+    public DataTable ConsultaAmostra(long codAmostra)
     {
         DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);

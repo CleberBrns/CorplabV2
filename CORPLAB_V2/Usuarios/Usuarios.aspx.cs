@@ -227,8 +227,10 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
     private bool VerificaLogin(string novoLogin)
     {
         DataTable dtLoginUsuario = selecionaDados.ConsultaLoginUsuario(novoLogin);
+        dtLoginUsuario.DefaultView.RowFilter = "IdTipoStatus = 1";
+        //O mesmo login só é valido para usuários que já foram cadastrados e bloqueados posteriormente
 
-        if (dtLoginUsuario.Rows.Count > 0)
+        if (dtLoginUsuario.DefaultView.Count > 0)
         {
             return true;
         }

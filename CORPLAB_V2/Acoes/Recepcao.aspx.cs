@@ -183,9 +183,9 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             divProcessando.Visible = true;
             divInsercoes.Visible = false;
 
-            int codAmostra = Convert.ToInt32(sCodAmostra);
+            long codAmostra = Convert.ToInt64(sCodAmostra);
 
-            DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraRecepcao(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra);
+            DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraRecepcao(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra); 
 
             if (dtAmostraXPrateleira.Rows.Count > 0)
             {

@@ -188,7 +188,7 @@ public class InsereDados
         }
     }
 
-    public void InsereAmostraRecepcao(int idPrateleira, int idUsuario, int codAmostra, string caixa)
+    public void InsereAmostraRecepcao(int idPrateleira, int idUsuario, long codAmostra, string caixa)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
 
@@ -223,7 +223,7 @@ public class InsereDados
         }
     }
 
-    public void InsereAmostraSaida(int idPrateleira, int idUsuario, int codAmostra, string caixa)
+    public void InsereAmostraSaida(int idPrateleira, int idUsuario, long codAmostra, string caixa)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
 
@@ -258,7 +258,7 @@ public class InsereDados
         }
     }
 
-    public void InsereAmostraEntrada(int idPrateleira, int idUsuario, int codAmostra, string caixa)
+    public void InsereAmostraEntrada(int idPrateleira, int idUsuario, long codAmostra, string caixa)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
 
@@ -293,7 +293,7 @@ public class InsereDados
         }
     }
 
-    public void InsereAmostraDescarte(int idPrateleira, int idUsuario, int codAmostra, string caixa)
+    public void InsereAmostraDescarte(int idPrateleira, int idUsuario, long codAmostra, string caixa)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
 
@@ -328,7 +328,7 @@ public class InsereDados
         }
     }
 
-    public void InsereAmostraAuditoria(int idPrateleira, int idUsuario, int codAmostra)
+    public void InsereAmostraAuditoria(int idPrateleira, int idUsuario, long codAmostra)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
 

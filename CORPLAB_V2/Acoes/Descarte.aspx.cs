@@ -160,7 +160,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
             divProcessando.Visible = true;
             divInsercoes.Visible = false;
 
-            int codAmostra = Convert.ToInt32(sCodAmostra);
+            long codAmostra = Convert.ToInt64(sCodAmostra);
 
             DataTable dtVerificaAmostra = selecionaDados.ConsultaAmostra(codAmostra);
 

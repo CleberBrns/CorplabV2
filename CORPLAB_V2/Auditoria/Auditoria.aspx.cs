@@ -140,9 +140,10 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
                     {
                         divProcessando.Visible = true;
 
+                        long codAmostra = Convert.ToInt64(txtAmostra.Text.Trim());
+
                         insereDados.InsereAmostraAuditoria(Convert.ToInt32(hddIdPrateleira.Value.Trim()),
-                                                           Convert.ToInt32(Session["SessionIdUsuario"].ToString()),
-                                                           Convert.ToInt32(txtAmostra.Text.Trim()));
+                                                           Convert.ToInt32(Session["SessionIdUsuario"].ToString()), codAmostra);                                                           
 
                         divProcessando.Visible = false;
                         imgErroAuditar.Visible = false;
