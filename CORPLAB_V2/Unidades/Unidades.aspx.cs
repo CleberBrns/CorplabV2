@@ -49,6 +49,7 @@ public partial class Unidades_Unidades : System.Web.UI.Page
         if (qtdUnidades > 0)
         {
             btGerenciar.Visible = true;
+            btConsultar.Visible = true;
         }
     }
 

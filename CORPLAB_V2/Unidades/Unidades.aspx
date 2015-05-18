@@ -21,8 +21,8 @@
                     </div>--%>
                     <div class="contBt">                        
                         <asp:Button runat="server" ID="btGerenciar" OnClick="btGerenciar_Click" CssClass="bt" Text="Configurar Unidades" Visible="false" />
-                        <asp:Button runat="server" ID="btConsultar" OnClick="btConsultar_Click" CssClass="bt" Text="Consultar Unidades" />
-                        <asp:Button runat="server" ID="btNovaUnidade" OnClick="btNovaUnidade_Click" CssClass="bt" Text="Nova Unidade" />
+                        <asp:Button runat="server" ID="btConsultar" OnClick="btConsultar_Click" CssClass="bt" Text="Consultar Unidades" Visible="false" />
+                        <asp:Button runat="server" ID="btNovaUnidade" OnClick="btNovaUnidade_Click" CssClass="bt" Text="Nova Unidade"/>
                     </div>
                 </div>
             </div>
