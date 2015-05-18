@@ -145,7 +145,7 @@ public partial class Acoes_Entrada : System.Web.UI.Page
 
         try
         {
-            int dCodAmostra = Convert.ToInt32(codAmostra.Trim());
+            long dCodAmostra = Convert.ToInt64(codAmostra.Trim());
             valido = true;
         }
         catch (Exception) { }//Continua false

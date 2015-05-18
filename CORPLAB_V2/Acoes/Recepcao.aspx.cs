@@ -129,7 +129,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
                             }
                             txtCaixa.Enabled = false;
 
-                            InsereAmostra(txtAmostra.Text.Trim(), txtCaixa.Text.Trim());
+                            //InsereAmostra(txtAmostra.Text.Trim(), txtCaixa.Text.Trim());
                         }
                         else
                         {
@@ -168,10 +168,10 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
         try
         {
-            int dCodAmostra = Convert.ToInt32(codAmostra.Trim());
+            long dCodAmostra = Convert.ToInt64(codAmostra.Trim());
             valido = true;
         }
-        catch (Exception) { }//Continua false
+        catch (Exception ex) { }//Continua false
 
         return valido;
     }

@@ -216,6 +216,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         else
         {
             MostraRetorno("Não existem amostras cadastradas.");
+            divInicio.Visible = true;
             imgErroAuditar.Visible = true;
             imgOkAuditar.Visible = false;
         }
@@ -234,7 +235,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         dtInfoPrateleira.Columns.Add("UltimaAlteracao");
         dtInfoPrateleira.Columns.Add("Auditado");
 
-        DataTable dtPrateleiraAuditoria = selecionaDados.ConsultaPrateleiraAuditoria(Convert.ToInt32(hddIdPrateleira.Value));
+        DataTable dtPrateleiraAuditoria = selecionaDados.ConsultaPrateleiraAuditoria(hddCodPrateleira.Value);
 
         if (dtPrateleiraAuditoria.Rows.Count > 0)
         {

@@ -58,7 +58,7 @@ public partial class Analise_Impressao : System.Web.UI.Page
     {
         DataTable dtInfoPrateleira = new DataTable();
 
-        int idPrateleira = Convert.ToInt32(codPrateleira);
+        //int idPrateleira = Convert.ToInt32(codPrateleira);
 
         dtInfoPrateleira.Columns.Add("CodAmostra");
         dtInfoPrateleira.Columns.Add("DataUsuarioRecepcao");
@@ -68,7 +68,7 @@ public partial class Analise_Impressao : System.Web.UI.Page
         dtInfoPrateleira.Columns.Add("UltimaAlteracao");
         dtInfoPrateleira.Columns.Add("Auditado");
 
-        DataTable dtPrateleiraAuditoria = selecionaDados.ConsultaPrateleiraAuditoria(idPrateleira);
+        DataTable dtPrateleiraAuditoria = selecionaDados.ConsultaPrateleiraAuditoria(codPrateleira);
 
         if (dtPrateleiraAuditoria.Rows.Count > 0)
         {

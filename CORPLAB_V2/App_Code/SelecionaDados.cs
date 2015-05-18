@@ -629,7 +629,7 @@ public class SelecionaDados
         return dtConsulta;
     }
 
-    public DataTable ConsultaPrateleiraAuditoria(int idPrateleira)
+    public DataTable ConsultaPrateleiraAuditoria(string codPrateleira)
     {
         DataTable dtConsulta = new DataTable();
         SqlConnection sqlConnection = new SqlConnection(sConexao);
@@ -639,7 +639,7 @@ public class SelecionaDados
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@idPrateleira", idPrateleira);
+                sqlCommand.Parameters.AddWithValue("@Prateleira", codPrateleira);
                 sqlCommand.CommandText = "usp_auditoria_prateleira_select";
                 sqlConnection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
