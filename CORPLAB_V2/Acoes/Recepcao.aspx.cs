@@ -129,7 +129,7 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
                             }
                             txtCaixa.Enabled = false;
 
-                            //InsereAmostra(txtAmostra.Text.Trim(), txtCaixa.Text.Trim());
+                            InsereAmostra(txtAmostra.Text.Trim(), txtCaixa.Text.Trim());
                         }
                         else
                         {
