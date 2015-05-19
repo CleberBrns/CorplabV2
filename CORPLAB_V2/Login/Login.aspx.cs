@@ -52,7 +52,15 @@ public partial class Login_Login : System.Web.UI.Page
                         Session["SessionIdUsuario"] = dtUsuario.Rows[0]["IdUsuario"].ToString();
                         Session["SessionIdTipoAcesso"] = dtUsuario.Rows[0]["IdTipoAcesso"].ToString();
                         Session["SessionIdUnidade"] = dtUsuario.Rows[0]["IdUnidade"].ToString();
-                        Response.Redirect("../Home/Home.aspx");
+
+                        if (dtUsuario.Rows[0]["IdTipoAcesso"].ToString() == "1")//Adm
+                        {
+                            Response.Redirect("../Home/Home.aspx");
+                        }
+                        else//Usuário
+                        {
+                            Response.Redirect("../Acoes/Acoes.aspx");
+                        }                        
                     }
 
                 }

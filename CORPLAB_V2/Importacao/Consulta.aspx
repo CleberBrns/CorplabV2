@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Auditoria.aspx.cs" Inherits="Auditoria_Auditoria" EnableEventValidation="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Consulta.aspx.cs" Inherits="Auditoria_Consulta" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Auditoria - ALS CorpLab</title>
-    <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
+    <title>Consulta - ALS CorpLab</title>
+    <link href="../Styles/Importacao.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -14,11 +14,17 @@
         <input type="hidden" runat="server" id="hddCodPrateleira" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Auditoria <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
+            <h2>Consulta <asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
-                    <div style="margin-top: 3%;" runat="server" id="divPrateleira">
+                    <div style="margin-top: 3%;" runat="server" id="divOpcoes">
+                        <div class="contBt">
+                            <input type="button" class="bt" runat="server" id="btDivAmostra" title="Consultar Amostra" value="Amostra" />
+                            <input type="button" class="bt" runat="server" id="btDivPrateleira" title="Consultar Prateleira" value="Prateleira" />
+                        </div>
+                    </div>
+                    <div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
                         Entre com a Prateleira
                     <asp:Panel runat="server" DefaultButton="btPrateleira" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
@@ -27,15 +33,15 @@
                         </div>
                     </asp:Panel>
                     </div>
-                    <div runat="server" id="divBotaoAuditoria" visible="false" style="margin-top: 3%;">
+                    <div runat="server" id="divAmostra" visible="false" style="margin-top: 3%;">
                         <div>
-                            Amostra a ser auditada 
+                            Entre com a Amostra 
                         </div>
                         <br />
-                        <asp:Panel runat="server" DefaultButton="btAuditarAmostra">
+                        <asp:Panel runat="server" DefaultButton="btAmostra">
                             <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
                             <div style="display: none">
-                                <asp:Button runat="server" ID="btAuditarAmostra" OnClick="btAuditarAmostra_Click" />
+                                <asp:Button runat="server" ID="btAmostra" OnClick="btAmostra_Click" />
                             </div>
                         </asp:Panel>
                     </div>

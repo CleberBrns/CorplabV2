@@ -189,7 +189,8 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
             if (dtAmostraXPrateleira.Rows.Count > 0)
             {
-                MostraRetornoErro("A amostra " + sCodAmostra + " já foi recebida nessa ação e não pode ser duplicada.");
+                MostraRetornoErro("A amostra " + sCodAmostra + " já foi cadastrada na Recepção e não pode ser duplicada.");
+                divProcessando.Visible = false;
                 txtAmostra.Text = string.Empty;
                 txtAmostra.Focus();
             }

@@ -154,11 +154,6 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
         }
     }
 
-    /// <summary>
-    /// Identação 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     protected void rptCadastros_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         Label lblTipoAcesso = (Label)e.Item.FindControl("lblTipoAcesso");
@@ -166,16 +161,15 @@ public partial class Usuarios_Usuarios : System.Web.UI.Page
         Label lblIdCadastro = (Label)e.Item.FindControl("lblIdCadastro");
         Panel dvUsuario = (Panel)e.Item.FindControl("dvUsuario");
 
+        TextBox txtSenha = (TextBox)e.Item.FindControl("txtSenha");
+        Label lblSenha = (Label)e.Item.FindControl("lblSenha");
+        txtSenha.Attributes.Add("value", lblSenha.Text.Trim());
+
         lblUnidade.Text = RetornaDescricaoUnidade(Convert.ToInt32(lblUnidade.Text.Trim()));
 
         dvUsuario.CssClass = "none dvUsuario css" + lblIdCadastro.Text.Trim();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="p"></param>
-    /// <returns></returns>
     private string RetornaDescricaoUnidade(int idUnidade)
     {
         string nomeUnidade = "Não definida";

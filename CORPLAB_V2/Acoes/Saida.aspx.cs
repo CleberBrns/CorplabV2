@@ -56,53 +56,7 @@ public partial class Acoes_Saida : System.Web.UI.Page
         hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
         hddIdUsuario.Value = Session["SessionIdUsuario"].ToString();
 
-        divPrateleira.Visible = true;
-        txtPrateleira.Focus();
-
-    }
-
-
-    protected void btPrateleira_Click(object sender, EventArgs e)
-    {
-        if (string.IsNullOrEmpty(txtPrateleira.Text))
-        {
-            MostraRetorno(string.Empty);
-        }
-        else
-        {
-            try
-            {
-                DataTable dtPrateleira = selecionaDados.ConsultaPrateleira(txtPrateleira.Text.Trim());
-
-                if (dtPrateleira.Rows.Count > 0)
-                {
-                    hddIdPrateleria.Value = dtPrateleira.DefaultView[0]["IdPrateleira"].ToString();
-                    lblPrateleira.Text = " - Prateleira " + txtPrateleira.Text.Trim();
-
-                    divRetorno.Visible = false;
-                    lblRetorno.Text = string.Empty;
-                    divPrateleira.Visible = false;
-                    divInsercoes.Visible = true;
-                    btNovaPrateleira.Visible = true;
-                    divInicio.Visible = true;
-                    txtAmostra.Focus();
-                }
-                else
-                {
-                    divRetorno.Visible = true;
-                    imgOk.Visible = false;
-                    imgErro.Visible = true;
-                    lblRetorno.Text = "Prateleira não cadastrada. <br/> Favor consultar o Administrador do Sistema";
-                    txtPrateleira.Text = string.Empty;
-                    txtPrateleira.Focus();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                RetornaPaginaErro(ex.ToString());
-            }
-        }
+        txtAmostra.Focus();
     }
 
     protected void btAmostra_Click(object sender, EventArgs e)
@@ -166,27 +120,34 @@ public partial class Acoes_Saida : System.Web.UI.Page
 
             if (dtVerificaAmostra.Rows.Count > 0)
             {
-                //DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraSaida(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra);
+                DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
+                string statusAmostra = string.Empty;
 
-                //if (dtAmostraXPrateleira.Rows.Count > 0)
-                //{
-                //    MostraRetornoErro("A amostra " + sCodAmostra + " já foi retirada nessa ação e não pode ser duplicada.");
-                //    txtAmostra.Text = string.Empty;
-                //    txtAmostra.Focus();
-                //}
-                //else
-                //{
-                insereDados.InsereAmostraSaida(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
+                if (dtStatusAmos.Rows.Count > 0)
+                {
+                    statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
+                }
 
-                MostraRetorno("Saída da amostra executada com sucesso.");
+                if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
+                {
+                    MostraRetornoErro("A amostra " + sCodAmostra + " foi descartada e já não pode passar por qualquer nova Ação.");
+                    divProcessando.Visible = false;
+                    txtAmostra.Text = string.Empty;
+                    txtAmostra.Focus();
+                }
+                else
+                {
+                    insereDados.InsereAmostraSaida(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
 
-                imgOk.Visible = true;
-                imgErro.Visible = false;
+                    MostraRetorno("Saída da amostra executada com sucesso.");
 
-                txtAmostra.Text = string.Empty;
-                divProcessando.Visible = false;
-                divInsercoes.Visible = true;
-                //}
+                    imgOk.Visible = true;
+                    imgErro.Visible = false;
+
+                    txtAmostra.Text = string.Empty;
+                    divProcessando.Visible = false;
+                    divInsercoes.Visible = true;
+                }
             }
             else
             {
@@ -214,19 +175,6 @@ public partial class Acoes_Saida : System.Web.UI.Page
         imgErro.Visible = true;
     }
 
-    protected void btNovaPrateleira_Click(object sender, EventArgs e)
-    {
-        txtAmostra.Text = string.Empty;
-        txtPrateleira.Text = string.Empty;
-        lblPrateleira.Text = string.Empty;
-        txtPrateleira.Focus();
-
-        divRetorno.Visible = false;
-        divInsercoes.Visible = false;
-        divInicio.Visible = false;
-        divPrateleira.Visible = true;
-    }
-
     public void MostraRetorno(string mensagem)
     {
         divRetorno.Visible = true;
@@ -242,14 +190,6 @@ public partial class Acoes_Saida : System.Web.UI.Page
             lblRetorno.Text = mensagem;
         }
 
-    }
-
-    private void ExibiLinkInicial()
-    {
-        if (!string.IsNullOrEmpty(lblPrateleira.Text))
-        {
-            divInicio.Visible = true;
-        }
     }
 
     public void RetornaPaginaErro(string erro)

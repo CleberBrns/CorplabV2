@@ -5,11 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Impressão - ALS CorpLab</title>
-    <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/Importacao.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
-        $(document).ready(function () {
-            window.print();
-        });
+        //$(document).ready(function () {
+        //    window.print();
+        //});
     </script>
 </head>
 <body>

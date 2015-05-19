@@ -20,7 +20,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         try
         {
             if (!IsPostBack)
-            {                
+            {
                 if (Session["SessionUsuario"].ToString().ToLower() == "sistemas")
                 {
                     RetornaPaginaErro("Esse usuário possui acesso somente ao cadastro de Unidades e Usuários <br/>" +
@@ -59,6 +59,14 @@ public partial class Acoes_Acoes : System.Web.UI.Page
     {
         hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
 
+        if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
+        {
+            btMenuPrincial.Visible = true;
+        }
+        else//Usuário
+        {
+            btSair.Visible = true;
+        }
     }
 
     protected void btAcao_Click(object sender, EventArgs e)
@@ -83,12 +91,12 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                 case "04":
                     Response.Redirect("../Acoes/Descarte.aspx");
                     break;
-                case "05":                  
+                case "05":
                     VerificaAcessoAuditoria();
                     break;
-                //case "06":
-                //    Response.Redirect("../Auditoria/Busca.aspx");
-                //    break;
+                case "06":
+                    Response.Redirect("../Auditoria/Consulta.aspx");
+                    break;
                 default:
                     MostraRetorno("Ação Desconhecida. Favor entrar em contato com o Administrador.");
                     break;
@@ -133,6 +141,16 @@ public partial class Acoes_Acoes : System.Web.UI.Page
     protected void btMenuPrincipal_Click(object sender, EventArgs e)
     {
         Response.Redirect("../Home/Home.aspx");
+    }
+
+    protected void btSair_Click(object sender, EventArgs e)
+    {
+        Session["SessionUsuario"] = null;
+        Session["SessionIdUsuario"] = null;
+        Session["SessionIdTipoAcesso"] = null;
+        Session["SessionIdUnidade"] = null;
+
+        Response.Redirect("../Login/Login.aspx");
     }
 
 }

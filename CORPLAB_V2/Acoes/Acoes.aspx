@@ -36,7 +36,8 @@
             <div class="rodape">
             </div>
             <div class="contBt">
-              <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" />
+                <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" Visible="false" />
+                <asp:Button runat="server" ID="btSair" CssClass="bt" Text="Sair" OnClick="btSair_Click" Visible="false" />
             </div>
         </div>
     </form>

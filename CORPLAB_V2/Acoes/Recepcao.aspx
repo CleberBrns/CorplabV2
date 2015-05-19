@@ -54,7 +54,7 @@
                     <div style="margin-top: 3%;" runat="server" id="divProcessando" visible="false">
                         Processando...
                     <div style="margin-top: 3px">
-                        <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="100%" />
+                        <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="25%" />
                     </div>
                     </div>
                 </div>

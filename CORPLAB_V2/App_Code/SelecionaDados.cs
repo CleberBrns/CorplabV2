@@ -15,6 +15,42 @@ public class SelecionaDados
 {
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
+    public DataTable ConsultaStatusAmostra(long codAmostra)
+    {
+        DataTable dtConsulta = new DataTable();
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@codAmostra", codAmostra);
+                sqlCommand.CommandText = "usp_amostra_status_select";
+                sqlConnection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                dtConsulta.Load(sqlDataReader);
+
+                sqlDataReader.Close();
+                sqlDataReader.Dispose();
+                sqlDataReader = null;
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+
+        return dtConsulta;
+    }
+
     public DataTable ConsultaUnidade(int idUnidade)
     {
         DataTable dtConsulta = new DataTable();

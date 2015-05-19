@@ -32,6 +32,7 @@
                     <asp:Repeater ID="rptCadastros" runat="server" OnItemDataBound="rptCadastros_ItemDataBound">
                         <ItemTemplate>
                             <asp:Panel CssClass=" bold none" ID="dvUsuario" runat="server">
+                                <asp:Label runat="server" ID="lblSenha" Visible="false" Text='<%#Eval("SENHA")%>' />
                                 <div class="titCand" id="dvNomeCanal" runat="server">
                                     <div>
                                         <span>
@@ -59,7 +60,7 @@
                                             </div>
                                             <div id="divSenha" runat="server" class="contInformacoe">
                                                 <span>Senha</span>
-                                                <asp:TextBox ID="txtSenha" Width="120px" Font-Size="11px" Text='<%#Eval("SENHA")%>'
+                                                <asp:TextBox ID="txtSenha" TextMode="Password" Width="120px" Font-Size="11px"
                                                     runat="server" Style="text-align: center;" ToolTip="Máximo de 15 dígitos!" MaxLength="15"></asp:TextBox>
                                             </div>
                                         </asp:Panel>

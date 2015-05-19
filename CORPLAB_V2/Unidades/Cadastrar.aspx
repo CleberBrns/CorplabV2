@@ -91,7 +91,7 @@
                             <span style="margin-right: 5%;">Processando...</span>
                         </div>
                         <div style="margin-top: 10px">
-                            <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="100%" />
+                            <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="25%" />
                         </div>
                     </div>
                 </div>

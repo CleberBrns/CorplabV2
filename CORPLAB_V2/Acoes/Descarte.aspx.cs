@@ -165,18 +165,26 @@ public partial class Acoes_Descarte : System.Web.UI.Page
             DataTable dtVerificaAmostra = selecionaDados.ConsultaAmostra(codAmostra);
 
             if (dtVerificaAmostra.Rows.Count > 0)
-            {
-                DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraDescarte(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra);
+            {               
+                DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
+                string statusAmostra = string.Empty;
 
-                if (dtAmostraXPrateleira.Rows.Count > 0)
+                if (dtStatusAmos.Rows.Count > 0)
                 {
-                    MostraRetornoErro("A amostra " + sCodAmostra + " já foi descartada nessa ação e não pode ser duplicada.");
+                    statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
+                }
+
+                if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
+                {
+                    MostraRetornoErro("A amostra " + sCodAmostra + " já foi Descartada.");
+                    divProcessando.Visible = false;
                     txtAmostra.Text = string.Empty;
                     txtAmostra.Focus();
                 }
                 else
                 {
-                    insereDados.InsereAmostraDescarte(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
+                    insereDados.InsereAmostraDescarte(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), 
+                                                      codAmostra, caixa);
 
                     MostraRetorno("Descarte da amostra executado com sucesso.");
 
