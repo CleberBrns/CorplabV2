@@ -116,8 +116,8 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
     {
         txtAmostra.Focus();
 
+        Session["SessionTipoImpressao"] = "Auditoria";
         Session["SessionPrateleira"] = hddCodPrateleira.Value;
-
         Response.Write("<script>window.open('../Auditoria/Impressao.aspx','_blank')</script");
 
     }
@@ -279,15 +279,17 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
 
     private object ConfiguraUltimaAlteracao(string nomeUsuario, string dataAtualizacao, string acao)
     {
-        string data = "Data da Recepção";
-
         if (!string.IsNullOrEmpty(dataAtualizacao))
         {
-            data = Convert.ToDateTime(dataAtualizacao).ToShortDateString() + " " +
+            string data = Convert.ToDateTime(dataAtualizacao).ToShortDateString() + " " +
             Convert.ToDateTime(dataAtualizacao).ToShortTimeString();
-        }
 
-        return (nomeUsuario + " - " + data + " - " + acao);
+            return (nomeUsuario + " - " + data + " - " + acao);
+        }
+        else
+        {
+            return string.Empty;
+        }
     }
 
     public void MostraRetorno(string mensagem)

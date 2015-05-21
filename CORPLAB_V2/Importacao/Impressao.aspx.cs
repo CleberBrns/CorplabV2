@@ -17,17 +17,20 @@ public partial class Analise_Impressao : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (!string.IsNullOrEmpty(Session["SessionIdBusca"].ToString()) && !string.IsNullOrEmpty(Session["SessionTipoBusca"].ToString()) &&
-                    !string.IsNullOrEmpty(Session["SessionPrateleira"].ToString()))
+                if (!string.IsNullOrEmpty(Session["SessionPrateleira"].ToString()))
                 {
-                    CarregaInfoConsulta(Session["SessionIdBusca"].ToString().Trim(),
-                        Session["SessionTipoBusca"].ToString().Trim(), Session["SessionPrateleira"].ToString().Trim());
-                }               
+                    CarregaInfoConsulta(Session["SessionPrateleira"].ToString().Trim());
+                }
+                else
+                {
+                    RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+                }
             }
+
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            RetornaPaginaErro("Perdeu a sessão. Faça o login novamente, por favor.");
+            RetornaPaginaErro(ex.ToString());
         }
     }
 
@@ -37,19 +40,14 @@ public partial class Analise_Impressao : System.Web.UI.Page
         Response.Redirect("../Erro/Erro.aspx");
     }
 
-    private void CarregaInfoConsulta(string idBusca, string tipoBusca, string prateleira)
+    private void CarregaInfoConsulta(string prateleira)
     {
         DataTable dtBusca = new DataTable();
 
-        if (tipoBusca == "0")//Prateleira
-        {            
-            lblPrateleira.Text = " - Prateleira " + prateleira;
-            dtBusca = CarregaInfoPrateleira(idBusca);
-        }
-        else//Amostra
-        {
+        lblTipoImpressao.Text = Session["SessionTipoImpressao"].ToString();
 
-        }
+        lblPrateleira.Text = " - Prateleira " + prateleira;
+        dtBusca = CarregaInfoPrateleira(prateleira);
 
         CarregaRepeater(dtBusca);
     }
@@ -57,8 +55,6 @@ public partial class Analise_Impressao : System.Web.UI.Page
     private DataTable CarregaInfoPrateleira(string codPrateleira)
     {
         DataTable dtInfoPrateleira = new DataTable();
-
-        //int idPrateleira = Convert.ToInt32(codPrateleira);
 
         dtInfoPrateleira.Columns.Add("CodAmostra");
         dtInfoPrateleira.Columns.Add("DataUsuarioRecepcao");
@@ -77,7 +73,7 @@ public partial class Analise_Impressao : System.Web.UI.Page
                 dtInfoPrateleira.Rows.Add(item["CodAmostra"].ToString(),
                     ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
                     item["Prateleira"].ToString(), item["Caixa"].ToString(),
-                    ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["Acao"].ToString()),
+                    ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["UltimaAlteracao"].ToString()),
                     item["Auditoria"].ToString());
             }
         }

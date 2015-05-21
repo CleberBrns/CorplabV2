@@ -5,11 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Impressão - ALS CorpLab</title>
-    <link href="../Styles/Importacao.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
-        //$(document).ready(function () {
-        //    window.print();
-        //});
+        $(document).ready(function () {
+            window.print();
+        });
     </script>
 </head>
 <body>
@@ -19,7 +19,7 @@
         <div runat="server" id="divConteudo">
             <div class="pagina">
                 <div style="text-align: center">
-                    <h2>Auditoria
+                    <h2><asp:Label runat="server" ID="lblTipoImpressao" /> 
                         <asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
                     </h2>
                 </div>

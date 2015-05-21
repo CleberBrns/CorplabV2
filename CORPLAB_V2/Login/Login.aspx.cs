@@ -10,7 +10,7 @@ public partial class Login_Login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        txtLogin.Focus();
     }
 
     protected void Acessar_Click(object sender, EventArgs e)
@@ -66,6 +66,7 @@ public partial class Login_Login : System.Web.UI.Page
                 }
                 else
                 {
+                    txtLogin.Focus();
                     divRetorno.Visible = true;
                     lblRetorno.Text = "Dados de acesso incorrentos <br /> e/ou usuário não cadastrado.";
                 }
@@ -73,6 +74,7 @@ public partial class Login_Login : System.Web.UI.Page
             }
             catch (Exception)
             {
+                txtLogin.Focus();
                 divRetorno.Visible = true;
                 lblRetorno.Text = "Erro com a requisição.<br /> Por favor, contate o Administrador do sistema.";
             }

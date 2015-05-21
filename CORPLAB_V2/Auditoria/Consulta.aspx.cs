@@ -66,22 +66,19 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
     protected void btInicio_Click(object sender, EventArgs e)
     {
         CamposDefault();
-        divInicio.Attributes.Add("class", "none");
-        divOpcoes.Attributes.Add("class", "");
-        divAmostra.Attributes.Add("class", "none");
-        divPrateleira.Attributes.Add("class", "none");
-        divConsulta.Attributes.Add("class", "none");
-        divRetorno.Attributes.Add("class", "none");
+        divOpcoes.Visible = true;
+        divInicio.Visible = false;       
+        divAmostra.Visible = false;
+        divPrateleira.Visible = false;
+        divConsulta.Visible = false;
+        divRetorno.Visible = false;
+        btImprimir.Visible = false;
     }
 
     protected void btImprimir_Click(object sender, EventArgs e)
     {
-        txtAmostra.Focus();
-
-        Session["SessionIdBusca"] = hddIdPrateleira.Value;
-        Session["SessionTipoBusca"] = "0";
+        Session["SessionTipoImpressao"] = "Consulta";
         Session["SessionPrateleira"] = hddCodPrateleira.Value;
-
         Response.Write("<script>window.open('../Auditoria/Impressao.aspx','_blank')</script");
 
     }
@@ -104,10 +101,10 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
                         long codAmostra = Convert.ToInt64(txtAmostra.Text.Trim());
 
-                        MostraConsulta(txtAmostra.Text.Trim(), 2);
+                        MostraConsulta(txtAmostra.Text.Trim(), 1);
 
-                        divOpcoes.Attributes.Add("class", "none");
-                        divInicio.Attributes.Add("class", "");
+                        divOpcoes.Visible = false;
+                        divInicio.Visible = true;
                         divProcessando.Visible = false;
                         txtAmostra.Text = string.Empty;
                     }
@@ -124,7 +121,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
                     divProcessando.Visible = false;
                     imgErro.Visible = true;
                     imgOk.Visible = false;
-                    //lblRetorno.Text = "Ocorreu um erro ao auditar a amostra";
+                    lblRetorno.Text = ex.ToString();
                 }
 
             }
@@ -138,7 +135,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            throw;
+            RetornaPaginaErro(ex.ToString());
         }
     }
 
@@ -161,15 +158,17 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
                 hddIdPrateleira.Value = dtInfoPrateleira.DefaultView[0]["IdPrateleira"].ToString();
 
                 hddCodPrateleira.Value = txtPrateleira.Text.Trim();
-                MostraConsulta(txtPrateleira.Text, 1);
+                MostraConsulta(txtPrateleira.Text, 2);
 
-                divOpcoes.Attributes.Add("class", "none");
-                divInicio.Attributes.Add("class", "");
+                divOpcoes.Visible = false;
+                divInicio.Visible = true;
 
             }
             else
             {
-                MostraRetorno("Não existem amostras cadastradas nessa prateleira.");
+                MostraRetorno("A prateleira " + txtPrateleira.Text + " não foi está cadastrada!");
+                txtPrateleira.Text = string.Empty;
+                txtPrateleira.Focus();
                 imgErro.Visible = true;
                 imgOk.Visible = false;
             }
@@ -196,21 +195,35 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
         if (dtConsulta.Rows.Count > 0)
         {
-            divConsulta.Visible = true;
-            btImprimir.Visible = true;
-            divInicio.Visible = true;
+            divConsulta.Visible = true;            
+            divInicio.Visible = true;           
+            divOpcoes.Visible = false;
+            divRetorno.Visible = false;
+            lblRetorno.Text = string.Empty;
 
-            divInicio.Attributes.Add("class", "");
-            divConsulta.Attributes.Add("class", "");
-            divOpcoes.Attributes.Add("class", "none");
+            if (idTipoConsulta == 2)
+                btImprimir.Visible = true;
 
             rptConsulta.DataSource = dtConsulta;
             rptConsulta.DataBind();
         }
         else
         {
-            MostraRetorno("Não existem valores cadastrados para essa consulta.");
-            divInicio.Visible = true;
+            if (idTipoConsulta == 1)
+            {
+                MostraRetorno("A amostra " + codConsulta + " não foi cadastrada!");
+                txtAmostra.Text = string.Empty;
+                txtAmostra.Focus();
+                divAmostra.Visible = true;
+            }
+            else
+            {
+                MostraRetorno("Não existem amostras cadastradas na prateleira " + codConsulta + " !");
+                txtPrateleira.Text = string.Empty;
+                txtPrateleira.Focus();
+                divPrateleira.Visible = true;
+            }
+
             imgErro.Visible = true;
             imgOk.Visible = false;
         }
@@ -231,13 +244,13 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
         DataTable dtInfoConsulta = new DataTable();
 
-        if (idTipoConsulta == 1)//Prateleira
-        {
-            dtInfoConsulta = selecionaDados.ConsultaPrateleiraAuditoria(codConsulta);
-        }
-        else//Amostra
+        if (idTipoConsulta == 1)//Amostra
         {
             dtInfoConsulta = selecionaDados.ConsultaStatusAmostra(Convert.ToInt64(codConsulta));
+        }
+        else//Prateleira
+        {
+            dtInfoConsulta = selecionaDados.ConsultaPrateleiraAuditoria(codConsulta);
         }
 
 
@@ -264,21 +277,22 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
     private object ConfiguraUltimaAlteracao(string nomeUsuario, string dataAtualizacao, string acao)
     {
-        string data = "Data da Recepção";
-
         if (!string.IsNullOrEmpty(dataAtualizacao))
         {
-            data = Convert.ToDateTime(dataAtualizacao).ToShortDateString() + " " +
+            string data = Convert.ToDateTime(dataAtualizacao).ToShortDateString() + " " +
             Convert.ToDateTime(dataAtualizacao).ToShortTimeString();
-        }
 
-        return (nomeUsuario + " - " + data + " - " + acao);
+            return (nomeUsuario + " - " + data + " - " + acao);
+        }
+        else
+        {
+            return string.Empty;
+        }
     }
 
     public void MostraRetorno(string mensagem)
     {
         divRetorno.Visible = true;
-        divRetorno.Attributes.Add("class", "");
 
         if (string.IsNullOrEmpty(mensagem))
         {
@@ -291,6 +305,21 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
             lblRetorno.Text = mensagem;
         }
 
+    }
+
+    protected void btDivAmostra_Click(object sender, EventArgs e)
+    {
+        txtAmostra.Focus();
+        divAmostra.Visible = true;
+        divInicio.Visible = true;
+        divOpcoes.Visible = false;
+    }
+    protected void btDivPrateleira_Click(object sender, EventArgs e)
+    {
+        txtPrateleira.Focus();
+        divPrateleira.Visible = true;
+        divInicio.Visible = true;
+        divOpcoes.Visible = false;
     }
 
     public void RetornaPaginaErro(string erro)
@@ -308,4 +337,5 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
     {
         Response.Redirect("../Acoes/Acoes.aspx");
     }
+
 }

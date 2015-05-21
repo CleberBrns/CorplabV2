@@ -14,9 +14,16 @@ public partial class Home_Home : System.Web.UI.Page
     {
         try
         {
-            if (Session["SessionUsuario"].ToString() != string.Empty)
+            if (Session["SessionIdTipoAcesso"].ToString() != string.Empty)
             {
-                CarregaPagina();
+                if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
+                {
+                    CarregaPagina();
+                }
+                else//Usuário
+                {
+                    Response.Redirect("../Acoes/Acoes.aspx");
+                }
             }
         }
         catch (Exception ex)
@@ -69,7 +76,7 @@ public partial class Home_Home : System.Web.UI.Page
                 }
             }
             catch (Exception ex)
-            {                
+            {
                 btUsuarios.Visible = false;
             }
 

@@ -52,29 +52,20 @@ public partial class _Default : System.Web.UI.Page
 
                         if (Extension.ToLower() == ".xls")
                         {
-                            //1. Reading from a binary Excel file ('97-2003 format; *.xls)
+                            //Reading from a binary Excel file ('97-2003 format; *.xls)
                             excelReader = ExcelReaderFactory.CreateBinaryReader(stream);
                         }
                         else
                         {
-                            //2. Reading from a OpenXml Excel file (2007 format; *.xlsx)
+                            //Reading from a OpenXml Excel file (2007 format; *.xlsx)
                             excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
                         }
-
-                        //3. DataSet - The result of each spreadsheet will be created in the result.Tables
-                        DataSet result = excelReader.AsDataSet();
-
-                        //4. DataSet - Create column names from first row
+                        
+                        //DataSet - Create column names from first row
                         excelReader.IsFirstRowAsColumnNames = true;
-                        DataSet dsResult = excelReader.AsDataSet();
+                        DataSet dsResult = excelReader.AsDataSet();                       
 
-                        //5. Data Reader methods
-                        while (excelReader.Read())
-                        {
-                            //excelReader.GetInt32(0);
-                        }
-
-                        //6. Free resources (IExcelDataReader is IDisposable)
+                        //Free resources (IExcelDataReader is IDisposable)
                         excelReader.Close();
                     }
 

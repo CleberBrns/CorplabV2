@@ -44,6 +44,8 @@ public partial class Analise_Impressao : System.Web.UI.Page
     {
         DataTable dtBusca = new DataTable();
 
+        lblTipoImpressao.Text = Session["SessionTipoImpressao"].ToString();
+
         lblPrateleira.Text = " - Prateleira " + prateleira;
         dtBusca = CarregaInfoPrateleira(prateleira);
 
@@ -86,8 +88,17 @@ public partial class Analise_Impressao : System.Web.UI.Page
 
     private object ConfiguraUltimaAlteracao(string nomeUsuario, string dataAtualizacao, string acao)
     {
-        return (nomeUsuario + " - " + Convert.ToDateTime(dataAtualizacao).ToShortDateString() + " " +
-            Convert.ToDateTime(dataAtualizacao).ToShortTimeString() + " - " + acao);
+        if (!string.IsNullOrEmpty(dataAtualizacao))
+        {
+            string data = Convert.ToDateTime(dataAtualizacao).ToShortDateString() + " " +
+            Convert.ToDateTime(dataAtualizacao).ToShortTimeString();
+
+            return (nomeUsuario + " - " + data + " - " + acao);
+        }
+        else
+        {
+            return string.Empty;
+        }
     }
 
     private void CarregaRepeater(DataTable dtBusca)

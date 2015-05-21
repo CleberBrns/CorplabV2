@@ -97,6 +97,9 @@ public partial class Acoes_Acoes : System.Web.UI.Page
                 case "06":
                     Response.Redirect("../Auditoria/Consulta.aspx");
                     break;
+                case "07":
+                    Response.Redirect("../Importacao/Importacao.aspx");
+                    break;
                 default:
                     MostraRetorno("Ação Desconhecida. Favor entrar em contato com o Administrador.");
                     break;

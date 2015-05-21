@@ -6,45 +6,6 @@
     <title>Consulta - ALS CorpLab</title>
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $("#btDivAmostra").click(function () {
-                $("#divAmostra").show();
-                $("#divInicio").show();
-                $("#divOpcoes").hide();                
-                $("#divPrateleira").hide();
-                $("#txtAmostra").focus();
-            });
-
-            $("#btDivPrateleira").click(function () {
-                $("#divOpcoes").hide();
-                $("#divAmostra").hide();
-                $("#divInicio").show();
-                $("#divPrateleira").show();
-                $("#txtPrateleira").focus();
-            });
-
-            $("#btAmostra").click(function () {
-                $("#divOpcoes").hide();
-                $("#divAmostra").show();
-                $("#divInicio").show();
-                $("#divPrateleira").hide();
-                $("#txtAmostra").focus();
-                $("#divConsulta").show();
-            });
-
-            $("#btPrateleira").click(function () {
-                $("#divOpcoes").hide();
-                $("#divAmostra").hide();
-                $("#divInicio").show();
-                $("#divPrateleira").show();
-                $("#txtPrateleira").focus();
-                $("#divConsulta").show();
-            });
-
-        });
-    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -60,11 +21,11 @@
                 <div class="insercoes">
                     <div style="margin-top: 3%;" runat="server" id="divOpcoes">
                         <div class="contBt">
-                            <input type="button" class="bt" runat="server" id="btDivAmostra" title="Consultar Amostra" value="Amostra" />
-                            <input type="button" class="bt" runat="server" id="btDivPrateleira" title="Consultar Prateleira" value="Prateleira" />
+                            <asp:Button CssClass="bt" runat="server" ID="btDivAmostra" ToolTip="Consultar Amostra" Text="Amostra" OnClick="btDivAmostra_Click" />
+                            <asp:Button CssClass="bt" runat="server" ID="btDivPrateleira" ToolTip="Consultar Prateleira" Text="Prateleira" OnClick="btDivPrateleira_Click" />
                         </div>
                     </div>
-                    <div style="margin-top: 3%;" runat="server" id="divPrateleira" class="none">
+                    <div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
                         Entre com a Prateleira
                     <asp:Panel runat="server" DefaultButton="btPrateleira" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
@@ -73,7 +34,7 @@
                         </div>
                     </asp:Panel>
                     </div>
-                    <div runat="server" id="divAmostra" class="none" style="margin-top: 3%;">
+                    <div runat="server" id="divAmostra" style="margin-top: 3%;" visible="false">
                         <div>
                             Entre com a Amostra 
                         </div>
@@ -89,10 +50,12 @@
                         <div style="margin-bottom: 3%;">
                             <asp:Image runat="server" ID="imgOk" ImageUrl="../Imagens/ok.png" Visible="false" Width="3%" />
                             <asp:Image runat="server" ID="imgErro" ImageUrl="../Imagens/error.png" Visible="false" Width="3%" />
-                            <asp:Label runat="server" ID="lblRetorno" />
+                            <div style="margin-top: 2%;">
+                                <asp:Label runat="server" ID="lblRetorno" />
+                            </div>
                         </div>
                     </div>
-                    <div style="margin-top: 3%;" runat="server" id="divConsulta" class="none">
+                    <div style="margin-top: 3%;" runat="server" id="divConsulta" visible="false">
                         <div>
                             <asp:Repeater runat="server" ID="rptConsulta">
                                 <HeaderTemplate>
@@ -131,7 +94,7 @@
                     </div>
                     </div>
                 </div>              
-                <div runat="server" id="divInicio" class="none" style="padding-top: 2%;">
+                <div runat="server" id="divInicio" style="padding-top: 2%;" visible="false">
                     <div class="rodape">
                     </div>
                     <div class="contBt">

@@ -19,7 +19,7 @@
         <div runat="server" id="divConteudo">
             <div class="pagina">
                 <div style="text-align: center">
-                    <h2>Auditoria
+                    <h2><asp:Label runat="server" ID="lblTipoImpressao" /> 
                         <asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
                     </h2>
                 </div>
