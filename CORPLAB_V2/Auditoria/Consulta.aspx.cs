@@ -60,6 +60,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
     private void CamposDefault()
     {
+        hddCodPrateleira.Value = string.Empty;
         txtAmostra.Text = string.Empty;
         txtPrateleira.Text = string.Empty;
         lblRetorno.Text = string.Empty;
@@ -76,14 +77,6 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         divConsulta.Visible = false;
         divRetorno.Visible = false;
         btImprimir.Visible = false;
-    }
-
-    protected void btImprimir_Click(object sender, EventArgs e)
-    {
-        Session["SessionTipoImpressao"] = "Consulta";
-        Session["SessionPrateleira"] = hddCodPrateleira.Value;
-        Response.Write("<script>window.open('../Auditoria/Impressao.aspx','_blank')</script");
-
     }
 
     protected void btAmostra_Click(object sender, EventArgs e)
@@ -205,7 +198,11 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
             lblRetorno.Text = string.Empty;
 
             if (idTipoConsulta == 2)
+            {
                 btImprimir.Visible = true;
+                Session["SessionTipoImpressao"] = "Consulta";
+                Session["SessionPrateleira"] = hddCodPrateleira.Value;
+            }
 
             rptConsulta.DataSource = dtConsulta;
             rptConsulta.DataBind();

@@ -6,6 +6,15 @@
     <title>Consulta - ALS CorpLab</title>
     <script src="../Scripts/jquery-1.11.1.js" type="text/javascript"></script>
     <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $(document).ready(function () {;
+
+            $("#btImprimir").click(function () {
+                window.open('../Auditoria/Impressao.aspx', '_blank');
+            });
+
+        });
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -99,7 +108,7 @@
                     </div>
                     <div class="contBt">
                         <asp:Button runat="server" CssClass="bt" ID="btInicio" OnClick="btInicio_Click" Text="Nova Consulta" />                        
-                        <asp:Button runat="server" ID="btImprimir" OnClick="btImprimir_Click" CssClass="bt" Text="Imprimir" Visible="false" />
+                        <input type="button" runat="server" id="btImprimir" class="bt" value="Imprimir" Visible="false" />
                     </div>
                 </div>
             </div>

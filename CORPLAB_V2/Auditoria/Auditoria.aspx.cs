@@ -112,16 +112,6 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
 
     }
 
-    protected void btImprimir_Click(object sender, EventArgs e)
-    {
-        txtAmostra.Focus();
-
-        Session["SessionTipoImpressao"] = "Auditoria";
-        Session["SessionPrateleira"] = hddCodPrateleira.Value;
-        Response.Write("<script>window.open('../Auditoria/Impressao.aspx','_blank')</script");
-
-    }
-
     protected void btAuditarAmostra_Click(object sender, EventArgs e)
     {
         try
@@ -228,6 +218,9 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
             divAuditoria.Visible = true;
             btImprimir.Visible = true;
             divInicio.Visible = true;
+
+            Session["SessionTipoImpressao"] = "Auditoria";
+            Session["SessionPrateleira"] = hddCodPrateleira.Value;
 
             rptAuditoria.DataSource = dtAuditoria;
             rptAuditoria.DataBind();
