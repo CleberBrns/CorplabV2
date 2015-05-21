@@ -22,7 +22,16 @@
                     <div style="margin-top: 3%;" runat="server" id="divInsercaoAtual">
                         <asp:Label runat="server" ID="lblInsercaoAtual" />
                     </div>
-                    <div style="margin-top: 3%;" runat="server" id="divInsercoes">
+                    <div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
+                        <span>Entre com a Prateleira</span>
+                        <asp:Panel runat="server" DefaultButton="btPrateleira" Style="margin-top: 10px">
+                            <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
+                            <div style="display: none">
+                                <asp:Button runat="server" ID="btPrateleira" OnClick="btPrateleira_Click" />
+                            </div>
+                        </asp:Panel>
+                    </div>
+                    <div style="margin-top: 3%;" runat="server" id="divInsercoes" visible="false">
                         Amostra a sair
                     <asp:Panel runat="server" DefaultButton="btAmostra" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
@@ -44,6 +53,13 @@
                         <asp:Image runat="server" ID="imgErro" ImageUrl="../Imagens/error.png" Visible="false" Width="8%" />
                     </div>
                     <asp:Label runat="server" ID="lblRetorno" />
+                </div>
+                <div runat="server" id="divInicio" visible="false">
+                    <div class="rodape">
+                    </div>
+                    <div class="contBt">
+                        <asp:Button runat="server" ID="btNovaPrateleira" OnClick="btNovaPrateleira_Click" CssClass="bt" Text="Nova Prateleira" />
+                    </div>
                 </div>
             </div>
             <div>

@@ -168,7 +168,7 @@ public partial class Acoes_Entrada : System.Web.UI.Page
             {
                 string statusAmostra = string.Empty;
                 statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
-
+                               
                 if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
                 {
                     MostraRetornoErro("A amostra " + sCodAmostra + " foi descartada e já não pode passar por qualquer nova Ação.");
@@ -176,10 +176,16 @@ public partial class Acoes_Entrada : System.Web.UI.Page
                     txtAmostra.Text = string.Empty;
                     txtAmostra.Focus();
                 }
+                else if ((statusAmostra != string.Empty && statusAmostra.ToLower() != "saída") && statusAmostra.ToLower() != "auditoria")
+                {
+                    MostraRetornoErro("A amostra " + sCodAmostra + " precisa passar pela Saída antes de ser inserida novamente.");
+                    divProcessando.Visible = false;
+                    txtAmostra.Text = string.Empty;
+                    txtAmostra.Focus();
+                }                
                 else
                 {
                     insereDados.InsereAmostraEntrada(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
-
                     MostraRetorno("Entrada da amostra executada com sucesso.");
 
                     imgOk.Visible = true;

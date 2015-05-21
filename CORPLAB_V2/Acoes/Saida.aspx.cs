@@ -56,7 +56,52 @@ public partial class Acoes_Saida : System.Web.UI.Page
         hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
         hddIdUsuario.Value = Session["SessionIdUsuario"].ToString();
 
-        txtAmostra.Focus();
+        divPrateleira.Visible = true;
+        txtPrateleira.Focus();
+    }
+
+
+    protected void btPrateleira_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(txtPrateleira.Text))
+        {
+            MostraRetorno(string.Empty);
+        }
+        else
+        {
+            try
+            {
+                DataTable dtPrateleira = selecionaDados.ConsultaPrateleira(txtPrateleira.Text.Trim());
+
+                if (dtPrateleira.Rows.Count > 0)
+                {
+                    hddIdPrateleria.Value = dtPrateleira.DefaultView[0]["IdPrateleira"].ToString();
+                    lblPrateleira.Text = " - Prateleira " + txtPrateleira.Text.Trim();
+
+                    divRetorno.Visible = false;
+                    lblRetorno.Text = string.Empty;
+                    divPrateleira.Visible = false;
+                    divInsercoes.Visible = true;
+                    btNovaPrateleira.Visible = true;
+                    divInicio.Visible = true;
+                    txtAmostra.Focus();
+                }
+                else
+                {
+                    divRetorno.Visible = true;
+                    imgOk.Visible = false;
+                    imgErro.Visible = true;
+                    lblRetorno.Text = "Prateleira não cadastrada. <br/> Favor consultar o Administrador do Sistema";
+                    txtPrateleira.Text = string.Empty;
+                    txtPrateleira.Focus();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
+        }
     }
 
     protected void btAmostra_Click(object sender, EventArgs e)
@@ -93,6 +138,20 @@ public partial class Acoes_Saida : System.Web.UI.Page
         }
     }
 
+    protected void btNovaPrateleira_Click(object sender, EventArgs e)
+    {
+
+        hddIdPrateleria.Value = string.Empty;
+        txtPrateleira.Text = string.Empty;
+        lblPrateleira.Text = string.Empty;
+        txtPrateleira.Focus();
+
+        divRetorno.Visible = false;
+        divInsercoes.Visible = false;
+        divInicio.Visible = false;
+        divPrateleira.Visible = true;
+    }
+
     private bool ValidaCampoAmostra(string codAmostra)
     {
         bool valido = false;
@@ -122,7 +181,6 @@ public partial class Acoes_Saida : System.Web.UI.Page
                 string statusAmostra = string.Empty;
 
                 statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
-
 
                 if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
                 {
