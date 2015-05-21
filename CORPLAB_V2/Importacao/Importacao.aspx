@@ -22,14 +22,16 @@
                 $("#divConsulta").hide();
             });
 
+            $("#btImprimir").click(function () {
+                window.open('../Importacao/Impressao.aspx', '_blank');
+            });
+
         });
     </script>
 </head>
 <body>
-    <form id="form1" runat="server">       
-        <input type="hidden" runat="server" id="hddIdUnidade" value="0" />
-        <input type="hidden" runat="server" id="hddIdPrateleira" />
-        <input type="hidden" runat="server" id="hddCodPrateleira" />
+    <form id="form1" runat="server">
+        <input type="hidden" runat="server" id="hddNomeArquivo" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
             <h2>Importação <asp:Label runat="server" ID="lblBusca" CssClass="lblCamara" />
@@ -61,7 +63,7 @@
                             <asp:Button runat="server" CssClass="bt" ID="btInicio" OnClick="btInicio_Click" Text="Nova Importação" />
                             <input type="button" runat="server" id="btMostrarConsulta" class="bt" value="Mostra Consulta" />
                             <input type="button" runat="server" id="btEsconderConsulta" class="bt none" value="Esconde Consulta" />
-                            <asp:Button runat="server" ID="btImprimir" OnClick="btImprimir_Click" CssClass="bt" Text="Imprimir" Visible="false" />
+                            <input type="button" runat="server" id="btImprimir" class="bt" value="Imprimir" visible="false"/>
                         </div>
                     </div>
                     <div style="margin-top: 10%;" runat="server" id="divProcessando" visible="false">
@@ -99,7 +101,7 @@
             <div class="rodape">
             </div>
             <div class="contBt">
-                <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" />
+                <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" Visible="false" />
                 <asp:Button runat="server" ID="btAcoes" CssClass="bt" Text="Menu Ações" OnClick="btMenuAcoes_Click" />
             </div>
         </div>

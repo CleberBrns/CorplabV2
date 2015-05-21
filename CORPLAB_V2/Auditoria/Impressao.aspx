@@ -7,9 +7,9 @@
     <title>Impressão - ALS CorpLab</title>
     <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
-        $(document).ready(function () {
-            window.print();
-        });
+
+        window.print();
+
     </script>
 </head>
 <body>
@@ -19,7 +19,8 @@
         <div runat="server" id="divConteudo">
             <div class="pagina">
                 <div style="text-align: center">
-                    <h2><asp:Label runat="server" ID="lblTipoImpressao" /> 
+                    <h2>
+                        <asp:Label runat="server" ID="lblTipoImpressao" />
                         <asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
                     </h2>
                 </div>
@@ -31,7 +32,7 @@
                                     <table cellspacing="0" cellpadding="0" width="100%">
                                         <tr class="amostrasPrateleira" style="background-color: #DDD;">
                                             <td>CodAmostra</td>
-                                            <td>Usuário Data Recepção</td>                                            
+                                            <td>Usuário Data Recepção</td>
                                             <td>Estante</td>
                                             <td>Prateleira</td>
                                             <td>Caixa</td>
@@ -42,7 +43,7 @@
                                 <ItemTemplate>
                                     <tr class="amostrasGrupo">
                                         <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "DataUsuarioRecepcao") %></td>                                        
+                                        <td><%# DataBinder.Eval(Container.DataItem, "DataUsuarioRecepcao") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Estante") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>

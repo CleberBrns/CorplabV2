@@ -185,9 +185,8 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
 
             long codAmostra = Convert.ToInt64(sCodAmostra);
 
-            DataTable dtAmostraXPrateleira = selecionaDados.ConsultaAmostraRecepcao(Convert.ToInt32(hddIdPrateleria.Value.Trim()), codAmostra); 
-
-            if (dtAmostraXPrateleira.Rows.Count > 0)
+            DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
+            if (dtStatusAmos.Rows.Count > 0)
             {
                 MostraRetornoErro("A amostra " + sCodAmostra + " já foi cadastrada na Recepção e não pode ser duplicada.");
                 divProcessando.Visible = false;

@@ -51,7 +51,10 @@ public partial class Importacao_Importacao : System.Web.UI.Page
 
     private void CarregaPagina()
     {
-
+        if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
+        {
+            btMenuPrincial.Visible = true;
+        } 
     }
 
     private DataTable RotinaLeituraArquivo(string extensao)
@@ -97,7 +100,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                 }
 
                 //Apaga o arquivo temporário
-                //File.Delete(arquivoComCaminho);
+                File.Delete(arquivoComCaminho);
             }
         }
 
@@ -112,6 +115,8 @@ public partial class Importacao_Importacao : System.Web.UI.Page
         {
             if (extensao.ToLower() == ".xls" || extensao.ToLower() == ".xlsx")
             {
+                hddNomeArquivo.Value = fUpload.FileName;
+                Session["SessionNomeArquivo"] = hddNomeArquivo.Value;
                 divProcessando.Visible = true;
 
                 DataTable dtConteudoUpload = RotinaLeituraArquivo(extensao);
@@ -148,8 +153,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
     private void MostraConsulta(DataTable dtMostrarConsulta)
     {
         if (dtMostrarConsulta.Rows.Count > 0)
-        {            
-            //divConsulta.Attributes.Add("class", "");
+        {                        
             btImprimir.Visible = true;
             divOpcoes.Visible = true;
             divRetorno.Visible = false;
@@ -157,6 +161,8 @@ public partial class Importacao_Importacao : System.Web.UI.Page
             lblRetorno.Text = string.Empty;
 
             dtMostrarConsulta.DefaultView.Sort = "Prateleira";
+            Session.Add("SessionRetornoImportacao", dtMostrarConsulta.DefaultView.ToTable());
+
             rptConsulta.DataSource = dtMostrarConsulta.DefaultView;
             rptConsulta.DataBind();
         }
@@ -265,6 +271,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
     {
         lblRetorno.Text = string.Empty;
         lblBusca.Text = string.Empty;
+        hddNomeArquivo.Value = string.Empty;
 
         DataTable tabelaLimpa = new DataTable();
         rptConsulta.DataSource = tabelaLimpa;
@@ -283,9 +290,8 @@ public partial class Importacao_Importacao : System.Web.UI.Page
 
     protected void btImprimir_Click(object sender, EventArgs e)
     {
-        Session["SessionTipoImpressao"] = "Consulta";
-        Session["SessionPrateleira"] = hddCodPrateleira.Value;
-        Response.Write("<script>window.open('../Auditoria/Impressao.aspx','_blank')</script");
+        Session["SessionNomeArquivo"] = hddNomeArquivo.Value;        
+        Response.Write("<script>window.open('../Importacao/Impressao.aspx','_blank')</script");
     }
 
     public void RetornaPaginaErro(string erro)

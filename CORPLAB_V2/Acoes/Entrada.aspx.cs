@@ -162,17 +162,12 @@ public partial class Acoes_Entrada : System.Web.UI.Page
 
             long codAmostra = Convert.ToInt64(sCodAmostra);
 
-            DataTable dtVerificaAmostra = selecionaDados.ConsultaAmostra(codAmostra);
+            DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
 
-            if (dtVerificaAmostra.Rows.Count > 0)
+            if (dtStatusAmos.Rows.Count > 0)
             {
-                DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
                 string statusAmostra = string.Empty;
-
-                if (dtStatusAmos.Rows.Count > 0)
-                {
-                    statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
-                }
+                statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
 
                 if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
                 {

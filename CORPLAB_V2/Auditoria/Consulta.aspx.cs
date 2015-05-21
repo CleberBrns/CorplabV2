@@ -52,7 +52,10 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
     private void CarregaPagina()
     {
-
+        if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
+        {
+            btMenuPrincial.Visible = true;
+        }       
     }
 
     private void CamposDefault()

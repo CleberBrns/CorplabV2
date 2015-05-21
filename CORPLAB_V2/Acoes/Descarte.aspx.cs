@@ -63,7 +63,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
 
 
     protected void btPrateleira_Click(object sender, EventArgs e)
-    {        
+    {
         if (string.IsNullOrEmpty(txtPrateleira.Text))
         {
             MostraRetorno(string.Empty);
@@ -101,7 +101,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
             catch (Exception ex)
             {
                 RetornaPaginaErro(ex.ToString());
-            }            
+            }
         }
     }
 
@@ -162,17 +162,13 @@ public partial class Acoes_Descarte : System.Web.UI.Page
 
             long codAmostra = Convert.ToInt64(sCodAmostra);
 
-            DataTable dtVerificaAmostra = selecionaDados.ConsultaAmostra(codAmostra);
+            DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
 
-            if (dtVerificaAmostra.Rows.Count > 0)
-            {               
-                DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
+            if (dtStatusAmos.Rows.Count > 0)
+            {
                 string statusAmostra = string.Empty;
+                statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
 
-                if (dtStatusAmos.Rows.Count > 0)
-                {
-                    statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
-                }
 
                 if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
                 {
@@ -183,7 +179,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
                 }
                 else
                 {
-                    insereDados.InsereAmostraDescarte(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), 
+                    insereDados.InsereAmostraDescarte(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()),
                                                       codAmostra, caixa);
 
                     MostraRetorno("Descarte da amostra executado com sucesso.");
@@ -198,7 +194,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
             }
             else
             {
-                MostraRetornoErro("A amostra " + sCodAmostra + " ainda não foi cadastrada, <br /> A mesma deve passar pela a ação de Recepção."+
+                MostraRetornoErro("A amostra " + sCodAmostra + " ainda não foi cadastrada, <br /> A mesma deve passar pela a ação de Recepção." +
                     "<br /> Qualquer dúvida, por favor, consulte o administrador do sistema");
                 txtAmostra.Text = string.Empty;
                 txtAmostra.Focus();
