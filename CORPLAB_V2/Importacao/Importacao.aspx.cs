@@ -54,85 +54,81 @@ public partial class Importacao_Importacao : System.Web.UI.Page
         if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
         {
             btMenuPrincial.Visible = true;
-        } 
-    }
-
-    private DataTable RotinaLeituraArquivo(string extensao)
-    {
-        DataTable dtDadosUpload = new DataTable();
-        string FileName = Server.HtmlEncode(fUpload.FileName);
-        string caminhoArquivo = string.Empty;
-        string camanhoDestino = Server.MapPath("/ArquivosTemp/");
-
-        if (Directory.Exists(camanhoDestino))
-        {
-            string arquivoComCaminho = camanhoDestino + fUpload.FileName;
-
-            if (File.Exists(arquivoComCaminho))
-                File.Delete(arquivoComCaminho);
-
-            fUpload.SaveAs(arquivoComCaminho);
-
-            if (File.Exists(arquivoComCaminho))
-            {
-                using (FileStream stream = File.Open(arquivoComCaminho, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                    IExcelDataReader excelReader;
-
-                    if (extensao.ToLower() == ".xls")
-                    {
-                        //Reading from a binary Excel file ('97-2003 format; *.xls)
-                        excelReader = ExcelReaderFactory.CreateBinaryReader(stream);
-                    }
-                    else
-                    {
-                        //Reading from a OpenXml Excel file (2007+ format; *.xlsx)
-                        excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                    }
-
-                    //DataSet - Create column names from first row
-                    excelReader.IsFirstRowAsColumnNames = true;
-                    DataSet dsResult = excelReader.AsDataSet();
-                    dtDadosUpload = dsResult.Tables[0];
-
-                    //Free resources (IExcelDataReader is IDisposable)
-                    excelReader.Close();
-                }
-
-                //Apaga o arquivo temporário
-                File.Delete(arquivoComCaminho);
-            }
         }
-
-        return dtDadosUpload;
     }
 
     protected void btUpload_Click(object sender, EventArgs e)
     {
         string extensao = System.IO.Path.GetExtension(fUpload.FileName);
 
-        try
+        if (fUpload.HasFile)
         {
             if (extensao.ToLower() == ".xls" || extensao.ToLower() == ".xlsx")
             {
-                hddNomeArquivo.Value = fUpload.FileName;
-                Session["SessionNomeArquivo"] = hddNomeArquivo.Value;
-                divProcessando.Visible = true;
+                DataTable dtDadosUpload = new DataTable();
+                string FileName = Server.HtmlEncode(fUpload.FileName);
+                string caminhoArquivo = string.Empty;
+                string camanhoDestino = Server.MapPath("/ArquivosTemp/");
 
-                DataTable dtConteudoUpload = RotinaLeituraArquivo(extensao);
-                string amostrasConteudoUP = ExtraiConteudo(dtConteudoUpload);
-
-                if (!string.IsNullOrEmpty(amostrasConteudoUP))
+                if (Directory.Exists(camanhoDestino))
                 {
-                    DataTable dtConsultaImportacao = VerificaAmostras(amostrasConteudoUP);
-                    MostraConsulta(dtConsultaImportacao);
+                    string arquivoComCaminho = camanhoDestino + fUpload.FileName;
 
-                    divProcessando.Visible = false;
+                    if (File.Exists(arquivoComCaminho))
+                        File.Delete(arquivoComCaminho);
+
+                    try
+                    {
+                        fUpload.SaveAs(arquivoComCaminho);
+
+                        if (File.Exists(arquivoComCaminho))
+                        {
+                            using (FileStream stream = File.Open(arquivoComCaminho, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            {
+                                IExcelDataReader excelReader;
+
+                                if (extensao.ToLower() == ".xls")
+                                {
+                                    //Reading from a binary Excel file ('97-2003 format; *.xls)
+                                    excelReader = ExcelReaderFactory.CreateBinaryReader(stream);
+                                }
+                                else
+                                {
+                                    //Reading from a OpenXml Excel file (2007+ format; *.xlsx)
+                                    excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                                }
+
+                                //DataSet - Create column names from first row
+                                excelReader.IsFirstRowAsColumnNames = true;
+                                DataSet dsResult = excelReader.AsDataSet();
+                                dtDadosUpload = dsResult.Tables[0];
+
+                                //Free resources (IExcelDataReader is IDisposable)
+                                excelReader.Close();
+
+                                CarregaDadosConteudoImportacao(dtDadosUpload);
+
+                            }
+
+                            //Apaga o arquivo temporário
+                            File.Delete(arquivoComCaminho);
+                        }
+                        else
+                        {
+                            MostraRetorno("Falha ao importar o arquivo.<br/> " +
+                            "Por favor, contate o administrador do sistema. <br>", 2);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MostraRetorno("Ocorreu um erro durante o processo. <br/> " +
+                            "Por favor, contate o administrador do sistema e informe a seguinte mensagem; <br> " + ex.ToString() + "", 2);
+                    }
                 }
                 else
                 {
-                    divProcessando.Visible = false;
-                    MostraRetorno("Não foram encontradas informações válidas no arquivo. <br/> Por favor, revise o arquivo com o <br/> Administrador do projeto.", 2);
+                    MostraRetorno("Falha ao importar o arquivo.<br/> " +
+                            "Por favor, contate o administrador do sistema. <br>", 2);
                 }
             }
             else
@@ -140,6 +136,38 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                 divProcessando.Visible = false;
                 MostraRetorno("Formato de arquivo não suportado! <br/> Selecione somente arquivos .xls e .xlsx.", 2);
             }
+
+        }
+        else
+        {
+            MostraRetorno("Por favor, selecione um arquivo para importaçao.", 2);
+        }
+    }
+
+    private void CarregaDadosConteudoImportacao(DataTable dtConteudoUpload)
+    {
+        try
+        {
+            hddNomeArquivo.Value = fUpload.FileName;
+            Session["SessionNomeArquivo"] = hddNomeArquivo.Value;
+            divProcessando.Visible = true;
+
+            string amostrasConteudoUP = ExtraiConteudo(dtConteudoUpload);
+
+            if (!string.IsNullOrEmpty(amostrasConteudoUP))
+            {
+                DataTable dtConsultaImportacao = VerificaAmostras(amostrasConteudoUP);
+                MostraConsulta(dtConsultaImportacao);
+
+                divProcessando.Visible = false;
+            }
+            else
+            {
+                divProcessando.Visible = false;
+                MostraRetorno("Não foram encontradas informações válidas no arquivo. <br/> " +
+                    " Por favor, revise o arquivo com o <br/> Administrador do projeto.", 2);
+            }
+
         }
         catch (Exception ex)
         {
@@ -153,7 +181,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
     private void MostraConsulta(DataTable dtMostrarConsulta)
     {
         if (dtMostrarConsulta.Rows.Count > 0)
-        {                        
+        {
             btImprimir.Visible = true;
             divOpcoes.Visible = true;
             divRetorno.Visible = false;
@@ -282,7 +310,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
     {
         CamposDefault();
         divUpload.Visible = true;
-        divOpcoes.Visible = false;        
+        divOpcoes.Visible = false;
         divConsulta.Attributes.Add("class", "none");
         divRetorno.Visible = false;
         btImprimir.Visible = false;
@@ -290,7 +318,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
 
     protected void btImprimir_Click(object sender, EventArgs e)
     {
-        Session["SessionNomeArquivo"] = hddNomeArquivo.Value;        
+        Session["SessionNomeArquivo"] = hddNomeArquivo.Value;
         Response.Write("<script>window.open('../Importacao/Impressao.aspx','_blank')</script");
     }
 
