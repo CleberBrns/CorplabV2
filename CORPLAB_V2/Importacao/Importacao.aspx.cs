@@ -229,7 +229,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
         string amostrasConteudo = string.Empty;
         foreach (DataRow item in dtConteudoUpload.Rows)
         {
-            amostrasConteudo += item["Amostras"].ToString() + "|";
+            amostrasConteudo += item["Código da Embalagem"].ToString() + "|";
         }
 
         //Remove ultimo pipe
