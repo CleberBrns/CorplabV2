@@ -16,7 +16,7 @@
     $("#btLimparLogin").click(function () {
         $('#txtLogin').val('');
         $('#txtSenha').val('');
-        $('#lblRetorno').hide();
+        $('#divRetorno').hide();
         return false;
     });
 });
