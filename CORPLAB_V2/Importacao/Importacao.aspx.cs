@@ -68,11 +68,12 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                 DataTable dtDadosUpload = new DataTable();
                 string FileName = Server.HtmlEncode(fUpload.FileName);
                 string caminhoArquivo = string.Empty;
-                string camanhoDestino = Server.MapPath("/ArquivosTemp/");
+                //string camanhoDestino = Server.MapPath("/ArquivosTemp/");
+                string caminhoDestino = @"C:\camarafria\ArquivosTemp\";
 
-                if (Directory.Exists(camanhoDestino))
+                if (Directory.Exists(caminhoDestino))
                 {
-                    string arquivoComCaminho = camanhoDestino + fUpload.FileName;
+                    string arquivoComCaminho = caminhoDestino + fUpload.FileName;
 
                     if (File.Exists(arquivoComCaminho))
                         File.Delete(arquivoComCaminho);
@@ -127,8 +128,9 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                 }
                 else
                 {
-                    MostraRetorno("Falha ao importar o arquivo.<br/> " +
-                            "Por favor, contate o administrador do sistema. <br>", 2);
+                    MostraRetorno("Falha ao encontrar o caminho para salvar o arquivo.<br/> " +
+                            "Por favor, contate o administrador do sistema. <br>" +
+                             "Pasta Destino; " + Server.MapPath("/ArquivosTemp/") + "", 2);
                 }
             }
             else
