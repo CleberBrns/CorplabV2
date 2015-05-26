@@ -5,10 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Impressão - ALS CorpLab</title>
-    <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/Importacao.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
 
-        window.print();
+        //window.print();
 
     </script>
 </head>
@@ -19,9 +19,9 @@
         <div runat="server" id="divConteudo">
             <div class="pagina">
                 <div style="text-align: center">
-                    <h2><span>Importação</span>
+                    <h3><span>Importação</span>
                         <asp:Label runat="server" ID="lblNomeArquivo" CssClass="lblCamara" />
-                    </h2>
+                    </h3>
                 </div>
                 <div class="insercoes">
                     <div style="margin-top: 3%;" runat="server" id="divConsulta">
@@ -30,15 +30,13 @@
                                 <HeaderTemplate>
                                     <table cellspacing="0" cellpadding="0" width="100%">
                                         <tr class="amostrasPrateleira" style="background-color: #DDD;">
-                                            <td>CodAmostra</td>
-                                            <td>Status</td>
+                                            <td>CodAmostra</td>                                            
                                             <td>Prateleira</td>
                                         </tr>
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <tr class="amostrasGrupo">
-                                        <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "Status") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>                                        
                                         <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
                                     </tr>
                                 </ItemTemplate>

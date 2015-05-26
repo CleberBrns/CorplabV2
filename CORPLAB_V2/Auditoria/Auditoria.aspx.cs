@@ -59,7 +59,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
 
     private void CarregaPagina()
     {
-
+        Session.Add("SessionInfoAmostras", new DataTable());
     }
 
     private void CamposDefault()
@@ -67,6 +67,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         txtAmostra.Text = string.Empty;
         txtPrateleira.Text = string.Empty;
         lblPrateleira.Text = string.Empty;
+        Session.Add("SessionInfoAmostras", new DataTable());
     }
 
     protected void btPrateleira_Click(object sender, EventArgs e)
@@ -93,7 +94,6 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
                     divInicio.Visible = true;
                     divAmostraAuditoria.Visible = true;
                     txtAmostra.Focus();
-                    //MostraAuditoria(txtPrateleira.Text);                 
                 }
                 else
                 {
@@ -175,12 +175,11 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
                                 imgOkAuditar.Visible = false;
                                 txtAmostra.Text = string.Empty;
                                 txtAmostra.Focus();
+
+                                MostraAuditoria(dtStatusAmos, false);
                             }
                             else
                             {
-                                //insereDados.InsereAmostraAuditoria(Convert.ToInt32(hddIdPrateleira.Value.Trim()),
-                                //                                                          Convert.ToInt32(Session["SessionIdUsuario"].ToString()), codAmostra);
-
                                 if (hddCodPrateleira.Value.ToLower() == prateleiraAmostra.ToLower())
                                 {
                                     MostraRetorno("A amostra " + codAmostra + " consta na praleleira.");
@@ -188,8 +187,10 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
                                     imgErroAuditar.Visible = false;
                                     divRetornoAuditar.Visible = true;
                                     imgOkAuditar.Visible = true;
-                                    //lblRetornoAuditar.Text = "Amostra " + txtAmostra.Text + " auditada com sucesso";
                                     txtAmostra.Text = string.Empty;
+                                    txtAmostra.Focus();
+
+                                    MostraAuditoria(dtStatusAmos, true);
                                 }
                                 else if (!string.IsNullOrEmpty(prateleiraAmostra))
                                 {
@@ -199,6 +200,8 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
                                     imgOkAuditar.Visible = false;
                                     txtAmostra.Text = string.Empty;
                                     txtAmostra.Focus();
+
+                                    MostraAuditoria(dtStatusAmos, false);
                                 }
                             }
                         }
@@ -236,12 +239,9 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
                 imgOkAuditar.Visible = false;
                 lblRetornoAuditar.Text = "Por favor, preencha o campo corretamente para prosseguir";
             }
-
-            MostraAuditoria(hddIdPrateleira.Value);
         }
         catch (Exception ex)
         {
-
             throw;
         }
     }
@@ -260,62 +260,109 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         return valido;
     }
 
-    private void MostraAuditoria(string codPrateleira)
+    private void MostraAuditoria(DataTable statusAmostraAuditada, bool auditado)
     {
-        DataTable dtAuditoria = CarregaInfoPrateleira(hddCodPrateleira.Value);
+        DataTable dtAmostraAuditoria = CarregaInfoAmostraAuditada(statusAmostraAuditada, auditado);
 
-        if (dtAuditoria.Rows.Count > 0)
-        {
-            divAmostraAuditoria.Visible = true;
-            txtAmostra.Focus();
-            //divAuditoria.Visible = true;
-            //btImprimir.Visible = true;
-            divInicio.Visible = true;
+        Session.Add("SessionInfoAmostras", dtAmostraAuditoria);
 
-            Session["SessionTipoImpressao"] = "Auditoria";
-            Session["SessionPrateleira"] = hddCodPrateleira.Value;
+        divAuditoria.Visible = true;
+        rptAuditoria.DataSource = dtAmostraAuditoria;
+        rptAuditoria.DataBind();
 
-            rptAuditoria.DataSource = dtAuditoria;
-            rptAuditoria.DataBind();
-        }
-        else
-        {
-            MostraRetorno("Não existem amostras cadastradas.");
-            divInicio.Visible = true;
-            imgErroAuditar.Visible = true;
-            imgOkAuditar.Visible = false;
-        }
+        //if (dtAuditoria.Rows.Count > 0)
+        //{
+        //    divAmostraAuditoria.Visible = true;
+        //    txtAmostra.Focus();
+        //    //divAuditoria.Visible = true;
+        //    //btImprimir.Visible = true;
+        //    divInicio.Visible = true;
+
+        //    Session["SessionTipoImpressao"] = "Auditoria";
+        //    Session["SessionPrateleira"] = hddCodPrateleira.Value;
+
+        //    rptAuditoria.DataSource = dtAuditoria;
+        //    rptAuditoria.DataBind();
+        //}
+        //else
+        //{
+        //    MostraRetorno("Não existem amostras cadastradas.");
+        //    divInicio.Visible = true;
+        //    imgErroAuditar.Visible = true;
+        //    imgOkAuditar.Visible = false;
+        //}
 
     }
 
-    private DataTable CarregaInfoPrateleira(string prateleira)
+    private DataTable CarregaInfoAmostraAuditada(DataTable dtInfoAmostraAuditada, bool auditado)
     {
-        DataTable dtInfoPrateleira = new DataTable();
+        DataTable dtInfoAmostra = new DataTable();
 
-        dtInfoPrateleira.Columns.Add("CodAmostra");
-        dtInfoPrateleira.Columns.Add("DataUsuarioRecepcao");
-        dtInfoPrateleira.Columns.Add("Estante");
-        dtInfoPrateleira.Columns.Add("Prateleira");
-        dtInfoPrateleira.Columns.Add("Caixa");
-        dtInfoPrateleira.Columns.Add("UltimaAlteracao");
-        dtInfoPrateleira.Columns.Add("Auditado");
+        dtInfoAmostra.Columns.Add("CodAmostra");
+        dtInfoAmostra.Columns.Add("DataUsuarioRecepcao");
+        dtInfoAmostra.Columns.Add("Estante");
+        dtInfoAmostra.Columns.Add("Prateleira");
+        dtInfoAmostra.Columns.Add("Caixa");
+        dtInfoAmostra.Columns.Add("UltimaAlteracao");
+        dtInfoAmostra.Columns.Add("Auditado");
 
-        DataTable dtPrateleiraAuditoria = selecionaDados.ConsultaPrateleiraAuditoria(hddCodPrateleira.Value);
-
-        if (dtPrateleiraAuditoria.Rows.Count > 0)
+        if (dtInfoAmostraAuditada.Rows.Count > 0)
         {
-            foreach (DataRow item in dtPrateleiraAuditoria.Rows)
+            foreach (DataRow item in dtInfoAmostraAuditada.Rows)
             {
-                dtInfoPrateleira.Rows.Add(item["CodAmostra"].ToString(),
+                dtInfoAmostra.Rows.Add(item["CodAmostra"].ToString(),
                     ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
                     item["Prateleira"].ToString(), item["Caixa"].ToString(),
                     ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["UltimaAlteracao"].ToString()),
-                    item["Auditoria"].ToString());
+                    RetornaNomeBooleano(auditado));
             }
         }
 
+        dtInfoAmostra = RetornaTabelaSessacao(dtInfoAmostra);
 
-        return dtInfoPrateleira;
+        return dtInfoAmostra;
+    }
+
+    private DataTable RetornaTabelaSessacao(DataTable dtInfoAmostraAtual)
+    {
+        if (Session["SessionInfoAmostras"] != null)
+        {
+            DataTable dtAmostrasSessao = (DataTable)Session["SessionInfoAmostras"];
+
+            if (dtAmostrasSessao.Rows.Count > 0)
+            {
+                foreach (DataRow item in dtAmostrasSessao.Rows)
+                {
+                    if (dtInfoAmostraAtual.DefaultView[0]["CodAmostra"].ToString() != item["CodAmostra"].ToString())
+                    {
+                        dtInfoAmostraAtual.ImportRow(item);
+                    }
+                }
+
+                return dtInfoAmostraAtual;
+            }
+            else
+            {
+                return dtInfoAmostraAtual;
+            }
+        }
+        else
+        {
+            return dtInfoAmostraAtual;
+        }        
+    }
+
+
+    private string RetornaNomeBooleano(bool auditado)
+    {
+        if (auditado)
+        {
+            return "Sim";
+        }
+        else
+        {
+            return "Não";
+        }
     }
 
     private object ConfiguraUsuarioRecepcao(string dataRecepcao, string usuarioRecepcao)

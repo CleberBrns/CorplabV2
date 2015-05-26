@@ -68,7 +68,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                 DataTable dtDadosUpload = new DataTable();
                 string FileName = Server.HtmlEncode(fUpload.FileName);
                 string caminhoArquivo = string.Empty;
-                //string camanhoDestino = Server.MapPath("/ArquivosTemp/");
+                //string caminhoDestino = Server.MapPath("/ArquivosTemp/");
                 string caminhoDestino = @"C:\camarafria\ArquivosTemp\";
 
                 if (Directory.Exists(caminhoDestino))
@@ -190,7 +190,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
             divUpload.Visible = false;
             lblRetorno.Text = string.Empty;
 
-            dtMostrarConsulta.DefaultView.Sort = "Prateleira";
+            dtMostrarConsulta.DefaultView.Sort = "Prateleira desc";
             Session.Add("SessionRetornoImportacao", dtMostrarConsulta.DefaultView.ToTable());
 
             rptConsulta.DataSource = dtMostrarConsulta.DefaultView;
@@ -198,7 +198,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
         }
         else
         {
-            MostraRetorno("Sem dados para verificar.", 2);
+            MostraRetorno("Sem dados para verificar ou <br/> campo de verificação não configurado corretamente.", 2);
 
             imgErro.Visible = true;
             imgOk.Visible = false;
@@ -209,8 +209,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
     {
         DataTable dtInfoEstrutura = new DataTable();
 
-        dtInfoEstrutura.Columns.Add("CodAmostra");
-        dtInfoEstrutura.Columns.Add("Status");
+        dtInfoEstrutura.Columns.Add("CodAmostra");        
         dtInfoEstrutura.Columns.Add("Prateleira");
 
         DataTable dtInfoConsulta = new DataTable();
@@ -223,17 +222,21 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                 DataTable dtAmostra = selecionaDados.ConsultaStatusAmostra(Convert.ToInt64(item));
                 if (dtAmostra.Rows.Count > 0)
                 {
-                    dtInfoEstrutura.Rows.Add(item.ToString(), dtAmostra.DefaultView[0]["UltimaAlteracao"].ToString(),
-                                             dtAmostra.DefaultView[0]["Prateleira"].ToString());
+                    string prateleira = dtAmostra.DefaultView[0]["Prateleira"].ToString();
+                    if (prateleira.Trim() == "-" )
+                    {
+                        prateleira = string.Empty;
+                    }
+                    dtInfoEstrutura.Rows.Add(item.ToString(), prateleira);
                 }
                 else
                 {
-                    dtInfoEstrutura.Rows.Add(item.ToString(), "Não Cadastrada", "Null");
+                    dtInfoEstrutura.Rows.Add(item.ToString(), string.Empty);
                 }
             }
             else
             {
-                dtInfoEstrutura.Rows.Add(item.ToString(), "Formato Inválido", "Null");
+                dtInfoEstrutura.Rows.Add(item.ToString(), string.Empty);
             }
         }
 
@@ -284,6 +287,10 @@ public partial class Importacao_Importacao : System.Web.UI.Page
         {
             imgErro.Visible = true;
             imgOk.Visible = false;
+
+            btMostrarConsulta.Attributes.Add("class", "none");
+            btEsconderConsulta.Attributes.Add("class", "none");
+            btImprimir.Visible = false;
         }
 
         if (string.IsNullOrEmpty(mensagem))

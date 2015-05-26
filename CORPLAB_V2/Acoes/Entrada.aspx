@@ -15,7 +15,7 @@
         <input type="hidden" runat="server" id="hddIdPrateleria" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Entrada<asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />
+            <h2>Entrada<asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" /><asp:Label runat="server" ID="lblComCaixa" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
@@ -32,17 +32,28 @@
                     </asp:Panel>
                     </div>
                     <div style="margin-top: 3%;" runat="server" id="divInsercoes" visible="false">
-                        Amostra a entrar
+                        Insira a amostra
                     <asp:Panel runat="server" DefaultButton="btAmostra" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
                         <div style="display: none">
                             <asp:Button runat="server" ID="btAmostra" OnClick="btAmostra_Click" />
-                        </div>                      
+                        </div>
+                        <div style="margin-top: 3%;">
+                            <asp:CheckBox runat="server" ID="ckbComCaixa" Text="Com Caixa" AutoPostBack="true" OnCheckedChanged="ckbComCaixa_CheckedChanged" />
+                        </div>
+                        <div runat="server" id="divComCaixa" visible="false" style="margin-top: 3%;">
+                            Insira a caixa
+                            <div style="margin-top: 3%;">
+                                <asp:TextBox runat="server" ID="txtCaixa" Width="180px" Height="25px" autocomplete="off" onkeydown="return (event.keyCode!=13);" />
+                                <div style="display: none">
+                                </div>
+                            </div>
+                        </div>
                     </asp:Panel>
                     </div>
                     <div style="margin-top: 3%;" runat="server" id="divProcessando" visible="false">
                         Processando...
-                    <div style="margin-top: 3%">
+                    <div style="margin-top: 3px">
                         <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="25%" />
                     </div>
                     </div>

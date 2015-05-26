@@ -119,7 +119,30 @@ public partial class Acoes_Entrada : System.Web.UI.Page
 
                 if (formatoCorreto)
                 {
-                    InsereAmostra(txtAmostra.Text.Trim(), string.Empty);
+                    if (ckbComCaixa.Checked)
+                    {
+                        if (!string.IsNullOrEmpty(txtCaixa.Text))
+                        {
+                            if (string.IsNullOrEmpty(lblComCaixa.Text))
+                            {
+                                lblComCaixa.Text = ", Caixa " + txtCaixa.Text.Trim();
+                            }
+                            txtCaixa.Enabled = false;
+
+                            InsereAmostra(txtAmostra.Text.Trim(), txtCaixa.Text.Trim());
+                        }
+                        else
+                        {
+                            MostraRetorno("Para continuar preencha o campo caixa ou remova a marcação 'Com Caixa'");
+                            imgErro.Visible = true;
+                            imgOk.Visible = false;
+                        }
+
+                    }
+                    else
+                    {
+                        InsereAmostra(txtAmostra.Text.Trim(), string.Empty);
+                    }
                 }
                 else
                 {
@@ -131,7 +154,7 @@ public partial class Acoes_Entrada : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                MostraRetorno("Ocorreu um erro ao tentar executar a Entrada da amostra; " + txtAmostra.Text.Trim());
+                MostraRetorno("Ocorreu um erro ao tentar inserir a amostra; " + txtAmostra.Text.Trim());
                 imgErro.Visible = true;
                 imgOk.Visible = false;
             }
@@ -148,7 +171,7 @@ public partial class Acoes_Entrada : System.Web.UI.Page
             long dCodAmostra = Convert.ToInt64(codAmostra.Trim());
             valido = true;
         }
-        catch (Exception) { }//Continua false
+        catch (Exception ex) { }//Continua false
 
         return valido;
     }
@@ -168,7 +191,7 @@ public partial class Acoes_Entrada : System.Web.UI.Page
             {
                 string statusAmostra = string.Empty;
                 statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
-                               
+
                 if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
                 {
                     MostraRetornoErro("A amostra " + sCodAmostra + " foi descartada e já não pode passar por qualquer nova Ação.");
@@ -182,7 +205,7 @@ public partial class Acoes_Entrada : System.Web.UI.Page
                     divProcessando.Visible = false;
                     txtAmostra.Text = string.Empty;
                     txtAmostra.Focus();
-                }                
+                }
                 else
                 {
                     insereDados.InsereAmostraEntrada(Convert.ToInt32(hddIdPrateleria.Value.Trim()), Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
@@ -224,7 +247,10 @@ public partial class Acoes_Entrada : System.Web.UI.Page
 
     protected void btNovaPrateleira_Click(object sender, EventArgs e)
     {
-        txtAmostra.Text = string.Empty;
+        ckbComCaixa.Checked = false;
+        CaixaDefault();
+
+        hddIdPrateleria.Value = string.Empty;
         txtPrateleira.Text = string.Empty;
         lblPrateleira.Text = string.Empty;
         txtPrateleira.Focus();
@@ -233,6 +259,28 @@ public partial class Acoes_Entrada : System.Web.UI.Page
         divInsercoes.Visible = false;
         divInicio.Visible = false;
         divPrateleira.Visible = true;
+    }
+
+    protected void ckbComCaixa_CheckedChanged(object sender, EventArgs e)
+    {
+        divRetorno.Visible = false;
+        if (ckbComCaixa.Checked)
+        {
+            divComCaixa.Visible = true;
+        }
+        else
+        {
+            CaixaDefault();
+        }
+
+    }
+
+    private void CaixaDefault()
+    {
+        txtCaixa.Text = string.Empty;
+        txtCaixa.Enabled = true;
+        lblComCaixa.Text = string.Empty;
+        divComCaixa.Visible = false;
     }
 
     public void MostraRetorno(string mensagem)
@@ -275,4 +323,5 @@ public partial class Acoes_Entrada : System.Web.UI.Page
     {
         Response.Redirect("../Acoes/Acoes.aspx");
     }
+
 }
