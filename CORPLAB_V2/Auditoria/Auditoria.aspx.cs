@@ -66,6 +66,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
     {
         txtAmostra.Text = string.Empty;
         txtPrateleira.Text = string.Empty;
+        lblPrateleira.Text = string.Empty;
     }
 
     protected void btPrateleira_Click(object sender, EventArgs e)
@@ -80,18 +81,34 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
 
             if (dtInfoPrateleira.Rows.Count > 0)
             {
-                lblPrateleira.Text = " - Prateleira " + txtPrateleira.Text.Trim();
-                divPrateleira.Visible = false;
+                DataTable dtStatusPrateleira = selecionaDados.ConsultaAmostraAuditoriaPrateleira(txtPrateleira.Text.Trim());
+                if (dtStatusPrateleira.Rows.Count > 0)
+                {
+                    lblPrateleira.Text = " - Prateleira " + txtPrateleira.Text.Trim();
+                    divPrateleira.Visible = false;
 
-                hddIdPrateleira.Value = dtInfoPrateleira.DefaultView[0]["IdPrateleira"].ToString();
+                    hddIdPrateleira.Value = dtInfoPrateleira.DefaultView[0]["IdPrateleira"].ToString();
+                    hddCodPrateleira.Value = txtPrateleira.Text.Trim();
 
-                hddCodPrateleira.Value = txtPrateleira.Text.Trim();
-                MostraAuditoria(txtPrateleira.Text);
-
+                    divInicio.Visible = true;
+                    divAmostraAuditoria.Visible = true;
+                    txtAmostra.Focus();
+                    //MostraAuditoria(txtPrateleira.Text);                 
+                }
+                else
+                {
+                    MostraRetorno("Não existem amostras cadastradas nessa prateleira.");
+                    txtPrateleira.Text = string.Empty;
+                    txtPrateleira.Focus();
+                    imgErroAuditar.Visible = true;
+                    imgOkAuditar.Visible = false;
+                }
             }
             else
             {
-                MostraRetorno("Não existem amostras cadastradas nessa prateleira.");
+                MostraRetorno("Prateleira não cadastrada. <br/> Favor consultar o Administrador do Sistema.");
+                txtPrateleira.Text = string.Empty;
+                txtPrateleira.Focus();
                 imgErroAuditar.Visible = true;
                 imgOkAuditar.Visible = false;
             }
@@ -104,7 +121,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         txtPrateleira.Focus();
 
         divRetornoAuditar.Visible = false;
-        divBotaoAuditoria.Visible = false;
+        divAmostraAuditoria.Visible = false;
         btImprimir.Visible = false;
         divAuditoria.Visible = false;
         divInicio.Visible = false;
@@ -116,7 +133,8 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
     {
         try
         {
-            divRetornoAuditar.Visible = true;
+            divRetornoAuditar.Visible = false;
+            lblRetornoAuditar.Text = string.Empty;
 
             if (!string.IsNullOrEmpty(txtAmostra.Text))
             {
@@ -131,34 +149,69 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
                         long codAmostra = Convert.ToInt64(txtAmostra.Text.Trim());
 
                         DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
-                        string statusAmostra = string.Empty;
 
                         if (dtStatusAmos.Rows.Count > 0)
                         {
-                            statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
-                        }
+                            string statusAmostra = string.Empty;
+                            string prateleiraAmostra = string.Empty;
 
-                        if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
+                            statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
+                            prateleiraAmostra = dtStatusAmos.DefaultView[0]["Prateleira"].ToString();
+
+                            if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
+                            {
+                                MostraRetorno("A amostra " + codAmostra + " foi descartada e já não pode passar por qualquer nova Ação.");
+                                divProcessando.Visible = false;
+                                imgErroAuditar.Visible = true;
+                                imgOkAuditar.Visible = false;
+                                txtAmostra.Text = string.Empty;
+                                txtAmostra.Focus();
+                            }
+                            else if (statusAmostra != string.Empty && statusAmostra.ToLower() == "saída")
+                            {
+                                MostraRetorno("A amostra " + codAmostra + " possui status de Saída <br/> e não consta na prateleira.");
+                                divProcessando.Visible = false;
+                                imgErroAuditar.Visible = true;
+                                imgOkAuditar.Visible = false;
+                                txtAmostra.Text = string.Empty;
+                                txtAmostra.Focus();
+                            }
+                            else
+                            {
+                                //insereDados.InsereAmostraAuditoria(Convert.ToInt32(hddIdPrateleira.Value.Trim()),
+                                //                                                          Convert.ToInt32(Session["SessionIdUsuario"].ToString()), codAmostra);
+
+                                if (hddCodPrateleira.Value.ToLower() == prateleiraAmostra.ToLower())
+                                {
+                                    MostraRetorno("A amostra " + codAmostra + " consta na praleleira.");
+                                    divProcessando.Visible = false;
+                                    imgErroAuditar.Visible = false;
+                                    divRetornoAuditar.Visible = true;
+                                    imgOkAuditar.Visible = true;
+                                    //lblRetornoAuditar.Text = "Amostra " + txtAmostra.Text + " auditada com sucesso";
+                                    txtAmostra.Text = string.Empty;
+                                }
+                                else if (!string.IsNullOrEmpty(prateleiraAmostra))
+                                {
+                                    MostraRetorno("A amostra " + codAmostra + " não consta na praleleira.");
+                                    divProcessando.Visible = false;
+                                    imgErroAuditar.Visible = true;
+                                    imgOkAuditar.Visible = false;
+                                    txtAmostra.Text = string.Empty;
+                                    txtAmostra.Focus();
+                                }
+                            }
+                        }
+                        else
                         {
-                            MostraRetorno("A amostra " + codAmostra + " foi descartada e já não pode passar por qualquer nova Ação.");
+                            MostraRetorno("A amostra " + codAmostra + " ainda não foi cadastrada, <br /> A mesma deve passar pela a ação de Recepção." +
+                                          "<br /> Qualquer dúvida, por favor, consulte o administrador do sistema");
                             divProcessando.Visible = false;
                             imgErroAuditar.Visible = true;
                             imgOkAuditar.Visible = false;
                             txtAmostra.Text = string.Empty;
                             txtAmostra.Focus();
                         }
-                        else
-                        {
-                            insereDados.InsereAmostraAuditoria(Convert.ToInt32(hddIdPrateleira.Value.Trim()),
-                                                                                      Convert.ToInt32(Session["SessionIdUsuario"].ToString()), codAmostra);
-
-                            divProcessando.Visible = false;
-                            imgErroAuditar.Visible = false;
-                            imgOkAuditar.Visible = true;
-                            lblRetornoAuditar.Text = "Amostra " + txtAmostra.Text + " auditada com sucesso";
-                            txtAmostra.Text = string.Empty;
-                        }
-
                     }
                     else
                     {
@@ -213,10 +266,10 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
 
         if (dtAuditoria.Rows.Count > 0)
         {
-            divBotaoAuditoria.Visible = true;
+            divAmostraAuditoria.Visible = true;
             txtAmostra.Focus();
-            divAuditoria.Visible = true;
-            btImprimir.Visible = true;
+            //divAuditoria.Visible = true;
+            //btImprimir.Visible = true;
             divInicio.Visible = true;
 
             Session["SessionTipoImpressao"] = "Auditoria";

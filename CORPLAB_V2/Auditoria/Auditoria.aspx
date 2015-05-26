@@ -29,7 +29,7 @@
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
                     <div style="margin-top: 3%;" runat="server" id="divPrateleira">
-                        Entre com a Prateleira
+                        <span>Entre com a Prateleira</span>
                     <asp:Panel runat="server" DefaultButton="btPrateleira" style="margin-top: 10px">
                         <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
                         <div style="display: none">
@@ -37,9 +37,9 @@
                         </div>
                     </asp:Panel>
                     </div>
-                    <div runat="server" id="divBotaoAuditoria" visible="false" style="margin-top: 3%;">
+                    <div runat="server" id="divAmostraAuditoria" visible="false" style="margin-top: 3%;">
                         <div>
-                            Amostra a ser auditada 
+                            <span>Amostra a ser auditada</span> 
                         </div>
                         <br />
                         <asp:Panel runat="server" DefaultButton="btAuditarAmostra">
@@ -53,7 +53,9 @@
                         <div style="margin-bottom: 3%;">
                             <asp:Image runat="server" ID="imgOkAuditar" ImageUrl="../Imagens/ok.png" Visible="false" Width="3%" />
                             <asp:Image runat="server" ID="imgErroAuditar" ImageUrl="../Imagens/error.png" Visible="false" Width="3%" />
-                            <asp:Label runat="server" ID="lblRetornoAuditar" />
+                            <div style="margin-top: 1%;">
+                                <asp:Label runat="server" ID="lblRetornoAuditar" />
+                            </div>
                         </div>
                     </div>
                     <div style="margin-top: 3%;" runat="server" id="divAuditoria" visible="false">
