@@ -16,8 +16,12 @@
                         OnClick="btUnidades_Click" />
                     <asp:Button runat="server" ID="btUsuarios" CssClass="bt"
                         Text="Gerenciar Usuários" OnClick="btUsuarios_Click" />
-                    <asp:Button runat="server" ID="btAcoes" CssClass="bt"
-                        Text="Ações" OnClick="btAcoes_Click" />
+                    <div style="margin-top: 1%;">
+                        <asp:Button runat="server" ID="btAcoes" CssClass="bt"
+                            Text="Ações" OnClick="btAcoes_Click" />
+                        <asp:Button runat="server" ID="btOpcoesAdicionais" CssClass="bt"
+                            Text="Opções Adicionais" OnClick="btOpcoesAdicionais_Click" />
+                    </div>
                 </div>
                 <div class="contBt">
                      <asp:Button runat="server" ID="btSair" CssClass="bt"

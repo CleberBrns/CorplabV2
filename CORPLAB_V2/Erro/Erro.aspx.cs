@@ -23,7 +23,7 @@ public partial class Erro_Erro : System.Web.UI.Page
             if (!string.IsNullOrEmpty(lblExcessao.Text.Trim()))
             {
                 lblComExcessao.Visible = true;
-                btMenuPrincipal.Visible = false;
+                btMenuPrincipal.Visible = true;
             }
 
         }

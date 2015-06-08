@@ -106,6 +106,10 @@ public partial class Home_Home : System.Web.UI.Page
     protected void btAcoes_Click(object sender, EventArgs e)
     {
         Response.Redirect("../Acoes/Acoes.aspx");
-    }
+    }    
 
+    protected void btOpcoesAdicionais_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../OpcoesAdicionais/Opcoes.aspx");
+    }
 }

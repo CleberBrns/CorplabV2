@@ -269,29 +269,6 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         divAuditoria.Visible = true;
         rptAuditoria.DataSource = dtAmostraAuditoria;
         rptAuditoria.DataBind();
-
-        //if (dtAuditoria.Rows.Count > 0)
-        //{
-        //    divAmostraAuditoria.Visible = true;
-        //    txtAmostra.Focus();
-        //    //divAuditoria.Visible = true;
-        //    //btImprimir.Visible = true;
-        //    divInicio.Visible = true;
-
-        //    Session["SessionTipoImpressao"] = "Auditoria";
-        //    Session["SessionPrateleira"] = hddCodPrateleira.Value;
-
-        //    rptAuditoria.DataSource = dtAuditoria;
-        //    rptAuditoria.DataBind();
-        //}
-        //else
-        //{
-        //    MostraRetorno("Não existem amostras cadastradas.");
-        //    divInicio.Visible = true;
-        //    imgErroAuditar.Visible = true;
-        //    imgOkAuditar.Visible = false;
-        //}
-
     }
 
     private DataTable CarregaInfoAmostraAuditada(DataTable dtInfoAmostraAuditada, bool auditado)
