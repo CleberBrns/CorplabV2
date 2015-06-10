@@ -31,45 +31,43 @@
                 <asp:Panel runat="server" ID="pnlCadastros">
                     <asp:Repeater ID="rptCadastros" runat="server" OnItemDataBound="rptCadastros_ItemDataBound">
                         <ItemTemplate>
-                            <asp:Panel CssClass=" bold none" ID="dvLaboratorio" runat="server">
-                                <asp:Label runat="server" ID="lblSenha" Visible="false" Text='<%#Eval("SENHA")%>' />
+                            <asp:Panel CssClass=" bold none" ID="dvLaboratorio" runat="server">                                
                                 <div class="titCand" id="dvNomeCanal" runat="server">
                                     <div>
                                         <span>
                                             <asp:Label ID="lblNome" runat="server" Text='<%#Eval("NOME")%>' Style="display: none;"></asp:Label>
-                                            <asp:Label ID="lblIdCadastro" runat="server" Style="display: none;" Text='<%#Eval("IDUSUARIO")%>'></asp:Label>
+                                            <asp:Label ID="lblIdCadastro" runat="server" Style="display: none;" Text='<%#Eval("IDLABORATORIO")%>'></asp:Label>
                                         </span>
                                     </div>
                                     <div style="margin-top: 3px;">
                                         <span class="descricao">Unidade</span>
                                         <div>
-                                            <asp:Label ID="lblUnidade" runat="server" Text='<%#Eval("IDUNIDADE")%>'></asp:Label></div>
+                                            <asp:Label ID="lblUnidade" runat="server" Text='<%#Eval("UNIDADE")%>'></asp:Label>
+                                            <asp:Label ID="lblIdUnidade" runat="server" Text='<%#Eval("IDUNIDADE")%>'></asp:Label>
+                                        </div>
                                         <br />
-                                    </div>
-                                    <div style="margin-top: 3px;">
-                                        <span class="descricao">Tipo de Acesso</span>
-                                        <div>
-                                            <asp:Label ID="lblTipoAcesso" runat="server" Text='<%#Eval("TIPOACESSO")%>'></asp:Label></div>
-                                    </div>
+                                    </div>                         
                                     <div style="margin-top: 15px;">
                                         <asp:Panel runat="server" ID="pnlCadastro">
                                             <div id="divLogin" runat="server" class="contInformacoe">
-                                                <span>Login</span>
-                                                <asp:TextBox ID="txtLogin" Width="120px" Font-Size="11px" Text='<%#Eval("LOGIN")%>'
-                                                    runat="server" Style="text-align: center;" ToolTip="Máximo de 15 dígitos!" MaxLength="15"></asp:TextBox>
+                                                <span>Código</span>
+                                                <asp:TextBox ID="txtCodigo" Width="120px" Font-Size="15px" Text='<%#Eval("CODLABORATORIO")%>'
+                                                    runat="server" Style="text-align: center;" MaxLength="30" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                             </div>
-                                            <div id="divSenha" runat="server" class="contInformacoe">
-                                                <span>Senha</span>
-                                                <asp:TextBox ID="txtSenha" TextMode="Password" Width="120px" Font-Size="11px"
-                                                    runat="server" Style="text-align: center;" ToolTip="Máximo de 15 dígitos!" MaxLength="15"></asp:TextBox>
-                                            </div>
+                                            <%--<div id="divSenha" runat="server" class="contInformacoe">
+                                                <span>Nome</span>
+                                                <asp:TextBox ID="txtNome" Width="120px" Font-Size="15px" Text='<%#Eval("NOME")%>'
+                                                    runat="server" Style="text-align: center;" MaxLength="30" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                            </div>--%>
                                         </asp:Panel>
                                     </div>
                                     <div class="contBotoes">
-                                        <asp:Button ID="btAlterar" runat="server" CssClass="btAcoes" Text="Alterar" CommandArgument='<%#Eval("IDUSUARIO")%>'
+                                        <asp:Button ID="btAlterar" runat="server" CssClass="btAcoes" Text="Alterar" CommandArgument='<%#Eval("IDLABORATORIO")%>'
                                             OnClick="btAlterar_Click" ToolTip="Alterar o Cadastro" />
-                                        <asp:Button ID="btExcluir" runat="server" CssClass="btAcoes" Text="Excluir" CommandArgument='<%#Eval("IDUSUARIO")%>'
-                                            OnClick="btExcluir_Click" ToolTip="Excluí o Cadastro" />                                        
+                                        <div style="margin-top: 2%;">
+                                            <asp:Button ID="btExcluir" runat="server" CssClass="btAcoes" Text="Excluir Cadastro" CommandArgument='<%#Eval("IDLABORATORIO")%>'
+                                                OnClick="btExcluir_Click" ToolTip="Excluí o Cadastro" Width="65%" />
+                                        </div>
                                     </div>
                                 </div>
                             </asp:Panel>
@@ -90,21 +88,15 @@
                             </asp:DropDownList>
                         </div>                     
                         <div id="div3" runat="server" class="contInformacoe">
-                            <span class="descricao">Nome Usuário</span>
+                            <span class="descricao">Nome Laboratório</span>
                             <asp:TextBox ID="txtNovoNome" Width="160px" autocomplete="off" Font-Size="15px" runat="server"
-                                Style="text-align: center;"></asp:TextBox>
+                                Style="text-align: center;" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                         </div>
                         <div id="div1" runat="server" class="contInformacoe">
-                            <span class="descricao">Login</span>
-                            <asp:TextBox ID="txtNovoLogin" Width="160px" Font-Size="15px" runat="server" Style="text-align: center;"
-                                ToolTip="Mínimo de 4 e Máximo de 15 caracteres!" autocomplete="off" MaxLength="15"></asp:TextBox>
-                        </div>
-                        <div id="div2" runat="server" class="contInformacoe">
-                            <span class="descricao">Senha</span>
-                            <asp:TextBox ID="txtNovaSenha" TextMode="Password" autocomplete="off" Width="160px"
-                                Font-Size="15px" runat="server" Style="text-align: center;" ToolTip="Mínimo de 4 e Máximo de 15 caracteres!"
-                                MaxLength="15"></asp:TextBox>
-                        </div>
+                            <span class="descricao">Código</span>
+                            <asp:TextBox ID="txtNovoCodigo" Width="160px" Font-Size="15px" runat="server" Style="text-align: center;"
+                                autocomplete="off" MaxLength="30" onkeydown="return (event.keyCode!=13);" ></asp:TextBox>
+                        </div>                       
                     </div>
                     <div class="contBotoes" style="width: 176%;">                      
                         <asp:Button runat="server" ID="btCadastrar" Text="Cadastrar" CssClass="btAcoes"

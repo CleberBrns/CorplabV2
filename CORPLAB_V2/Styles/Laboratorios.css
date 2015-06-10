@@ -10,13 +10,13 @@ body
 }
 .pagina
 {
-    width: 600px;
+    width: 60%;
     font-family: Arial;
     margin: 40px auto;
     background: #f8f8f8;
     padding: 20px 20px 0;
     border: 1px solid #EEE;
-    font-size: 12px;
+    font-size: 18px;
 }
 .header
 {
@@ -24,12 +24,12 @@ body
     border: 1px solid #CCCCCC;
     padding: 5px 0 5px 10px;
     color: #333333;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
 }
 .titRadio
 {
-    font-size: 12px;
+    font-size: 16px;
 }
 .conteudo
 {
@@ -40,7 +40,7 @@ body
 .btRodape
 {
     padding: 5px;
-    font-size: 12px;
+    font-size: 16px;
     color: #333333;
     text-decoration: none;
     background: #CCCCCC;
@@ -56,12 +56,12 @@ body
 }
 .conteudo span
 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
 }
 .conteudo a
 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     color: #333333;
 }
@@ -113,18 +113,18 @@ body
 .titulo
 {
     color: #333333;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
 }
 .pnlErro
 {
     width: 300px;
-    font-size: 10px;
+    font-size: 14px;
     margin-top: 90px;
     margin-left: 15px;
 }
 
-#pnlUsuarios
+#pnlLaboratorios
 {
     height: 300px;
     width: 300px;
@@ -136,7 +136,7 @@ body
 }
 .rblLaboratorios td
 {
-    font-size: 12px;
+    font-size: 14px;
     padding: 5px;
 }
 .rblLaboratorios input
@@ -170,7 +170,7 @@ body
 }
 .descricao
 {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: bold;
 }
 .labels
@@ -195,10 +195,10 @@ body
 }
 .btAcoes
 {
-    font-size: 18px;
+    font-size: 22px;
     border: 1px solid #DDD;
-    width: 28%;
-    height: 30px;
+    width: 34%;
+    height: 36px;
 }
 .btAcoes:hover
 {

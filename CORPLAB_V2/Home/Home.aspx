@@ -19,8 +19,10 @@
                     <div style="margin-top: 1%;">
                         <asp:Button runat="server" ID="btAcoes" CssClass="bt"
                             Text="Ações" OnClick="btAcoes_Click" />
-                        <asp:Button runat="server" ID="btOpcoesAdicionais" CssClass="bt"
-                            Text="Opções Adicionais" OnClick="btOpcoesAdicionais_Click" />
+                        <asp:Button runat="server" ID="btLaboratorios" CssClass="bt" Text="Gerenciar Laboratórios"
+                        OnClick="btLaboratorios_Click" />
+                        <%--<asp:Button runat="server" ID="btOpcoesAdicionais" CssClass="bt"
+                            Text="Opções Adicionais" OnClick="btOpcoesAdicionais_Click" />--%>
                     </div>
                 </div>
                 <div class="contBt">

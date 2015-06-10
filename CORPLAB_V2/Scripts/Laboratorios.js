@@ -17,23 +17,18 @@
 
     $('#btCadastrar').click(function () {
 
-        if ($('#ddlNivelAcesso').val() == "") {
+        if ($('#ddlUnidade').val() == "0") {
             alert("Por favor, selecione o Nível de Acesso");
             return false;
         }
 
         if ($('#txtNovoNome').val() == "") {
-            alert("Por favor, preencha o campo nome");
+            alert("Por favor, preencha o campo Nome");
             return false;
         }
 
-        if ($('#txtNovoLogin').val() == "") {
-            alert("Por favor, preencha o campo login");
-            return false;
-        }
-
-        if ($('#txtNovaSenha').val() == "") {
-            alert("Por favor, preencha o campo senha");
+        if ($('#txtNovoCodigo').val() == "") {
+            alert("Por favor, preencha o campo Código");
             return false;
         }
 
@@ -52,9 +47,8 @@
 
     $('#btLimpar').click(function () {
 
-        $('#txtNovoNome').val('');
-        $('#txtNovoLogin').val('');
-        $('#txtNovaSenha').val('');
+        $('#txtNovoNome').val('');        
+        $('#txtNovoCodigo').val('');
     })
 });
 ///////////////////////////////////////////////////////////////////////

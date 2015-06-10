@@ -56,55 +56,68 @@ public partial class Acoes_Saida : System.Web.UI.Page
         hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
         hddIdUsuario.Value = Session["SessionIdUsuario"].ToString();
 
-        txtAmostra.Focus();
-
-        //divPrateleira.Visible = true;
-        //txtPrateleira.Focus();
+        txtLaboratorio.Focus();
     }
 
 
-    //protected void btPrateleira_Click(object sender, EventArgs e)
-    //{
-    //    if (string.IsNullOrEmpty(txtPrateleira.Text))
-    //    {
-    //        MostraRetorno(string.Empty);
-    //    }
-    //    else
-    //    {
-    //        try
-    //        {
-    //            DataTable dtPrateleira = selecionaDados.ConsultaPrateleira(txtPrateleira.Text.Trim());
+    protected void btLaboratorio_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(txtLaboratorio.Text))
+        {
+            MostraRetorno(string.Empty);
+        }
+        else
+        {
+            try
+            {
+                DataTable dtLaboratorio = selecionaDados.ConsultaLaboratorio();
 
-    //            if (dtPrateleira.Rows.Count > 0)
-    //            {
-    //                hddIdPrateleria.Value = dtPrateleira.DefaultView[0]["IdPrateleira"].ToString();
-    //                lblPrateleira.Text = " - Prateleira " + txtPrateleira.Text.Trim();
+                if (dtLaboratorio.Rows.Count > 0)
+                {
+                    dtLaboratorio.DefaultView.RowFilter = "IdTipoStatus = 1 and IdUnidade = " + hddIdUnidade.Value + " and CodLaboratorio = '" + txtLaboratorio.Text.Trim() + "'";
+                    dtLaboratorio = dtLaboratorio.DefaultView.ToTable();
 
-    //                divRetorno.Visible = false;
-    //                lblRetorno.Text = string.Empty;
-    //                divPrateleira.Visible = false;
-    //                divInsercoes.Visible = true;
-    //                btNovaPrateleira.Visible = true;
-    //                divInicio.Visible = true;
-    //                txtAmostra.Focus();
-    //            }
-    //            else
-    //            {
-    //                divRetorno.Visible = true;
-    //                imgOk.Visible = false;
-    //                imgErro.Visible = true;
-    //                lblRetorno.Text = "Prateleira não cadastrada. <br/> Favor consultar o Administrador do Sistema";
-    //                txtPrateleira.Text = string.Empty;
-    //                txtPrateleira.Focus();
-    //            }
+                    if (dtLaboratorio.Rows.Count > 0)
+                    {
+                        hddIdLaboratorio.Value = dtLaboratorio.DefaultView[0]["IdLaboratorio"].ToString();
+                        lblLaboratorio.Text = " - Laboratório " + dtLaboratorio.DefaultView[0]["Nome"].ToString();
 
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            RetornaPaginaErro(ex.ToString());
-    //        }
-    //    }
-    //}
+                        divRetorno.Visible = false;
+                        lblRetorno.Text = string.Empty;
+                        divLaboratorio.Visible = false;
+                        divInsercoes.Visible = true;
+                        btNovoLaboratorio.Visible = true;
+                        divInicio.Visible = true;
+                        txtAmostra.Focus();
+                    }
+                    else
+                    {
+                        divRetorno.Visible = true;
+                        imgOk.Visible = false;
+                        imgErro.Visible = true;
+                        lblRetorno.Text = "Laboratório não cadastrado. <br/> Favor consultar o Administrador do Sistema";
+                        txtLaboratorio.Text = string.Empty;
+                        txtLaboratorio.Focus();
+                    }
+
+                }
+                else
+                {
+                    divRetorno.Visible = true;
+                    imgOk.Visible = false;
+                    imgErro.Visible = true;
+                    lblRetorno.Text = "Laboratório não cadastrado. <br/> Favor consultar o Administrador do Sistema";
+                    txtLaboratorio.Text = string.Empty;
+                    txtLaboratorio.Focus();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                RetornaPaginaErro(ex.ToString());
+            }
+        }
+    }
 
     protected void btAmostra_Click(object sender, EventArgs e)
     {
@@ -120,7 +133,7 @@ public partial class Acoes_Saida : System.Web.UI.Page
 
                 if (formatoCorreto)
                 {
-                    InsereAmostra(txtAmostra.Text.Trim(), string.Empty);
+                    InsereAmostraSaida(txtAmostra.Text.Trim(), string.Empty);
                 }
                 else
                 {
@@ -140,19 +153,18 @@ public partial class Acoes_Saida : System.Web.UI.Page
         }
     }
 
-    //protected void btNovaPrateleira_Click(object sender, EventArgs e)
-    //{
+    protected void btNovoLaboratorio_Click(object sender, EventArgs e)
+    {
+        hddIdLaboratorio.Value = string.Empty;
+        txtLaboratorio.Text = string.Empty;
+        lblLaboratorio.Text = string.Empty;
+        txtLaboratorio.Focus();
 
-    //    hddIdPrateleria.Value = string.Empty;
-    //    txtPrateleira.Text = string.Empty;
-    //    lblPrateleira.Text = string.Empty;
-    //    txtPrateleira.Focus();
-
-    //    divRetorno.Visible = false;
-    //    divInsercoes.Visible = false;
-    //    divInicio.Visible = false;
-    //    divPrateleira.Visible = true;
-    //}
+        divRetorno.Visible = false;
+        divInsercoes.Visible = false;
+        divInicio.Visible = false;
+        divLaboratorio.Visible = true;
+    }
 
     private bool ValidaCampoAmostra(string codAmostra)
     {
@@ -168,7 +180,7 @@ public partial class Acoes_Saida : System.Web.UI.Page
         return valido;
     }
 
-    private void InsereAmostra(string sCodAmostra, string caixa)
+    private void InsereAmostraSaida(string sCodAmostra, string caixa)
     {
         try
         {
@@ -202,7 +214,8 @@ public partial class Acoes_Saida : System.Web.UI.Page
                 {
                     int idPrateleira = Convert.ToInt32(dtStatusAmos.DefaultView[0]["IdPrateleira"].ToString());
 
-                    insereDados.InsereAmostraSaida(idPrateleira, Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa);
+                    insereDados.InsereAmostraSaida(idPrateleira, Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa,
+                                                   Convert.ToInt32(hddIdLaboratorio.Value.Trim()));
 
                     MostraRetorno("Saída da amostra executada com sucesso.");
 

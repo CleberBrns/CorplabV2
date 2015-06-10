@@ -7,78 +7,31 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Web.Services;
 
-public partial class Auditoria_Consulta : System.Web.UI.Page
+public partial class ConsultaLivre : System.Web.UI.Page
 {
     SelecionaDados selecionaDados = new SelecionaDados();
     InsereDados insereDados = new InsereDados();
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        txtPrateleira.Focus();
-
-        try
-        {
-            if (!IsPostBack)
-            {
-                if (Session["SessionUsuario"].ToString() != string.Empty)
-                {
-                    if (!IsPostBack)
-                        CarregaPagina();
-                }
-                else
-                {
-                    RedirecionaLogin();
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            if (Session["SessionIdTipoAcesso"] == null)
-            {
-                RetornaPaginaErro("Sessão perdida. Por favor, faça o login novamente.");
-            }
-            else
-            {
-                RetornaPaginaErro(ex.ToString());
-            }
-        }
-    }
-
-    private void RedirecionaLogin()
-    {
-        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Perdeu a sessão!');", true);
-        Response.Redirect("../Login/Login.aspx");
-    }
-
-    private void CarregaPagina()
-    {
-        if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
-        {
-            btMenuPrincial.Visible = true;
-        }       
+        txtAmostra.Focus();
     }
 
     private void CamposDefault()
     {
-        hddCodPrateleira.Value = string.Empty;
-        txtAmostra.Text = string.Empty;
-        txtPrateleira.Text = string.Empty;
         lblRetorno.Text = string.Empty;
         lblBusca.Text = string.Empty;
-        txtOpcoes.Text = string.Empty;
-        txtOpcoes.Focus();
+        txtAmostra.Text = string.Empty;
+        txtAmostra.Focus();
     }
 
     protected void btInicio_Click(object sender, EventArgs e)
     {
         CamposDefault();
-        divOpcoes.Visible = true;
-        divInicio.Visible = false;       
-        divAmostra.Visible = false;
-        divPrateleira.Visible = false;
+        divInicio.Visible = false;
         divConsulta.Visible = false;
         divRetorno.Visible = false;
-        btImprimir.Visible = false;
+        divAmostra.Visible = true;
     }
 
     protected void btAmostra_Click(object sender, EventArgs e)
@@ -99,9 +52,8 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
                         long codAmostra = Convert.ToInt64(txtAmostra.Text.Trim());
 
-                        MostraConsulta(txtAmostra.Text.Trim(), 1);
+                        MostraConsulta(txtAmostra.Text.Trim());
 
-                        divOpcoes.Visible = false;
                         divInicio.Visible = true;
                         divProcessando.Visible = false;
                         txtAmostra.Text = string.Empty;
@@ -137,42 +89,6 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         }
     }
 
-
-    protected void btPrateleira_Click(object sender, EventArgs e)
-    {
-        if (string.IsNullOrEmpty(txtPrateleira.Text))
-        {
-            MostraRetorno(string.Empty);
-        }
-        else
-        {
-            DataTable dtInfoPrateleira = selecionaDados.ConsultaPrateleira(txtPrateleira.Text.Trim());
-
-            if (dtInfoPrateleira.Rows.Count > 0)
-            {
-                lblBusca.Text = " - Prateleira " + txtPrateleira.Text.Trim();
-                divPrateleira.Visible = false;
-
-                hddIdPrateleira.Value = dtInfoPrateleira.DefaultView[0]["IdPrateleira"].ToString();
-
-                hddCodPrateleira.Value = txtPrateleira.Text.Trim();
-                MostraConsulta(txtPrateleira.Text, 2);
-
-                divOpcoes.Visible = false;
-                divInicio.Visible = true;
-
-            }
-            else
-            {
-                MostraRetorno("A prateleira " + txtPrateleira.Text + " não foi está cadastrada!");
-                txtPrateleira.Text = string.Empty;
-                txtPrateleira.Focus();
-                imgErro.Visible = true;
-                imgOk.Visible = false;
-            }
-        }
-    }
-
     private bool ValidaCampoAmostra(string codAmostra)
     {
         bool valido = false;
@@ -187,52 +103,34 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         return valido;
     }
 
-    private void MostraConsulta(string codConsulta, int idTipoConsulta)
+    private void MostraConsulta(string codConsulta)
     {
-        DataTable dtConsulta = CarregaInfoConsulta(codConsulta, idTipoConsulta);
+        DataTable dtConsulta = CarregaInfoConsulta(codConsulta);
 
         if (dtConsulta.Rows.Count > 0)
         {
-            divConsulta.Visible = true;            
-            divInicio.Visible = true;           
-            divOpcoes.Visible = false;
+            divConsulta.Visible = true;
+            divInicio.Visible = true;
             divRetorno.Visible = false;
             lblRetorno.Text = string.Empty;
-
-            if (idTipoConsulta == 2)
-            {
-                btImprimir.Visible = true;
-                Session["SessionTipoImpressao"] = "Consulta";
-                Session["SessionPrateleira"] = hddCodPrateleira.Value;
-            }
 
             rptConsulta.DataSource = dtConsulta;
             rptConsulta.DataBind();
         }
         else
         {
-            if (idTipoConsulta == 1)
-            {
-                MostraRetorno("A amostra " + codConsulta + " não foi cadastrada!");
-                txtAmostra.Text = string.Empty;
-                txtAmostra.Focus();
-                divAmostra.Visible = true;
-            }
-            else
-            {
-                MostraRetorno("Não existem amostras cadastradas na prateleira " + codConsulta + " !");
-                txtPrateleira.Text = string.Empty;
-                txtPrateleira.Focus();
-                divPrateleira.Visible = true;
-            }
 
+            MostraRetorno("A amostra " + codConsulta + " não foi cadastrada!");
+            txtAmostra.Text = string.Empty;
+            txtAmostra.Focus();
+            divAmostra.Visible = true;
             imgErro.Visible = true;
             imgOk.Visible = false;
         }
 
     }
 
-    private DataTable CarregaInfoConsulta(string codConsulta, int idTipoConsulta)
+    private DataTable CarregaInfoConsulta(string codConsulta)
     {
         DataTable dtInfoEstrutura = new DataTable();
 
@@ -245,17 +143,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         dtInfoEstrutura.Columns.Add("Laboratorio");
         dtInfoEstrutura.Columns.Add("Auditado");
 
-        DataTable dtInfoConsulta = new DataTable();
-
-        if (idTipoConsulta == 1)//Amostra
-        {
-            dtInfoConsulta = selecionaDados.ConsultaStatusAmostra(Convert.ToInt64(codConsulta));
-        }
-        else//Prateleira
-        {
-            dtInfoConsulta = selecionaDados.ConsultaPrateleiraAuditoria(codConsulta);
-        }
-
+        DataTable dtInfoConsulta = selecionaDados.ConsultaStatusAmostra(Convert.ToInt64(codConsulta));
 
         if (dtInfoConsulta.Rows.Count > 0)
         {
@@ -307,43 +195,6 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         {
             lblRetorno.Text = mensagem;
         }
-
-    }
-
-    protected void btOpcoes_Click(object sender, EventArgs e)
-    {
-        if (txtOpcoes.Text.Trim() == "01")
-        {
-            btDivAmostra_Click();
-        }
-        else if(txtOpcoes.Text.Trim() == "02")
-        {
-            btDivPrateleira_Click();
-        }
-        else
-        {
-            txtOpcoes.Text = string.Empty;
-            txtOpcoes.Focus();
-            MostraRetorno("Opção desconhecida. <br /> Por favor, consulte o administrador do sistema.");
-            imgErro.Visible = true;
-            imgOk.Visible = false;
-        }
-    }
-
-    private void btDivAmostra_Click()
-    {
-        txtAmostra.Focus();
-        divAmostra.Visible = true;
-        divInicio.Visible = true;
-        divOpcoes.Visible = false;
-    }
-
-    private void btDivPrateleira_Click()
-    {
-        txtPrateleira.Focus();
-        divPrateleira.Visible = true;
-        divInicio.Visible = true;
-        divOpcoes.Visible = false;
     }
 
     public void RetornaPaginaErro(string erro)

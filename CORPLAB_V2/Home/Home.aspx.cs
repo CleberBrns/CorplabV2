@@ -68,6 +68,7 @@ public partial class Home_Home : System.Web.UI.Page
                 Session["SessionQtdUnidades"] = "0";
                 if (!(dtUnidades.Rows.Count > 0))
                 {
+                    btLaboratorios.Visible = false;
                     btUsuarios.Visible = false;
                 }
                 else
@@ -111,5 +112,10 @@ public partial class Home_Home : System.Web.UI.Page
     protected void btOpcoesAdicionais_Click(object sender, EventArgs e)
     {
         Response.Redirect("../OpcoesAdicionais/Opcoes.aspx");
+    }
+
+    protected void btLaboratorios_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../OpcoesAdicionais/Laboratorios.aspx");
     }
 }

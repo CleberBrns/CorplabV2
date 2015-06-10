@@ -15,6 +15,34 @@ public class DeletaDados
     SelecionaDados selecionaDados = new SelecionaDados();
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
+    public void DeletaLaboratorio(int idLaboratorio)
+    {
+        SqlConnection sqlConnection = new SqlConnection(sConexao);
+
+        try
+        {
+            using (sqlConnection)
+            {
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "usp_laboratorio_delete";
+                sqlCommand.Parameters.AddWithValue("@idLaboratorio", idLaboratorio);
+                sqlConnection.Open();
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlCommand.Dispose();
+                sqlCommand = null;
+            }
+        }
+        finally
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+            sqlConnection = null;
+        }
+    }
 
     public void DeletaUsuario(int idUsuario)
     {

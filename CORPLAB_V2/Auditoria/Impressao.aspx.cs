@@ -62,6 +62,7 @@ public partial class Analise_Impressao : System.Web.UI.Page
         dtInfoPrateleira.Columns.Add("Prateleira");
         dtInfoPrateleira.Columns.Add("Caixa");
         dtInfoPrateleira.Columns.Add("UltimaAlteracao");
+        dtInfoPrateleira.Columns.Add("Laboratorio");
         dtInfoPrateleira.Columns.Add("Auditado");
 
         DataTable dtPrateleiraAuditoria = selecionaDados.ConsultaPrateleiraAuditoria(codPrateleira);
@@ -74,7 +75,7 @@ public partial class Analise_Impressao : System.Web.UI.Page
                     ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
                     item["Prateleira"].ToString(), item["Caixa"].ToString(),
                     ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["UltimaAlteracao"].ToString()),
-                    item["Auditoria"].ToString());
+                    item["NomeLaboratorio"].ToString(), item["Auditoria"].ToString());
             }
         }
 

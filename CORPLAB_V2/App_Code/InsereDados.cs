@@ -16,10 +16,9 @@ public class InsereDados
     string sConexao = ConfigurationManager.AppSettings.Get("sConexaoSQL");
 
 
-    public int InsereLaboratorio(string codLaboratorio, string Nome, int idTipoStatus, int idUnidade)
+    public void InsereLaboratorio(string codLaboratorio, string Nome, int idTipoStatus, int idUnidade)
     {
-        int idLaboratorio = 0;
-
+       
         SqlConnection sqlConnection = new SqlConnection(sConexao);
         try
         {
@@ -27,17 +26,14 @@ public class InsereDados
             {
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.CommandText = "usp_unidade_insert";
+                sqlCommand.CommandText = "usp_laboratorio_insert";
                 sqlCommand.Parameters.AddWithValue("@CodLaboratorio", codLaboratorio);
                 sqlCommand.Parameters.AddWithValue("@Nome", Nome);
                 sqlCommand.Parameters.AddWithValue("@IdTipoStatus", idTipoStatus);
                 sqlCommand.Parameters.AddWithValue("@IdUnidade", idUnidade);
-                sqlCommand.Parameters.AddWithValue("@IdLaboratorio", 0).Direction = ParameterDirection.Output;
-
+             
                 sqlConnection.Open();
-                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
-
-                idLaboratorio = int.Parse(sqlCommand.Parameters["@IdLaboratorio"].Value.ToString());
+                sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);               
                 sqlCommand.Dispose();
                 sqlCommand = null;
             }
@@ -50,8 +46,7 @@ public class InsereDados
             }
             sqlConnection = null;
         }
-
-        return idLaboratorio;
+        
     }
 
     public int InsereUnidade(string unidade, int idCidade, int idEstado)
@@ -262,7 +257,7 @@ public class InsereDados
         }
     }
 
-    public void InsereAmostraSaida(int idPrateleira, int idUsuario, long codAmostra, string caixa)
+    public void InsereAmostraSaida(int idPrateleira, int idUsuario, long codAmostra, string caixa, int idLaboratorio)
     {
         SqlConnection sqlConnection = new SqlConnection(sConexao);
 
@@ -279,6 +274,7 @@ public class InsereDados
                 sqlCommand.Parameters.AddWithValue("@IdAcao", 2);
                 sqlCommand.Parameters.AddWithValue("@CodAmostra", codAmostra);
                 sqlCommand.Parameters.AddWithValue("@Caixa", caixa);
+                sqlCommand.Parameters.AddWithValue("@IdLaboratorio", idLaboratorio);
 
                 sqlConnection.Open();
                 sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);

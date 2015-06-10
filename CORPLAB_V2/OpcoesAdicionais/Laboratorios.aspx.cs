@@ -15,12 +15,8 @@ public partial class Laboratorios : System.Web.UI.Page
     SelecionaDados selecionaDados = new SelecionaDados();
     AtualizaDados atualizaDados = new AtualizaDados();
 
-    string caminhoArquivo = string.Empty;
-
     protected void Page_Load(object sender, EventArgs e)
     {
-        caminhoArquivo = Server.MapPath("/ArquivosTemp/");
-
         try
         {
             if (!IsPostBack)
@@ -83,13 +79,14 @@ public partial class Laboratorios : System.Web.UI.Page
     private void CarregaLaboratorios()
     {
         DataTable dtLaboratorios = selecionaDados.ConsultaLaboratorio();
-        dtLaboratorios.DefaultView.RowFilter = "IdStatus <> 2";
-        dtLaboratorios = dtLaboratorios.DefaultView.ToTable();
+        dtLaboratorios.DefaultView.RowFilter = "IdTipoStatus <> 2";
 
         if (dtLaboratorios.Rows.Count > 0)
         {
+            dtLaboratorios = dtLaboratorios.DefaultView.ToTable();
+
             rblLaboratorios.DataSource = dtLaboratorios;
-            rblLaboratorios.DataTextField = "Laboratorio";
+            rblLaboratorios.DataTextField = "Nome";
             rblLaboratorios.DataValueField = "IdLaboratorio";
             rblLaboratorios.DataBind();
 
@@ -114,27 +111,26 @@ public partial class Laboratorios : System.Web.UI.Page
 
     private void InsereLaboratorio(string sIdUnidade, string codLab, string nomeLab)
     {
-        int idUnidade = Convert.ToInt32(sIdUnidade.Trim());        
+        int idUnidade = Convert.ToInt32(sIdUnidade.Trim());
 
         InsereDados insereDados = new InsereDados();
+        insereDados.InsereLaboratorio(codLab.Trim(), nomeLab.Trim(), 1, idUnidade);
 
-        //insereDados.InsereUsuario(nomeUsuario, login, senha, idUnidade, idTipoAcesso, 1);
     }
 
-    private void DeletaLaboratorio(string sIdUsuario)
+    private void DeletaLaboratorio(string sIdLaboratorio)
     {
-        int idUsuario = Convert.ToInt32(sIdUsuario.Trim());
+        int idLaboratiro = Convert.ToInt32(sIdLaboratorio.Trim());
 
         DeletaDados deletaDados = new DeletaDados();
 
-        deletaDados.DeletaUsuario(idUsuario);
+        deletaDados.DeletaLaboratorio(idLaboratiro);
     }
 
     private void DadosDefault()
     {
         txtNovoNome.Text = string.Empty;
-        txtNovoLogin.Text = string.Empty;
-        txtNovaSenha.Text = string.Empty;
+        txtNovoCodigo.Text = string.Empty;
     }
 
     private void DesmarcaSelecionados()
@@ -148,34 +144,10 @@ public partial class Laboratorios : System.Web.UI.Page
 
     protected void rptCadastros_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
-        Label lblTipoAcesso = (Label)e.Item.FindControl("lblTipoAcesso");
-        Label lblUnidade = (Label)e.Item.FindControl("lblUnidade");
         Label lblIdCadastro = (Label)e.Item.FindControl("lblIdCadastro");
         Panel dvLaboratorio = (Panel)e.Item.FindControl("dvLaboratorio");
 
-        TextBox txtSenha = (TextBox)e.Item.FindControl("txtSenha");
-        Label lblSenha = (Label)e.Item.FindControl("lblSenha");
-        txtSenha.Attributes.Add("value", lblSenha.Text.Trim());
-
-        lblUnidade.Text = RetornaDescricaoUnidade(Convert.ToInt32(lblUnidade.Text.Trim()));
-
         dvLaboratorio.CssClass = "none dvLaboratorio css" + lblIdCadastro.Text.Trim();
-    }
-
-    private string RetornaDescricaoUnidade(int idUnidade)
-    {
-        string nomeUnidade = "Não definida";
-
-        try
-        {
-            DataTable dtUnidades = selecionaDados.ConsultaTodasUnidades();
-            dtUnidades.DefaultView.RowFilter = "IdUnidade = " + idUnidade + "";
-
-            nomeUnidade = dtUnidades.DefaultView[0]["Unidade"].ToString().Trim();
-        }
-        catch (Exception) { }//Continua defaut
-
-        return nomeUnidade;
     }
 
     #region Ações dos Botões
@@ -184,12 +156,12 @@ public partial class Laboratorios : System.Web.UI.Page
     {
         try
         {
-            bool loginCadastrado = false;
-            loginCadastrado = VerificaLogin(txtNovoLogin.Text.Trim());
+            bool dadosJaCadastrados = false;
+            dadosJaCadastrados = VerificaCodLabCadastro(txtNovoNome.Text.Trim(), txtNovoCodigo.Text.Trim(), ddlUnidade.SelectedValue);
 
-            if (!loginCadastrado)
+            if (!dadosJaCadastrados)
             {
-                //InsereLaboratorio(ddlUnidade.SelectedValue, ddlNivelAcesso.SelectedValue, txtNovoNome.Text.Trim(), txtNovoLogin.Text.Trim(), txtNovaSenha.Text.Trim());
+                InsereLaboratorio(ddlUnidade.SelectedValue, txtNovoCodigo.Text, txtNovoNome.Text);
 
                 DadosDefault();
                 DesmarcaSelecionados();
@@ -199,7 +171,8 @@ public partial class Laboratorios : System.Web.UI.Page
             }
             else
             {
-                Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Por favor, defina um novo Código pois o digitado já está sendo usado.');", true);
+                Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Por favor, defina um novo Código e/ou" +
+                    " novo Nome pois o(s) digitado(s) já está(ão) sendo usado(s).');", true);
             }
 
         }
@@ -210,20 +183,54 @@ public partial class Laboratorios : System.Web.UI.Page
         }
     }
 
-    private bool VerificaLogin(string novoLogin)
+    private bool VerificaCodLabCadastro(string novoNome, string novoCod, string idUnidade)
     {
-        DataTable dtLoginUsuario = selecionaDados.ConsultaLoginUsuario(novoLogin);
-        dtLoginUsuario.DefaultView.RowFilter = "IdTipoStatus = 1";
-        //O mesmo login só é valido para usuários que já foram cadastrados e bloqueados posteriormente
-
-        if (dtLoginUsuario.DefaultView.Count > 0)
+        try
         {
-            return true;
+            DataTable dtLaboratorios = selecionaDados.ConsultaLaboratorio();
+            dtLaboratorios.DefaultView.RowFilter = "IdTipoStatus = 1 and IdUnidade = " + idUnidade + " and Nome = '" + novoNome +
+                                                   "' or CodLaboratorio = '" + novoCod.Trim() + "' ";
+
+            //O mesmo código só é valido para Laboratórios que já foram cadastrados e bloqueados posteriormente
+            if (dtLaboratorios.DefaultView.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch (Exception ex)
+        {
+
+            return false;
+        }
+
+    }
+
+    private bool VerificaCodigoLab(string novoCod, string idUnidade)
+    {
+        try
+        {
+            DataTable dtLaboratorios = selecionaDados.ConsultaLaboratorio();
+            dtLaboratorios.DefaultView.RowFilter = "IdTipoStatus = 1 and IdUnidade = " + idUnidade + "and CodLaboratorio = '" + novoCod.Trim() + "' ";
+
+            //O mesmo código só é valido para Laboratórios que já foram cadastrados e bloqueados posteriormente
+            if (dtLaboratorios.DefaultView.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (Exception ex)
         {
             return false;
         }
+
     }
 
     /// <summary>
@@ -239,23 +246,40 @@ public partial class Laboratorios : System.Web.UI.Page
         {
             foreach (RepeaterItem item in rptCadastros.Items)
             {
+                Label lblIdUnidade = (Label)item.FindControl("lblIdUnidade");
+                Label lblUnidade = (Label)item.FindControl("lblUnidade");
                 Label lblIdCadastro = (Label)item.FindControl("lblIdCadastro");
                 Label lblNome = (Label)item.FindControl("lblNome");
 
-                TextBox txtLogin = (TextBox)item.FindControl("txtLogin");
-                TextBox txtSenha = (TextBox)item.FindControl("txtSenha");
+                //TextBox txtNome = (TextBox)item.FindControl("txtNome");
+                TextBox txtCodigo = (TextBox)item.FindControl("txtCodigo");
 
                 if (idCadastro == lblIdCadastro.Text)
                 {
-                    //atualizaDados.AtualizaUsuario(Convert.ToInt32(idCadastro), txtLogin.Text.Trim(), txtSenha.Text.Trim());
-                    DadosDefault();
-                    DesmarcaSelecionados();
-                    CarregaDados();
-                    break;
+                    bool dadosJaCadastrados = false;
+                    dadosJaCadastrados = VerificaCodigoLab(txtCodigo.Text.Trim(), lblIdUnidade.Text.Trim());
+
+                    if (!dadosJaCadastrados)
+                    {
+                        atualizaDados.AtualizaLaboratorio(Convert.ToInt32(idCadastro), txtCodigo.Text.Trim(), lblNome.Text.Trim(), 1, Convert.ToInt32(lblIdUnidade.Text.Trim()));
+
+                        DadosDefault();
+                        DesmarcaSelecionados();
+                        CarregaDados();
+
+                        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Laboratório alterado com sucesso!');", true);
+
+                        break;
+                    }
+                    else
+                    {
+                        DesmarcaSelecionados();
+                        Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Por favor, defina um novo Código e/ou" +
+                                                            " novo Nome pois o(s) digitado(s) já está(ão) sendo usado(s).');", true);
+                        break;
+                    }
                 }
             }
-
-            Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Laboratório alterado com sucesso!');", true);
         }
         catch (Exception ex)
         {
@@ -276,7 +300,7 @@ public partial class Laboratorios : System.Web.UI.Page
 
                 if (idCadastro == lblIdCadastro.Text)
                 {
-                    //DeletaLaboratorio(idCadastro);
+                    DeletaLaboratorio(idCadastro);
                     DadosDefault();
                     DesmarcaSelecionados();
                     CarregaDados();
@@ -316,6 +340,6 @@ public partial class Laboratorios : System.Web.UI.Page
     protected void RecarregarPagina_Click(object sender, EventArgs e)
     {
         DesmarcaSelecionados();
-        Response.Redirect("../Usuarios/Usuarios.aspx");
+        Response.Redirect("../OpcoesAdicionais/Laboratorios.aspx");
     }
 }

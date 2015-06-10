@@ -27,12 +27,15 @@
             <h2>Consulta <asp:Label runat="server" ID="lblBusca" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
-                <div class="insercoes">
+                <div class="insercoes">                    
                     <div style="margin-top: 3%;" runat="server" id="divOpcoes">
-                        <div class="contBt">
-                            <asp:Button CssClass="bt" runat="server" ID="btDivAmostra" ToolTip="Consultar Amostra" Text="Amostra" OnClick="btDivAmostra_Click" />
-                            <asp:Button CssClass="bt" runat="server" ID="btDivPrateleira" ToolTip="Consultar Prateleira" Text="Prateleira" OnClick="btDivPrateleira_Click" />
-                        </div>
+                        <span>Entre com a opção de consulta</span>
+                        <asp:Panel runat="server" DefaultButton="btOpcoes" Style="margin-top: 10px">
+                            <asp:TextBox runat="server" ID="txtOpcoes" Width="180px" Height="25px" autocomplete="off" />
+                            <div style="display: none">
+                                <asp:Button runat="server" ID="btOpcoes" OnClick="btOpcoes_Click" />
+                            </div>
+                        </asp:Panel>
                     </div>
                     <div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
                         Entre com a Prateleira
@@ -76,6 +79,7 @@
                                             <td>Prateleira</td>
                                             <td>Caixa</td>
                                             <td>Ultima Alteração</td>
+                                            <td>Laboratório</td>
                                             <td>Auditado?</td>
                                         </tr>
                                 </HeaderTemplate>
@@ -87,6 +91,7 @@
                                         <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "UltimaAlteracao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Laboratorio") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Auditado") %></td>
                                     </tr>
                                 </ItemTemplate>

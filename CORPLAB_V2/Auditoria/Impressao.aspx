@@ -8,7 +8,7 @@
     <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
 
-        window.print();
+        //window.print();
 
     </script>
 </head>
@@ -37,6 +37,7 @@
                                             <td>Prateleira</td>
                                             <td>Caixa</td>
                                             <td>Ultima Alteração</td>
+                                            <td>Laboratório</td>
                                             <td>Auditado?</td>
                                         </tr>
                                 </HeaderTemplate>
@@ -48,6 +49,7 @@
                                         <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "UltimaAlteracao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Laboratorio") %></td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "Auditado") %></td>
                                     </tr>
                                 </ItemTemplate>

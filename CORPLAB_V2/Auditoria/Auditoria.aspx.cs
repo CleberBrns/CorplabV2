@@ -281,6 +281,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
         dtInfoAmostra.Columns.Add("Prateleira");
         dtInfoAmostra.Columns.Add("Caixa");
         dtInfoAmostra.Columns.Add("UltimaAlteracao");
+        dtInfoAmostra.Columns.Add("Laboratorio");
         dtInfoAmostra.Columns.Add("Auditado");
 
         if (dtInfoAmostraAuditada.Rows.Count > 0)
@@ -291,7 +292,7 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
                     ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
                     item["Prateleira"].ToString(), item["Caixa"].ToString(),
                     ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["UltimaAlteracao"].ToString()),
-                    RetornaNomeBooleano(auditado));
+                    item["NomeLaboratorio"].ToString(), RetornaNomeBooleano(auditado));
             }
         }
 

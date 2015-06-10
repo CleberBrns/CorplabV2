@@ -12,36 +12,36 @@
         <input type="hidden" runat="server" id="hddIdUnidade" />
         <input type="hidden" runat="server" id="hddIdCamara" />
         <input type="hidden" runat="server" id="hddIdEstante" />
-        <input type="hidden" runat="server" id="hddIdPrateleria" />
+        <input type="hidden" runat="server" id="hddIdLaboratorio" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
-            <h2>Sáida<%--<asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" />--%>
+            <h2>Sáida<asp:Label runat="server" ID="lblLaboratorio" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
                 <div class="insercoes">
                     <div style="margin-top: 3%;" runat="server" id="divInsercaoAtual">
                         <asp:Label runat="server" ID="lblInsercaoAtual" />
                     </div>
-                    <%--<div style="margin-top: 3%;" runat="server" id="divPrateleira" visible="false">
-                        <span>Entre com a Prateleira</span>
-                        <asp:Panel runat="server" DefaultButton="btPrateleira" Style="margin-top: 10px">
-                            <asp:TextBox runat="server" ID="txtPrateleira" Width="180px" Height="25px" autocomplete="off" />
+                    <div style="margin-top: 3%;" runat="server" id="divLaboratorio">
+                        <span>Entre com o Código do Laboratório</span>
+                        <asp:Panel runat="server" DefaultButton="btLaboratorio" Style="margin-top: 10px">
+                            <asp:TextBox runat="server" ID="txtLaboratorio" Width="180px" Height="25px" autocomplete="off" />
                             <div style="display: none">
-                                <asp:Button runat="server" ID="btPrateleira" OnClick="btPrateleira_Click" />
+                                <asp:Button runat="server" ID="btLaboratorio" OnClick="btLaboratorio_Click" />
                             </div>
                         </asp:Panel>
-                    </div>--%>
-                    <div style="margin-top: 3%;" runat="server" id="divInsercoes">
-                        Amostra a sair
-                    <asp:Panel runat="server" DefaultButton="btAmostra" style="margin-top: 10px">
-                        <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
-                        <div style="display: none">
-                            <asp:Button runat="server" ID="btAmostra" OnClick="btAmostra_Click" />
-                        </div>                      
-                    </asp:Panel>
+                    </div>
+                    <div style="margin-top: 3%;" runat="server" id="divInsercoes" visible="false">
+                        <span>Amostra a sair</span>
+                        <asp:Panel runat="server" DefaultButton="btAmostra" Style="margin-top: 10px">
+                            <asp:TextBox runat="server" ID="txtAmostra" Width="180px" Height="25px" autocomplete="off" />
+                            <div style="display: none">
+                                <asp:Button runat="server" ID="btAmostra" OnClick="btAmostra_Click" />
+                            </div>
+                        </asp:Panel>
                     </div>
                     <div style="margin-top: 3%;" runat="server" id="divProcessando" visible="false">
-                        Processando...
+                        <span>Processando...</span> 
                     <div style="margin-top: 3%">
                         <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="25%" />
                     </div>
@@ -54,13 +54,13 @@
                     </div>
                     <asp:Label runat="server" ID="lblRetorno" />
                 </div>
-                <%--<div runat="server" id="divInicio" visible="false">
+                <div runat="server" id="divInicio" visible="false">
                     <div class="rodape">
                     </div>
                     <div class="contBt">
-                        <asp:Button runat="server" ID="btNovaPrateleira" OnClick="btNovaPrateleira_Click" CssClass="bt" Text="Nova Prateleira" />
+                        <asp:Button runat="server" ID="btNovoLaboratorio" OnClick="btNovoLaboratorio_Click" CssClass="bt" Text="Novo Laboratório" />
                     </div>
-                </div>--%>
+                </div>
             </div>
             <div>
                 <div class="rodape">
