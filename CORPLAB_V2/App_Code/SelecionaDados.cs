@@ -47,7 +47,8 @@ public class SelecionaDados
             sqlConnection = null;
         }
 
-        return dtConsulta;
+        dtConsulta.DefaultView.RowFilter = "IdTipoStatus <> 2";
+        return dtConsulta.DefaultView.ToTable();
     }
 
     public DataTable ConsultaStatusAmostra(long codAmostra)

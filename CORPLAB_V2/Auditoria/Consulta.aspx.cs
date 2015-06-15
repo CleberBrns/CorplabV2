@@ -14,7 +14,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        txtPrateleira.Focus();
+        txtOpcoes.Focus();
 
         try
         {

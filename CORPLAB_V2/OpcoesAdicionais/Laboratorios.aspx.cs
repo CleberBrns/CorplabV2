@@ -79,12 +79,9 @@ public partial class Laboratorios : System.Web.UI.Page
     private void CarregaLaboratorios()
     {
         DataTable dtLaboratorios = selecionaDados.ConsultaLaboratorio();
-        dtLaboratorios.DefaultView.RowFilter = "IdTipoStatus <> 2";
 
         if (dtLaboratorios.Rows.Count > 0)
         {
-            dtLaboratorios = dtLaboratorios.DefaultView.ToTable();
-
             rblLaboratorios.DataSource = dtLaboratorios;
             rblLaboratorios.DataTextField = "Nome";
             rblLaboratorios.DataValueField = "IdLaboratorio";
@@ -188,7 +185,7 @@ public partial class Laboratorios : System.Web.UI.Page
         try
         {
             DataTable dtLaboratorios = selecionaDados.ConsultaLaboratorio();
-            dtLaboratorios.DefaultView.RowFilter = "IdTipoStatus = 1 and IdUnidade = " + idUnidade + " and Nome = '" + novoNome +
+            dtLaboratorios.DefaultView.RowFilter = "IdUnidade = " + idUnidade + " and Nome = '" + novoNome +
                                                    "' or CodLaboratorio = '" + novoCod.Trim() + "' ";
 
             //O mesmo código só é valido para Laboratórios que já foram cadastrados e bloqueados posteriormente
@@ -214,7 +211,7 @@ public partial class Laboratorios : System.Web.UI.Page
         try
         {
             DataTable dtLaboratorios = selecionaDados.ConsultaLaboratorio();
-            dtLaboratorios.DefaultView.RowFilter = "IdTipoStatus = 1 and IdUnidade = " + idUnidade + "and CodLaboratorio = '" + novoCod.Trim() + "' ";
+            dtLaboratorios.DefaultView.RowFilter = "IdUnidade = " + idUnidade + "and CodLaboratorio = '" + novoCod.Trim() + "' ";
 
             //O mesmo código só é valido para Laboratórios que já foram cadastrados e bloqueados posteriormente
             if (dtLaboratorios.DefaultView.Count > 0)
