@@ -127,28 +127,28 @@ public partial class Acoes_Saida : System.Web.UI.Page
         }
         else
         {
-            try
+            //try
+            //{
+            bool formatoCorreto = ValidaCampoAmostra(txtAmostra.Text.Trim());
+
+            if (formatoCorreto)
             {
-                bool formatoCorreto = ValidaCampoAmostra(txtAmostra.Text.Trim());
-
-                if (formatoCorreto)
-                {
-                    InsereAmostraSaida(txtAmostra.Text.Trim(), string.Empty);
-                }
-                else
-                {
-                    MostraRetorno("O campo Amostra só aceita caracteres numéricos. <br /> Por favor, consulte o administrador do sistema.");
-                    imgErro.Visible = true;
-                    imgOk.Visible = false;
-                }
-
+                InsereAmostraSaida(txtAmostra.Text.Trim(), string.Empty);
             }
-            catch (Exception ex)
+            else
             {
-                MostraRetorno("Ocorreu um erro ao tentar executar a Saída da amostra; " + txtAmostra.Text.Trim());
+                MostraRetorno("O campo Amostra só aceita caracteres numéricos. <br /> Por favor, consulte o administrador do sistema.");
                 imgErro.Visible = true;
                 imgOk.Visible = false;
             }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    MostraRetorno("Ocorreu um erro ao tentar executar a Saída da amostra; " + txtAmostra.Text.Trim());
+            //    imgErro.Visible = true;
+            //    imgOk.Visible = false;
+            //}
 
         }
     }
@@ -182,63 +182,63 @@ public partial class Acoes_Saida : System.Web.UI.Page
 
     private void InsereAmostraSaida(string sCodAmostra, string caixa)
     {
-        try
+        //try
+        //{
+        divProcessando.Visible = true;
+        divInsercoes.Visible = false;
+
+        long codAmostra = Convert.ToInt64(sCodAmostra);
+
+        DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
+        if (dtStatusAmos.Rows.Count > 0)
         {
-            divProcessando.Visible = true;
-            divInsercoes.Visible = false;
+            string statusAmostra = string.Empty;
 
-            long codAmostra = Convert.ToInt64(sCodAmostra);
+            statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
 
-            DataTable dtStatusAmos = selecionaDados.ConsultaStatusAmostra(codAmostra);
-            if (dtStatusAmos.Rows.Count > 0)
+            if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
             {
-                string statusAmostra = string.Empty;
-
-                statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
-
-                if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
-                {
-                    MostraRetornoErro("A amostra " + sCodAmostra + " foi descartada <br/> e já não pode passar por qualquer nova Ação.");
-                    divProcessando.Visible = false;
-                    txtAmostra.Text = string.Empty;
-                    txtAmostra.Focus();
-                }
-                else if (statusAmostra != string.Empty && statusAmostra.ToLower() == "saída")
-                {
-                    MostraRetornoErro("A amostra " + sCodAmostra + " já passou por essa Ação <br/> e ainda não foi retornada para alguma prateleira.");
-                    divProcessando.Visible = false;
-                    txtAmostra.Text = string.Empty;
-                    txtAmostra.Focus();
-                }
-                else
-                {
-                    int idPrateleira = Convert.ToInt32(dtStatusAmos.DefaultView[0]["IdPrateleira"].ToString());
-
-                    insereDados.InsereAmostraSaida(idPrateleira, Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa,
-                                                   Convert.ToInt32(hddIdLaboratorio.Value.Trim()));
-
-                    MostraRetorno("Saída da amostra executada com sucesso.");
-
-                    imgOk.Visible = true;
-                    imgErro.Visible = false;
-
-                    txtAmostra.Text = string.Empty;
-                    divProcessando.Visible = false;
-                    divInsercoes.Visible = true;
-                }
-            }
-            else
-            {
-                MostraRetornoErro("A amostra " + sCodAmostra + " ainda não foi cadastrada, <br /> A mesma deve passar pela a ação de Recepção." +
-                    "<br /> Qualquer dúvida, por favor, consulte o administrador do sistema");
+                MostraRetornoErro("A amostra " + sCodAmostra + " foi descartada <br/> e já não pode passar por qualquer nova Ação.");
+                divProcessando.Visible = false;
                 txtAmostra.Text = string.Empty;
                 txtAmostra.Focus();
             }
+            else if (statusAmostra != string.Empty && statusAmostra.ToLower() == "saída")
+            {
+                MostraRetornoErro("A amostra " + sCodAmostra + " já passou por essa Ação <br/> e ainda não foi retornada para alguma prateleira.");
+                divProcessando.Visible = false;
+                txtAmostra.Text = string.Empty;
+                txtAmostra.Focus();
+            }
+            else
+            {
+                int idPrateleira = Convert.ToInt32(dtStatusAmos.DefaultView[0]["IdPrateleira"].ToString());
+
+                insereDados.InsereAmostraSaida(idPrateleira, Convert.ToInt32(hddIdUsuario.Value.Trim()), codAmostra, caixa,
+                                               Convert.ToInt32(hddIdLaboratorio.Value.Trim()));
+
+                MostraRetorno("Saída da amostra executada com sucesso.");
+
+                imgOk.Visible = true;
+                imgErro.Visible = false;
+
+                txtAmostra.Text = string.Empty;
+                divProcessando.Visible = false;
+                divInsercoes.Visible = true;
+            }
         }
-        catch (Exception ex)
+        else
         {
-            MostraRetornoErro("Ocorreu um erro ao tentar executar a Saída da amostra. <br /> Por favor, consulte o administrador do sistema");
+            MostraRetornoErro("A amostra " + sCodAmostra + " ainda não foi cadastrada, <br /> A mesma deve passar pela a ação de Recepção." +
+                "<br /> Qualquer dúvida, por favor, consulte o administrador do sistema");
+            txtAmostra.Text = string.Empty;
+            txtAmostra.Focus();
         }
+        //}
+        //catch (Exception ex)
+        //{
+        //    MostraRetornoErro("Ocorreu um erro ao tentar executar a Saída da amostra. <br /> Por favor, consulte o administrador do sistema");
+        //}
 
     }
 
