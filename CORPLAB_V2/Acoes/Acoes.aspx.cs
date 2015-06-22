@@ -61,6 +61,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
 
         if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
         {
+            imgAcaoAuditoria.Visible = true;
             btMenuPrincial.Visible = true;
         }
         else//Usuário

@@ -35,6 +35,25 @@
             </div>
             <div class="rodape">
             </div>
+            <div runat="server" id="divCodAcoes" style="text-align: center">
+                <div>
+                    <img src="../Imagens/Acao-Recepcao.png" />
+                    <img src="../Imagens/Acao-Entrada.png" />
+                </div>
+                <div>
+                    <img src="../Imagens/Acao-Saida.png" />
+                    <img src="../Imagens/Acao-Descarte.png" />
+                </div>
+                <div>
+                    <img runat="server" id="imgAcaoAuditoria" visible="false" src="../Imagens/Acao-Auditoria.png" />
+                    <img src="../Imagens/Acao-Consultar.png" />
+                </div>
+                <div>
+                    <img src="../Imagens/Acao-ImportarArquivo.png" />
+                </div>
+            </div>
+            <div class="rodape" style="margin-bottom: 3%;">
+            </div>
             <div class="contBt">
                 <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" Visible="false" />
                 <asp:Button runat="server" ID="btSair" CssClass="bt" Text="Sair" OnClick="btSair_Click" Visible="false" />

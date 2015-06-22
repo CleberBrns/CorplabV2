@@ -107,7 +107,7 @@
                         <asp:Image runat="server" ID="imgProcessando" ImageUrl="~/Imagens/loading.gif" Width="25%" />
                     </div>
                     </div>
-                </div>              
+                </div>                
                 <div runat="server" id="divInicio" style="padding-top: 2%;" visible="false">
                     <div class="rodape">
                     </div>
@@ -118,6 +118,12 @@
                 </div>
             </div>
             <div class="rodape">
+            </div>
+            <div runat="server" id="divCodAcoes" style="text-align: center">
+                <img src="../Imagens/ConsultaAmostra.png" />
+                <img src="../Imagens/ConsultaPrateleira.png" />
+            </div>
+            <div class="rodape" style="margin-bottom: 3%;">
             </div>
             <div class="contBt">
                 <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" Visible="false" />
