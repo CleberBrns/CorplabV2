@@ -55,7 +55,19 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
         {
             btMenuPrincial.Visible = true;
-        }       
+        }
+
+        try
+        {
+            string osVer = System.Environment.OSVersion.ToString().ToLower();
+
+            if (osVer.Contains("windows"))
+            {
+                divCodAcoes.Visible = true;
+            }
+
+        }
+        catch (Exception ex) { }//Div continua escondida
     }
 
     private void CamposDefault()

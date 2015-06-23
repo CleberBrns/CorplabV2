@@ -119,7 +119,7 @@
             </div>
             <div class="rodape">
             </div>
-            <div runat="server" id="divCodAcoes" style="text-align: center">
+            <div runat="server" id="divCodAcoes" visible="false" style="text-align: center">
                 <img src="../Imagens/ConsultaAmostra.png" />
                 <img src="../Imagens/ConsultaPrateleira.png" />
             </div>

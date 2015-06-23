@@ -56,7 +56,7 @@ public partial class Acoes_Acoes : System.Web.UI.Page
     }
 
     private void CarregaPagina()
-    {
+    {        
         hddIdUnidade.Value = Session["SessionIdUnidade"].ToString();
 
         if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
@@ -68,6 +68,19 @@ public partial class Acoes_Acoes : System.Web.UI.Page
         {
             btSair.Visible = true;
         }
+
+        try
+        {
+            string osVer = System.Environment.OSVersion.ToString().ToLower();
+                        
+            if (osVer.Contains("windows"))
+            {
+                divCodAcoes.Visible = true;
+            }
+
+        }
+        catch (Exception ex) { }//Div continua escondida
+
     }
 
     protected void btAcao_Click(object sender, EventArgs e)
