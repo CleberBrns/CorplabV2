@@ -14,6 +14,9 @@
         <input type="hidden" runat="server" id="hddCodPrateleira" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
+            <div runat="server" id="divLogo" style="text-align: center">
+                <img src="../Imagens/logo_final_alscorplab.jpg" width="352px" />
+            </div>
             <h2>Consultar <asp:Label runat="server" ID="lblUnidade" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
@@ -72,6 +75,7 @@
             <div class="contBt">
                 <asp:Button runat="server" CssClass="bt" ID="btInicio" OnClick="btInicio_Click" Text="Nova Consulta" Visible="false" />
                 <asp:Button runat="server" ID="btImprimir" OnClick="btImprimir_Click" CssClass="bt" Text="Imprimir" Visible="false" />
+                <asp:Button runat="server" ID="btMenuUnidades" OnClick="btMenuUnidades_Click" CssClass="bt" Text="Menu Unidades" />
                 <asp:Button runat="server" ID="btMenuPrincial" OnClick="btMenuPrincipal_Click" CssClass="bt" Text="Menu Principal" />                
             </div>
         </div>

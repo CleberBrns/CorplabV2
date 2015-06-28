@@ -13,6 +13,9 @@
     <input type="hidden" id="hddErro" runat="server" />
     <input type="hidden" id="hddConfirmacao" name="hddConfirmacao" runat="server" />
     <div id="divCadastro" runat="server" class="pagina">
+        <div runat="server" id="divLogo" style="text-align: center">
+            <img src="../Imagens/logo_final_alscorplab.jpg" width="352px" />
+        </div>
         <div class="header">
             Gerenciar Usuários
         </div>

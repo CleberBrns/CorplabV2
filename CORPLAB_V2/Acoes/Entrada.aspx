@@ -15,6 +15,9 @@
         <input type="hidden" runat="server" id="hddIdPrateleria" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
+            <div runat="server" id="divLogo" style="text-align: center">
+                <img src="../Imagens/logo_final_alscorplab.jpg" width="352px" />
+            </div>
             <h2>Entrada<asp:Label runat="server" ID="lblPrateleira" CssClass="lblCamara" /><asp:Label runat="server" ID="lblComCaixa" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">

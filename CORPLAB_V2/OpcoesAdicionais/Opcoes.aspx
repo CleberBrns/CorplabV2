@@ -10,7 +10,10 @@
 <body>
     <form id="form1" runat="server">
         <div runat="server" id="divConteudo">
-            <div class="pagina">              
+            <div class="pagina">
+                <div runat="server" id="divLogo" style="text-align: center">
+                    <img src="../Imagens/logo_final_alscorplab.jpg" width="352px" />
+                </div>            
                 <div class="contBt">
                     <asp:Button runat="server" ID="btLaboratorios" CssClass="bt" Text="Gerenciar Laboratórios"
                         OnClick="btLaboratorios_Click" />

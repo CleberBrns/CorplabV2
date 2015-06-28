@@ -197,4 +197,10 @@ public partial class Auditoria_Auditoria : System.Web.UI.Page
     {
         Response.Redirect("../Home/Home.aspx");
     }
+
+    protected void btMenuUnidades_Click(object sender, EventArgs e)
+    {
+        hddIdUnidade.Value = string.Empty;
+        Response.Redirect("../Unidades/Unidades.aspx");
+    }
 }

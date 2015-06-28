@@ -14,6 +14,9 @@
     <form id="form1" runat="server">
     <input type="hidden" runat="server" id="hddInclusoes" />
     <div class="pagina" runat="server" id="divErro">
+        <div runat="server" id="divLogo" style="text-align: center">
+            <img src="../Imagens/logo_final_alscorplab.jpg" width="352px" />
+        </div>
         <div style="text-align: center;">
             <h4>
                 Ocorreu um erro inesperado.</h4>

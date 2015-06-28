@@ -8,7 +8,7 @@
     <link href="../Styles/Auditoria.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
 
-        //window.print();
+        window.print();
 
     </script>
 </head>
@@ -18,6 +18,9 @@
         <input type="hidden" id="hddErro" runat="server" />
         <div runat="server" id="divConteudo">
             <div class="pagina">
+            <div runat="server" id="divLogo" style="text-align: center">
+                <img src="../Imagens/logo_final_alscorplab.jpg" width="352px" />
+            </div>
                 <div style="text-align: center">
                     <h2>
                         <asp:Label runat="server" ID="lblTipoImpressao" />

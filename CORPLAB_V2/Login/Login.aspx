@@ -12,6 +12,9 @@
     <form id="form1" runat="server">
         <div runat="server" id="divLogin">
             <div class="pagina paginaLogin">
+                <div runat="server" id="divLogo" style="text-align: center">
+                    <img src="../Imagens/logo_final_alscorplab.jpg" width="270px" />
+                </div>
                 <div>
                     <h4>Login:</h4>
                     <asp:TextBox ID="txtLogin" Style="margin-top: 5px; margin-bottom: 5px;" runat="server" Width="100%"></asp:TextBox>

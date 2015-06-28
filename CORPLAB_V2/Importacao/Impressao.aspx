@@ -18,6 +18,9 @@
         <input type="hidden" id="hddErro" runat="server" />
         <div runat="server" id="divConteudo">
             <div class="pagina">
+                <div runat="server" id="divLogo" style="text-align: center">
+                    <img src="../Imagens/logo_final_alscorplab.jpg" width="352px" />
+                </div>
                 <div style="text-align: center">
                     <h3><span>Importação</span>
                         <asp:Label runat="server" ID="lblNomeArquivo" CssClass="lblCamara" />

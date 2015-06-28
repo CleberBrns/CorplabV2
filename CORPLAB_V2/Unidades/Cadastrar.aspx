@@ -13,6 +13,9 @@
         <input type="hidden" runat="server" id="hddIdEstante" />
         <input type="hidden" id="hddErro" runat="server" />
         <div class="pagina" runat="server" id="divPagina">
+            <div runat="server" id="divLogo" style="text-align: center">
+                <img src="../Imagens/logo_final_alscorplab.jpg" width="352px" />
+            </div>
             <h2>Nova Unidade<asp:Label runat="server" ID="lblUnidade" CssClass="lblCamara" /><asp:Label runat="server" ID="lblCamara" CssClass="lblCamara" /><asp:Label runat="server" ID="lblEstante" CssClass="lblCamara" />
             </h2>
             <div style="padding-bottom: 3%;">
