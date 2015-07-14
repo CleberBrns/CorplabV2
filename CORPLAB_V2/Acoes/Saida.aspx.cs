@@ -127,28 +127,28 @@ public partial class Acoes_Saida : System.Web.UI.Page
         }
         else
         {
-            //try
-            //{
-            bool formatoCorreto = ValidaCampoAmostra(txtAmostra.Text.Trim());
+            try
+            {
+                bool formatoCorreto = ValidaCampoAmostra(txtAmostra.Text.Trim());
 
-            if (formatoCorreto)
-            {
-                InsereAmostraSaida(txtAmostra.Text.Trim(), string.Empty);
+                if (formatoCorreto)
+                {
+                    InsereAmostraSaida(txtAmostra.Text.Trim(), string.Empty);
+                }
+                else
+                {
+                    MostraRetorno("O campo Amostra só aceita caracteres numéricos. <br /> Por favor, consulte o administrador do sistema.");
+                    imgErro.Visible = true;
+                    imgOk.Visible = false;
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                MostraRetorno("O campo Amostra só aceita caracteres numéricos. <br /> Por favor, consulte o administrador do sistema.");
+                MostraRetorno("Ocorreu um erro ao tentar executar a Saída da amostra; " + txtAmostra.Text.Trim());
                 imgErro.Visible = true;
                 imgOk.Visible = false;
             }
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    MostraRetorno("Ocorreu um erro ao tentar executar a Saída da amostra; " + txtAmostra.Text.Trim());
-            //    imgErro.Visible = true;
-            //    imgOk.Visible = false;
-            //}
 
         }
     }

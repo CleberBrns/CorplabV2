@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Saída - ALS CorpLab</title>
-    <link href="../Styles/Acoes.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/Saida.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <form id="form1" runat="server">        
@@ -62,6 +62,38 @@
                     </div>
                     <div class="contBt">
                         <asp:Button runat="server" ID="btNovoLaboratorio" OnClick="btNovoLaboratorio_Click" CssClass="bt" Text="Novo Laboratório" />
+                    </div>
+                </div>
+            </div>
+            <div class="rodape">
+            </div>
+            <div runat="server" id="divCodLabs" style="text-align: center">
+                <div>
+                    <div>
+                        <img src="../Imagens/Labs/Imeditas.png" />
+                        <img src="../Imagens/Labs/DBO-DQO.png" />
+                        <img src="../Imagens/Labs/Fenol.png" />
+                        <img src="../Imagens/Labs/Surfactantes.png" />
+                    </div>
+                    <div>
+
+                        <img src="../Imagens/Labs/Fosfato.png" />
+                        <img src="../Imagens/Labs/Varredura.png" />
+                        <img src="../Imagens/Labs/Cianeto.png" />
+                        <img src="../Imagens/Labs/Sulfeto.png" />
+                    </div>
+                    <div>
+
+                        <img src="../Imagens/Labs/TOC.png" />
+                        <img src="../Imagens/Labs/SerieNitrogenada.png" />
+                        <img src="../Imagens/Labs/SeriedeSolidos.png" />
+                        <img src="../Imagens/Labs/Metais.png" />
+                    </div>
+                    <div>
+                        <img src="../Imagens/Labs/VOC.png" />
+                        <img src="../Imagens/Labs/Microbiologia.png" />
+                        <img src="../Imagens/Labs/NBR.png" />
+                        <img src="../Imagens/Labs/Extracao.png" />
                     </div>
                 </div>
             </div>
