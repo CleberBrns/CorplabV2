@@ -84,6 +84,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
     protected void btInicio_Click(object sender, EventArgs e)
     {
         CamposDefault();
+        divCodAcoes.Visible = true;
         divOpcoes.Visible = true;
         divInicio.Visible = false;       
         divAmostra.Visible = false;
@@ -244,6 +245,13 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
     }
 
+    /// <summary>
+    /// idTipoConsulta 1 = Amostra
+    /// idTipoConsulta 2 = Prateleira
+    /// </summary>
+    /// <param name="codConsulta"></param>
+    /// <param name="idTipoConsulta"></param>
+    /// <returns></returns>
     private DataTable CarregaInfoConsulta(string codConsulta, int idTipoConsulta)
     {
         DataTable dtInfoEstrutura = new DataTable();
@@ -256,6 +264,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         dtInfoEstrutura.Columns.Add("UltimaAlteracao");
         dtInfoEstrutura.Columns.Add("Laboratorio");
         dtInfoEstrutura.Columns.Add("Auditado");
+        dtInfoEstrutura.Columns.Add("IdAcao");
 
         DataTable dtInfoConsulta = new DataTable();
 
@@ -266,6 +275,9 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         else//Prateleira
         {
             dtInfoConsulta = selecionaDados.ConsultaPrateleiraAuditoria(codConsulta);
+
+            dtInfoConsulta.DefaultView.RowFilter = "IdAcao in (1,3)";
+            dtInfoConsulta = dtInfoConsulta.DefaultView.ToTable();
         }
 
 
@@ -277,7 +289,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
                     ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
                     item["Prateleira"].ToString(), item["Caixa"].ToString(),
                     ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["UltimaAlteracao"].ToString()),
-                    item["NomeLaboratorio"].ToString(), item["Auditoria"].ToString());
+                    item["NomeLaboratorio"].ToString(), item["Auditoria"].ToString(), item["IdAcao"].ToString());
             }
         }
 
@@ -348,6 +360,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         divAmostra.Visible = true;
         divInicio.Visible = true;
         divOpcoes.Visible = false;
+        divCodAcoes.Visible = false;
     }
 
     private void btDivPrateleira_Click()
@@ -356,6 +369,7 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         divPrateleira.Visible = true;
         divInicio.Visible = true;
         divOpcoes.Visible = false;
+        divCodAcoes.Visible = false;
     }
 
     public void RetornaPaginaErro(string erro)

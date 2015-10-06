@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Impressão - ALS CorpLab</title>
-    <link href="../Styles/Importacao.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/Impressao.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
 
         //window.print();
@@ -35,12 +35,18 @@
                                         <tr class="amostrasPrateleira" style="background-color: #DDD;">
                                             <td>CodAmostra</td>                                            
                                             <td>Prateleira</td>
+                                            <td>Caixa</td>
+                                            <td>Ultima Altereção</td>
+                                            <td>Laboratório</td>
                                         </tr>
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <tr class="amostrasGrupo">
                                         <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>                                        
                                         <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "UltimaAlteracao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Laboratorio") %></td>
                                     </tr>
                                 </ItemTemplate>
                                 <FooterTemplate>
@@ -51,7 +57,7 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="rodape">
+                <div class="rodape" style="margin-top: 3%;">
                 </div>
                 <%--<div class="clear" style="padding-top: 40px;"></div>
                 <div class="divAssinaturas">

@@ -22,6 +22,11 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
             {
                 if (Session["SessionUsuario"].ToString() != string.Empty)
                 {
+                    if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
+                    {
+                        btMenuPrincial.Visible = true;
+                    }
+
                     if (!IsPostBack)
                         CarregaPagina();
                 }
@@ -60,7 +65,6 @@ public partial class Acoes_Recepcao : System.Web.UI.Page
         txtPrateleira.Focus();
 
     }
-
 
     protected void btPrateleira_Click(object sender, EventArgs e)
     {

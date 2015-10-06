@@ -68,7 +68,9 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                 DataTable dtDadosUpload = new DataTable();
                 string FileName = Server.HtmlEncode(fUpload.FileName);
                 string caminhoArquivo = string.Empty;
+                //Caminho local
                 //string caminhoDestino = Server.MapPath("/ArquivosTemp/");
+                //Caminho para o servidor
                 string caminhoDestino = @"C:\camarafria\ArquivosTemp\";
 
                 if (Directory.Exists(caminhoDestino))
@@ -211,6 +213,9 @@ public partial class Importacao_Importacao : System.Web.UI.Page
 
         dtInfoEstrutura.Columns.Add("CodAmostra");        
         dtInfoEstrutura.Columns.Add("Prateleira");
+        dtInfoEstrutura.Columns.Add("Caixa");
+        dtInfoEstrutura.Columns.Add("UltimaAlteracao");
+        dtInfoEstrutura.Columns.Add("Laboratorio");
 
         DataTable dtInfoConsulta = new DataTable();
 
@@ -227,16 +232,17 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                     {
                         prateleira = string.Empty;
                     }
-                    dtInfoEstrutura.Rows.Add(item.ToString(), prateleira);
+                    dtInfoEstrutura.Rows.Add(item.ToString(), prateleira, dtAmostra.DefaultView[0]["caixa"].ToString(),
+                        dtAmostra.DefaultView[0]["UltimaAlteracao"].ToString(), dtAmostra.DefaultView[0]["NomeLaboratorio"].ToString());
                 }
                 else
                 {
-                    dtInfoEstrutura.Rows.Add(item.ToString(), string.Empty);
+                    dtInfoEstrutura.Rows.Add(item.ToString(), "Não Cadastrada", string.Empty, string.Empty, string.Empty);
                 }
             }
             else
             {
-                dtInfoEstrutura.Rows.Add(item.ToString(), string.Empty);
+                dtInfoEstrutura.Rows.Add("Formato não suportado", string.Empty, string.Empty, string.Empty, string.Empty);
             }
         }
 

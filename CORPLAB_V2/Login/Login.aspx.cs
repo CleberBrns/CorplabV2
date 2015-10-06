@@ -72,7 +72,7 @@ public partial class Login_Login : System.Web.UI.Page
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 txtLogin.Focus();
                 divRetorno.Visible = true;

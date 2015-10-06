@@ -84,13 +84,19 @@
                                     <table cellspacing="0" cellpadding="0" width="100%">
                                         <tr class="amostrasPrateleira" style="background-color: #DDD;">
                                             <td>CodAmostra</td>                                                                              
-                                            <td>Prateleira</td>                                     
+                                            <td>Prateleira</td>
+                                            <td>Caixa</td>                                                                              
+                                            <td>Ultima Altereção</td>   
+                                            <td>Laboratório</td>          
                                         </tr>
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <tr class="amostrasGrupo">
                                         <td><%# DataBinder.Eval(Container.DataItem, "CodAmostra") %></td>                                      
                                         <td><%# DataBinder.Eval(Container.DataItem, "Prateleira") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Caixa") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "UltimaAlteracao") %></td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "Laboratorio") %></td>
                                     </tr>
                                 </ItemTemplate>
                                 <FooterTemplate>

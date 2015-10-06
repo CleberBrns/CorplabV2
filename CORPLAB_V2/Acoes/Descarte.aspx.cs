@@ -22,6 +22,11 @@ public partial class Acoes_Descarte : System.Web.UI.Page
             {
                 if (Session["SessionUsuario"] != null)
                 {
+                    if (Session["SessionIdTipoAcesso"].ToString() == "1")//Adm
+                    {
+                        btMenuPrincial.Visible = true;
+                    }
+
                     if (!IsPostBack)
                         CarregaPagina();
                 }
