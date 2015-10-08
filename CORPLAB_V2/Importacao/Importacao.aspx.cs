@@ -237,7 +237,7 @@ public partial class Importacao_Importacao : System.Web.UI.Page
                 }
                 else
                 {
-                    dtInfoEstrutura.Rows.Add(item.ToString(), "Não Cadastrada", string.Empty, string.Empty, string.Empty);
+                    dtInfoEstrutura.Rows.Add(item.ToString(), string.Empty, string.Empty, "Não Cadastrada", string.Empty);
                 }
             }
             else
