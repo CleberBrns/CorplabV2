@@ -8,6 +8,8 @@ using System.Data;
 using System.Xml;
 using System.Web.Services;
 using System.IO;
+using System.Xml.Linq;
+using System.Configuration;
 
 public partial class Laboratorios : System.Web.UI.Page
 {
@@ -66,6 +68,8 @@ public partial class Laboratorios : System.Web.UI.Page
         Response.Redirect("../Login/Login.aspx");
     }
 
+    #region Carrega Dados Gerais
+
     /// <summary>
     /// Inicia a pagina
     /// </summary>
@@ -112,7 +116,6 @@ public partial class Laboratorios : System.Web.UI.Page
 
         InsereDados insereDados = new InsereDados();
         insereDados.InsereLaboratorio(codLab.Trim(), nomeLab.Trim(), 1, idUnidade);
-
     }
 
     private void DeletaLaboratorio(string sIdLaboratorio)
@@ -143,11 +146,93 @@ public partial class Laboratorios : System.Web.UI.Page
     {
         Label lblIdCadastro = (Label)e.Item.FindControl("lblIdCadastro");
         Panel dvLaboratorio = (Panel)e.Item.FindControl("dvLaboratorio");
+        CheckBox ckbDescarteDireto = (CheckBox)e.Item.FindControl("ckbDescarteDireto");
+
+        if (lblIdCadastro != null && ckbDescarteDireto != null)
+        {
+            List<Laboratorio> labsDD = ListarLabsDescarteDireto();
+
+            foreach (Laboratorio lab in labsDD)
+            {
+                if (lab.PkIdLaboratorio.ToString() == lblIdCadastro.Text.Trim())
+                {
+                    ckbDescarteDireto.Checked = true;
+                }
+            }
+        }
 
         dvLaboratorio.CssClass = "none dvLaboratorio css" + lblIdCadastro.Text.Trim();
+        ckbDescarteDireto.CssClass = lblIdCadastro.Text.Trim();
     }
 
-    #region Ações dos Botões
+    #endregion
+
+    #region XML LabsDescarteDireto
+
+    public string CaminhoPastaXML()
+    {
+        //Caminho local
+        string caminhoPastaXml = Server.MapPath("/ArquivosPermanentes/LabsDescarteDireto.xml");
+
+        if (ConfigurationManager.AppSettings.Get("sConexaoSQL") == "1")
+        {
+            //Caminho para o servidor
+            caminhoPastaXml = @"C:\camarafria\ArquivosPermanentes\LabsDescarteDireto.xml";
+        }
+
+        return caminhoPastaXml;
+    }
+
+    public List<Laboratorio> ListarLabsDescarteDireto()
+    {
+        List<Laboratorio> labsDescarteDireto = new List<Laboratorio>();
+
+        if (File.Exists(CaminhoPastaXML()))
+        {
+            try
+            {
+                XElement xml = XElement.Load(CaminhoPastaXML());
+                foreach (XElement x in xml.Elements())
+                {
+                    if (!string.IsNullOrEmpty(x.Value.Trim()))
+                    {
+                        Laboratorio lab = new Laboratorio()
+                        {
+                            PkIdLaboratorio = int.Parse(x.Value.Trim()),
+                        };
+                        labsDescarteDireto.Add(lab);
+                    }
+                }
+            }
+            catch (Exception ex) { }//Caso o arquivo seja apagado não será exibido um erro  
+        }
+
+        return labsDescarteDireto;
+    }
+
+    public void AdicionaLabDescarteDireto(Laboratorio lab)
+    {
+        XElement x = new XElement("PkIdLaboratorio");
+        x.Add(lab.PkIdLaboratorio);
+        XElement xml = XElement.Load(CaminhoPastaXML());
+        xml.Add(x);
+        xml.Save(CaminhoPastaXML());
+    }
+
+    public void ExcluirLabDescarteDireto(int pkIdLaboratorio)
+    {
+        XElement xml = XElement.Load(CaminhoPastaXML());
+        XElement x = xml.Elements().Where(p => p.Value.Equals(pkIdLaboratorio.ToString())).First();
+        if (x != null)
+        {
+            x.Remove();
+        }
+        xml.Save(CaminhoPastaXML());
+    }
+
+    #endregion
+
+    #region Ações dos Botões e Load
 
     protected void btCadastrar_Click(object sender, EventArgs e)
     {
@@ -248,7 +333,6 @@ public partial class Laboratorios : System.Web.UI.Page
                 Label lblIdCadastro = (Label)item.FindControl("lblIdCadastro");
                 Label lblNome = (Label)item.FindControl("lblNome");
 
-                //TextBox txtNome = (TextBox)item.FindControl("txtNome");
                 TextBox txtCodigo = (TextBox)item.FindControl("txtCodigo");
 
                 if (idCadastro == lblIdCadastro.Text)
@@ -258,7 +342,8 @@ public partial class Laboratorios : System.Web.UI.Page
 
                     if (!dadosJaCadastrados)
                     {
-                        atualizaDados.AtualizaLaboratorio(Convert.ToInt32(idCadastro), txtCodigo.Text.Trim(), lblNome.Text.Trim(), 1, Convert.ToInt32(lblIdUnidade.Text.Trim()));
+                        atualizaDados.AtualizaLaboratorio(Convert.ToInt32(idCadastro), txtCodigo.Text.Trim(), lblNome.Text.Trim(), 1,
+                            Convert.ToInt32(lblIdUnidade.Text.Trim()));
 
                         DadosDefault();
                         DesmarcaSelecionados();
@@ -282,6 +367,63 @@ public partial class Laboratorios : System.Web.UI.Page
         {
             Session["ExcessaoDeErro"] = ex.ToString();
             Response.Redirect("../Erro/Erro.aspx");
+        }
+    }
+
+    protected void ckbDescarteDireto_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            foreach (RepeaterItem item in rptCadastros.Items)
+            {
+                Label lblIdCadastro = (Label)item.FindControl("lblIdCadastro");
+                CheckBox ckbDescarteDireto = (CheckBox)item.FindControl("ckbDescarteDireto");
+
+                if (!string.IsNullOrEmpty(lblIdCadastro.Text))
+                {
+                    if (ckbDescarteDireto.Checked)
+                    {
+                        List<Laboratorio> labsDD = ListarLabsDescarteDireto();
+                        labsDD = labsDD.Where(x => x.PkIdLaboratorio.ToString() == lblIdCadastro.Text.Trim()).ToList();
+
+                        if (labsDD.Count <= 0)
+                        {
+                            Laboratorio lab = new Laboratorio()
+                            {
+                                PkIdLaboratorio = Convert.ToInt32(lblIdCadastro.Text.Trim()),
+                            };
+                            AdicionaLabDescarteDireto(lab);
+
+                            Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Laboratório inserido no Descarte Direto com sucesso!');", true);
+                        }
+                    }
+                    else
+                    {
+                        List<Laboratorio> labsDD = ListarLabsDescarteDireto();
+                        labsDD = labsDD.Where(x => x.PkIdLaboratorio.ToString() == lblIdCadastro.Text.Trim()).ToList();
+
+                        if (labsDD.Count > 0)
+                        {
+                            for (int idLab = 0; idLab < labsDD.Count; idLab++)
+                            {
+                                if (!string.IsNullOrEmpty(labsDD[idLab].PkIdLaboratorio.ToString()) && labsDD[idLab].PkIdLaboratorio != 0)
+                                {
+                                    ExcluirLabDescarteDireto(labsDD[idLab].PkIdLaboratorio);
+                                }
+                            }
+
+                            Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Laboratório removid do Descarte Direto com sucesso!');", true);
+                        }
+                    }
+
+                    DesmarcaSelecionados();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", 
+                "alert('Ocorreu um erro e não foi possível </ br> incluir o Laboratório no Descarte Direto!');", true);            
         }
     }
 
@@ -315,8 +457,6 @@ public partial class Laboratorios : System.Web.UI.Page
 
     }
 
-    #endregion
-
     protected void btMenuInicial_Click(object sender, EventArgs e)
     {
         Response.Redirect("../Home/Home.aspx");
@@ -339,4 +479,6 @@ public partial class Laboratorios : System.Web.UI.Page
         DesmarcaSelecionados();
         Response.Redirect("../OpcoesAdicionais/Laboratorios.aspx");
     }
+
+    #endregion
 }

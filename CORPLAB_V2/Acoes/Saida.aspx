@@ -7,7 +7,8 @@
     <link href="../Styles/Saida.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <form id="form1" runat="server">        
+    <form id="form1" runat="server">     
+        <input type="hidden" runat="server" id="hddBoolLabDescarte" value="0" />   
         <input type="hidden" runat="server" id="hddIdUsuario" />
         <input type="hidden" runat="server" id="hddIdUnidade" />
         <input type="hidden" runat="server" id="hddIdCamara" />

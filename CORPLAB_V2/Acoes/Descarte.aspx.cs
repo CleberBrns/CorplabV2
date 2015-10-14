@@ -62,53 +62,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         hddIdUsuario.Value = Session["SessionIdUsuario"].ToString();
 
         txtAmostra.Focus();
-        //divPrateleira.Visible = true;
-        //txtPrateleira.Focus();
-
     }
-
-    //protected void btPrateleira_Click(object sender, EventArgs e)
-    //{
-    //    if (string.IsNullOrEmpty(txtPrateleira.Text))
-    //    {
-    //        MostraRetorno(string.Empty);
-    //    }
-    //    else
-    //    {
-    //        try
-    //        {
-    //            DataTable dtPrateleira = selecionaDados.ConsultaPrateleira(txtPrateleira.Text.Trim());
-
-    //            if (dtPrateleira.Rows.Count > 0)
-    //            {
-    //                hddIdPrateleria.Value = dtPrateleira.DefaultView[0]["IdPrateleira"].ToString();
-    //                lblPrateleira.Text = " - Prateleira " + txtPrateleira.Text.Trim();
-
-    //                divRetorno.Visible = false;
-    //                lblRetorno.Text = string.Empty;
-    //                divPrateleira.Visible = false;
-    //                divInsercoes.Visible = true;
-    //                btNovaPrateleira.Visible = true;
-    //                divInicio.Visible = true;
-    //                txtAmostra.Focus();
-    //            }
-    //            else
-    //            {
-    //                divRetorno.Visible = true;
-    //                imgOk.Visible = false;
-    //                imgErro.Visible = true;
-    //                lblRetorno.Text = "Prateleira não cadastrada. <br/> Favor consultar o Administrador do Sistema";
-    //                txtPrateleira.Text = string.Empty;
-    //                txtPrateleira.Focus();
-    //            }
-
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            RetornaPaginaErro(ex.ToString());
-    //        }
-    //    }
-    //}
 
     protected void btAmostra_Click(object sender, EventArgs e)
     {
@@ -124,7 +78,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
 
                 if (formatoCorreto)
                 {
-                    InsereAmostra(txtAmostra.Text.Trim(), string.Empty);
+                    DescartaAmostra(txtAmostra.Text.Trim());
                 }
                 else
                 {
@@ -158,7 +112,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         return valido;
     }
 
-    private void InsereAmostra(string sCodAmostra, string caixa)
+    private void DescartaAmostra(string sCodAmostra)
     {
         try
         {
@@ -174,7 +128,6 @@ public partial class Acoes_Descarte : System.Web.UI.Page
                 string statusAmostra = string.Empty;
                 statusAmostra = dtStatusAmos.DefaultView[0]["UltimaAlteracao"].ToString();
 
-
                 if (statusAmostra != string.Empty && statusAmostra.ToLower() == "descarte")
                 {
                     MostraRetornoErro("A amostra " + sCodAmostra + " já foi Descartada.");
@@ -187,7 +140,7 @@ public partial class Acoes_Descarte : System.Web.UI.Page
                     int idPrateleira = Convert.ToInt32(dtStatusAmos.DefaultView[0]["IdPrateleira"].ToString());
 
                     insereDados.InsereAmostraDescarte(idPrateleira, Convert.ToInt32(hddIdUsuario.Value.Trim()),
-                                                      codAmostra, caixa);
+                                                      codAmostra, string.Empty);
 
                     MostraRetorno("Descarte da amostra executado com sucesso.");
 
@@ -225,19 +178,6 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         imgErro.Visible = true;
     }
 
-    //protected void btNovaPrateleira_Click(object sender, EventArgs e)
-    //{
-    //    txtAmostra.Text = string.Empty;
-    //    txtPrateleira.Text = string.Empty;
-    //    lblPrateleira.Text = string.Empty;
-    //    txtPrateleira.Focus();
-
-    //    divRetorno.Visible = false;
-    //    divInsercoes.Visible = false;
-    //    divInicio.Visible = false;
-    //    divPrateleira.Visible = true;
-    //}
-
     public void MostraRetorno(string mensagem)
     {
         divRetorno.Visible = true;
@@ -254,14 +194,6 @@ public partial class Acoes_Descarte : System.Web.UI.Page
         }
 
     }
-
-    //private void ExibiLinkInicial()
-    //{
-    //    if (!string.IsNullOrEmpty(lblPrateleira.Text))
-    //    {
-    //        divInicio.Visible = true;
-    //    }
-    //}
 
     public void RetornaPaginaErro(string erro)
     {

@@ -24,7 +24,7 @@
                 <div>
                     <div class="divCadastrados">
                         <asp:Panel runat="server" ID="pnlLaboratorios">
-                            <asp:RadioButtonList runat="server" ID="rblLaboratorios" CssClass="rblLaboratorios">
+                            <asp:RadioButtonList runat="server" ID="rblLaboratorios" RepeatColumns="2" CssClass="rblLaboratorios">
                             </asp:RadioButtonList>
                         </asp:Panel>
                     </div>
@@ -57,11 +57,10 @@
                                                 <asp:TextBox ID="txtCodigo" Width="120px" Font-Size="15px" Text='<%#Eval("CODLABORATORIO")%>'
                                                     runat="server" Style="text-align: center;" MaxLength="30" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                             </div>
-                                            <%--<div id="divSenha" runat="server" class="contInformacoe">
-                                                <span>Nome</span>
-                                                <asp:TextBox ID="txtNome" Width="120px" Font-Size="15px" Text='<%#Eval("NOME")%>'
-                                                    runat="server" Style="text-align: center;" MaxLength="30" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
-                                            </div>--%>
+                                             <div id="divDescarteDireto" runat="server" style="padding-top: 10px; padding-bottom: 18px">
+                                                 <span>Descarte Direto? <asp:CheckBox runat="server" ID="ckbDescarteDireto" AutoPostBack="true" 
+                                                     OnCheckedChanged="ckbDescarteDireto_CheckedChanged" /></span>                                             
+                                             </div>
                                         </asp:Panel>
                                     </div>
                                     <div class="contBotoes">
@@ -99,7 +98,7 @@
                             <span class="descricao">Código</span>
                             <asp:TextBox ID="txtNovoCodigo" Width="160px" Font-Size="15px" runat="server" Style="text-align: center;"
                                 autocomplete="off" MaxLength="30" onkeydown="return (event.keyCode!=13);" ></asp:TextBox>
-                        </div>                       
+                        </div>                                            
                     </div>
                     <div class="contBotoes" style="width: 176%;">                      
                         <asp:Button runat="server" ID="btCadastrar" Text="Cadastrar" CssClass="btAcoes"

@@ -271,6 +271,18 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
         if (idTipoConsulta == 1)//Amostra
         {
             dtInfoConsulta = selecionaDados.ConsultaStatusAmostra(Convert.ToInt64(codConsulta));
+
+            if (dtInfoConsulta.Rows.Count > 0)
+            {
+                foreach (DataRow item in dtInfoConsulta.Rows)
+                {
+                    dtInfoEstrutura.Rows.Add(item["CodAmostra"].ToString(),
+                        ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
+                        item["Prateleira"].ToString(), item["Caixa"].ToString(),
+                        ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["UltimaAlteracao"].ToString()),
+                        item["NomeLaboratorio"].ToString(), item["Auditoria"].ToString());
+                }
+            }
         }
         else//Prateleira
         {
@@ -278,20 +290,22 @@ public partial class Auditoria_Consulta : System.Web.UI.Page
 
             dtInfoConsulta.DefaultView.RowFilter = "IdAcao in (1,3)";
             dtInfoConsulta = dtInfoConsulta.DefaultView.ToTable();
-        }
 
-
-        if (dtInfoConsulta.Rows.Count > 0)
-        {
-            foreach (DataRow item in dtInfoConsulta.Rows)
+            if (dtInfoConsulta.Rows.Count > 0)
             {
-                dtInfoEstrutura.Rows.Add(item["CodAmostra"].ToString(),
-                    ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
-                    item["Prateleira"].ToString(), item["Caixa"].ToString(),
-                    ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["UltimaAlteracao"].ToString()),
-                    item["NomeLaboratorio"].ToString(), item["Auditoria"].ToString(), item["IdAcao"].ToString());
+                foreach (DataRow item in dtInfoConsulta.Rows)
+                {
+                    dtInfoEstrutura.Rows.Add(item["CodAmostra"].ToString(),
+                        ConfiguraUsuarioRecepcao(item["DataRecepcao"].ToString(), item["UsuarioRecepcao"].ToString()), item["Estante"].ToString(),
+                        item["Prateleira"].ToString(), item["Caixa"].ToString(),
+                        ConfiguraUltimaAlteracao(item["NomeUsuario"].ToString(), item["DataAtualizacao"].ToString(), item["UltimaAlteracao"].ToString()),
+                        item["NomeLaboratorio"].ToString(), item["Auditoria"].ToString(), item["IdAcao"].ToString());
+                }
             }
         }
+
+
+
 
 
         return dtInfoEstrutura;
