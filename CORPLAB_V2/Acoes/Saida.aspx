@@ -77,14 +77,12 @@
                         <img src="../Imagens/Labs/Surfactantes.png" />
                     </div>
                     <div>
-
                         <img src="../Imagens/Labs/Fosfato.png" />
                         <img src="../Imagens/Labs/Varredura.png" />
                         <img src="../Imagens/Labs/Cianeto.png" />
                         <img src="../Imagens/Labs/Sulfeto.png" />
                     </div>
                     <div>
-
                         <img src="../Imagens/Labs/TOC.png" />
                         <img src="../Imagens/Labs/SerieNitrogenada.png" />
                         <img src="../Imagens/Labs/SeriedeSolidos.png" />

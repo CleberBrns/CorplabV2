@@ -20,7 +20,7 @@ public partial class Acoes_Saida : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         txtAmostra.Focus();
-
+        
         try
         {
             if (!IsPostBack)
@@ -155,7 +155,7 @@ public partial class Acoes_Saida : System.Web.UI.Page
         //Caminho local
         string caminhoPastaXml = Server.MapPath("/ArquivosPermanentes/LabsDescarteDireto.xml");
 
-        if (ConfigurationManager.AppSettings.Get("sConexaoSQL") == "1")
+        if (ConfigurationManager.AppSettings.Get("CaminhoPastaXMLLabsDD") == "1")
         {
             //Caminho para o servidor
             caminhoPastaXml = @"C:\camarafria\ArquivosPermanentes\LabsDescarteDireto.xml";
